@@ -344,6 +344,10 @@ class level
 			XMFLOAT3 impulse;
 			XMFLOAT3 impulseActual;
 			XMMATRIX Ry, Rx, T;
+
+			float decayRate; // how fast impulse decays to 0.0
+			float decayDiff; // used to tell how close to 0.0
+
 			bool fireFoward; //impulse directions
 			camera()
 				{
@@ -351,6 +355,10 @@ class level
 				position = position = XMFLOAT3(0, 0, 0);
 				impulse = impulse = XMFLOAT3(0, 0, 0);
 				impulseActual = impulseActual = XMFLOAT3(0, 0, 0);
+
+				decayRate = .001;
+				decayDiff = 0.00001;
+
 				fireFoward = true;
 				}
 			void animation(float elapsed_microseconds)
@@ -415,6 +423,31 @@ class level
 					position.x -= impulseActual.x;
 					position.y -= impulseActual.y;
 					position.z -= impulseActual.z;
+					
+
+					if (impulseActual.x > decayDiff) {
+						impulseActual.x -= decayRate;
+					}
+
+					if (impulseActual.y >decayDiff) {
+						impulseActual.y -= decayRate;
+					}
+					if (impulseActual.z > decayDiff) {
+						impulseActual.z += decayRate;
+					}
+
+					if (impulseActual.x <decayDiff) {
+						impulseActual.x += decayRate;
+					}
+
+					if (impulseActual.y <decayDiff) {
+						impulseActual.y += decayRate;
+					}
+					if (impulseActual.z < decayDiff) {
+						impulseActual.z += decayRate;
+					}
+
+
 
 					//TODO make impulse always decay to 0.0f (if below or below or above.
 				
