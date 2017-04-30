@@ -1309,9 +1309,9 @@ void Render_to_texture(long elapsed)
 	else { font.setColor(XMFLOAT3(1, 0, 0)); }
 	font << reload;
 
+	
 
-
-	//font
+	//HUD UI font
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-0.5, .9, 0));
@@ -1329,6 +1329,39 @@ void Render_to_texture(long elapsed)
 		font.setColor(XMFLOAT3(1, 0, 0));
 		font << "BACKWARD";
 		}
+
+	XMFLOAT3 impulseUI = cam.getImpulse();
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(0.66, -.7, 0));
+	font << "Impulse X: ";
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(0, 1, .6));
+	font.setPosition(XMFLOAT3(0.84, -.7, 0));
+	font << std::to_string(impulseUI.x);
+
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(0.66, -.8, 0));
+	font << "Impulse Z: ";
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(0, 1, .6));
+	font.setPosition(XMFLOAT3(0.84, -.8, 0));
+	font << std::to_string(impulseUI.y);
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(0.66, -.9, 0));
+	font << "Impulse z: ";
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(0, 1, .6));
+	font.setPosition(XMFLOAT3(0.84, -.9, 0));
+	font << std::to_string(impulseUI.z);
 
 	//explosions:
 	view = cam.get_matrix(&g_View);

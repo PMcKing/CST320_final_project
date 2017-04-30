@@ -415,6 +415,8 @@ class level
 					position.x -= impulseActual.x;
 					position.y -= impulseActual.y;
 					position.z -= impulseActual.z;
+
+					//TODO make impulse always decay to 0.0f (if below or below or above.
 				
 				}
 			XMMATRIX get_matrix(XMMATRIX *view)
@@ -427,6 +429,11 @@ class level
 				}
 			void fireFoward_flip() {
 				fireFoward = !fireFoward; //reserve directions
+			}
+			//used to UI impulse
+			XMFLOAT3 getImpulse() {
+				return impulseActual;
+
 			}
 		};
 
