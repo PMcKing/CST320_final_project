@@ -17,6 +17,7 @@
     <ClCompile Include="homework 4.cpp" />
     <ClCompile Include="load3ds.cpp" />
     <ClCompile Include="render_to_texture.cpp" />
+    <ClCompile Include="Font.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -26,6 +27,7 @@
     <ClInclude Include="render_to_texture.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="explosion.h" />
+    <ClInclude Include="Font.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.fx">
@@ -41,5 +43,10 @@
     <Text Include="explosion_shader.fx">
       <Filter>Shaders</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Font_FX.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

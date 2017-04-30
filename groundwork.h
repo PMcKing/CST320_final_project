@@ -60,7 +60,7 @@ class StopWatchMicro_
 			}
 		long double elapse_milli()
 			{
-			elapse_micro() / 1000.;
+			return elapse_micro() / 1000.;
 			}
 		void start()
 			{
@@ -341,10 +341,17 @@ class level
 			int w, s, a, d,q,e;
 			XMFLOAT3 position;
 			XMFLOAT3 rotation;
+			XMFLOAT3 impulse;
+			XMFLOAT3 impulseActual;
+			XMMATRIX Ry, Rx, T;
+			bool fireFoward; //impulse directions
 			camera()
 				{
 				w = s = a = d = 0;
 				position = position = XMFLOAT3(0, 0, 0);
+				impulse = impulse = XMFLOAT3(0, 0, 0);
+				impulseActual = impulseActual = XMFLOAT3(0, 0, 0);
+				fireFoward = true;
 				}
 			void animation(float elapsed_microseconds)
 				{
@@ -361,9 +368,9 @@ class level
 				si = XMVector3TransformCoord(si, Rx*Ry);
 				XMStoreFloat3(&side, si);
 
-				float speed = elapsed_microseconds/100000.0;
-
-				if (w)
+				float speed = elapsed_microseconds / 100000.0;
+				//wasd method for debug
+				/*if (w)
 					{
 					position.x -= forward.x * speed;
 					position.y -= forward.y * speed;
@@ -387,8 +394,28 @@ class level
 					position.y += side.y * 0.01;
 					position.z += side.z * 0.01;
 					}
-					
-
+					}*/
+				//mouse click for game
+				if (w) {
+					impulse.x = forward.x * speed;
+					impulse.y = forward.y * speed;
+					impulse.z = forward.z * speed;
+					if (fireFoward) {
+						impulseActual.x -= impulse.x / 4;
+						impulseActual.y -= impulse.y / 4;
+						impulseActual.z -= impulse.z / 4;
+					}
+					else {
+						impulseActual.x += impulse.x / 4;
+						impulseActual.y += impulse.y / 4;
+						impulseActual.z += impulse.z / 4;
+					}
+					//applying to current impulse
+				}
+					position.x -= impulseActual.x;
+					position.y -= impulseActual.y;
+					position.z -= impulseActual.z;
+				
 				}
 			XMMATRIX get_matrix(XMMATRIX *view)
 				{
@@ -398,6 +425,9 @@ class level
 				T = XMMatrixTranslation(position.x, position.y, position.z);
 				return T*(*view)*Ry*Rx;
 				}
+			void fireFoward_flip() {
+				fireFoward = !fireFoward; //reserve directions
+			}
 		};
 
 

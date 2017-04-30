@@ -1,11 +1,15 @@
 //--------------------------------------------------------------------------------------
 // File: lecture 8.cpp
 //
+//File: CST320 Final Project: Celesterial Drift
+//Authors: Michael, Miguel, Peter
+//File: lecture 8.cpp
 // This application demonstrates texturing
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #include "render_to_texture.h"
+#include "Font.h"
 
 
 CXBOXController *gamepad = NULL;
@@ -45,13 +49,31 @@ ID3D11Buffer*                       g_pVertexBuffer_screen = NULL;
 ID3D11Buffer*                       g_pVertexBuffer_sky = NULL;
 ID3D11Buffer*                       g_pVertexBuffer_3ds = NULL;
 int									model_vertex_anz = 0;
+
+//MODELS
+
+//astroid
+ID3D11Buffer*                       g_pVertexBuffer_3ds_astroids = NULL;
+int									model_vertex_anz_astroids = 0;
+
+//navigation arrow
+ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
+int									model_vertex_anz_nav = 0;
+
+
+
+
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
 ID3D11BlendState*					g_BlendState;
 
 ID3D11Buffer*                       g_pCBuffer = NULL;
 
+
+//TEXTURES
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
+ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
+
 ID3D11RasterizerState				*rs_CW, *rs_CCW, *rs_NO, *rs_Wire;
 
 ID3D11SamplerState*                 g_pSamplerLinear = NULL;
@@ -66,6 +88,27 @@ camera								cam;
 level								level1;
 vector<billboard*>					smokeray;
 XMFLOAT3							rocket_position;
+
+
+//movment variables
+
+static StopWatchMicro_				fireTimer;
+bool								fireFoward = true; //used to switch movment dictions, true = shoot forward, fly backwards, false, = reverse 
+bool								canFire = true;
+
+// globals for game balance
+XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow to point to object cords
+int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
+int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
+
+															//rail gun
+vector<bullet*>						bullets;
+XMFLOAT3							bullet_position;
+
+//Font
+Font								font;
+string								reload = "";
+
 
 explosion_handler  explosionhandler;
 
@@ -473,8 +516,9 @@ HRESULT InitDevice()
 	//carrier.3ds
 	//hornet.3ds
 	//f15.3ds
-	Load3DS("hornet.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds, &model_vertex_anz);
-
+	Load3DS("fakeastroid.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds, &model_vertex_anz);
+	//loading nav arrow
+	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
 	
 
@@ -502,6 +546,11 @@ HRESULT InitDevice()
     hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"camouflage.png", NULL, NULL, &g_pTextureRV, NULL );
     if( FAILED( hr ) )
         return hr;
+
+	// Load the nav arrow
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"nav_arrow_tex.png", NULL, NULL, &g_pTextureNav, NULL);
+	if (FAILED(hr))
+		return hr;
 
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
@@ -541,7 +590,7 @@ HRESULT InitDevice()
     g_View = XMMatrixLookAtLH( Eye, At, Up );
 
 	// Initialize the projection matrix
-	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (FLOAT)height, 0.01f, 1000.0f);
+	g_Projection = XMMatrixPerspectiveFovLH(XM_PIDIV4, width / (FLOAT)height, 0.01f, 100000.0f);
 
 	ConstantBuffer constantbuffer;
 	constantbuffer.View = XMMatrixTranspose( g_View );
@@ -604,6 +653,11 @@ HRESULT InitDevice()
 	
 	rocket_position = XMFLOAT3(0, 0, ROCKETRADIUS);
 
+	// fire limiter
+	fireTimer.start();//starting timer
+	
+	//font stuff
+	font.init(g_pd3dDevice, g_pImmediateContext, font.defaultFontMapDesc);
 
 	//setting the rasterizer:
 	D3D11_RASTERIZER_DESC			RS_CW, RS_Wire;
@@ -671,7 +725,7 @@ void CleanupDevice()
 bullet *bull = NULL;
 void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-	bull = new bullet;
+	/*bull = new bullet;
 	bull->pos.x = -cam.position.x;
 	bull->pos.y = -cam.position.y-1.2;
 	bull->pos.z = -cam.position.z;
@@ -684,7 +738,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 
 	bull->imp = forward;
 
-	explosionhandler.new_explosion(XMFLOAT3(0, 0, 10), XMFLOAT3(0, 0, 0), 0, 8.0);
+	explosionhandler.new_explosion(XMFLOAT3(0, 0, 10), XMFLOAT3(0, 0, 0), 0, 8.0);*/
 
 	}
 
@@ -693,7 +747,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-	explosionhandler.new_explosion(XMFLOAT3(0, 0, 11), XMFLOAT3(0, 0, 5), 1, 4.0);
+	//explosionhandler.new_explosion(XMFLOAT3(0, 0, 11), XMFLOAT3(0, 0, 5), 1, 4.0);
 	}
 ///////////////////////////////////
 //		This Function is called every time a character key is pressed
@@ -707,7 +761,30 @@ void OnChar(HWND hwnd, UINT ch, int cRepeat)
 ///////////////////////////////////
 void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 	{
-
+		if (canFire) {
+			cam.w = 1;
+			canFire = false;
+			fireTimer.start();//wating .5 secs before you cna fire again
+			reload = " ";//resetting fire UI
+						 //bullets
+			bull = new bullet;
+			bull->pos.x = -cam.position.x;
+			bull->pos.y = -cam.position.y - 1.2;
+			bull->pos.z = -cam.position.z;
+			XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
+			XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
+			//CR = XMMatrixMultiply(CR, CR1);
+			XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+			XMVECTOR f = XMLoadFloat3(&forward);
+			XMVECTOR f1 = XMLoadFloat3(&forward);
+			f = XMVector3Normalize(XMVector3TransformCoord(f, CR));
+			f1 = XMVector3Normalize(XMVector3TransformCoord(f1, CR1));
+			XMVECTOR f3 = XMVectorAdd(f, f1);
+			f3 = f3 / 2;
+			XMStoreFloat3(&forward, f3);
+			bull->imp = forward;
+			bullets.push_back(bull);
+		}
 
 	}
 ///////////////////////////////////
@@ -836,6 +913,8 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 68: cam.d = 0;//d
 				break;
 			case 32: //space
+				cam.fireFoward_flip();
+				fireFoward = !fireFoward;
 				break;
 			case 87: cam.w = 0; //w
 				break;
@@ -1010,12 +1089,12 @@ void Render_from_light_source(long elapsed)
 	constantbuffer.CameraPos = XMFLOAT4(cam.position.x, cam.position.y, cam.position.z, 1);
 
 	//render model:
-	XMMATRIX S = XMMatrixScaling(0.001, 0.001, 0.001);
+	XMMATRIX S = XMMatrixScaling(1, 1, 1);
 
-	S = XMMatrixScaling(0.003, 0.003, 0.003);
+	S = XMMatrixScaling(1, 1, 1);
 	//S = XMMatrixScaling(10, 10, 10);
 	XMMATRIX T, R, M;
-	T = XMMatrixTranslation(20, 20, 20);
+	T = XMMatrixTranslation(0.1, 0.1, 0.1);
 	R = XMMatrixRotationX(-XM_PIDIV2);
 	static float angle = 0;
 	angle += elapsed / 7000000.0;
@@ -1067,6 +1146,18 @@ void Render_to_texture(long elapsed)
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
 
+	//for delaying fire
+	long double curtime = fireTimer.elapse_milli();//if code isn't working, check StopWatchMicro .elapse_milli...
+	if (elapsed % 10 == 0 && reload.size() < 10) {
+		reload += "|";
+	}
+	if (curtime > fireDelay) {
+		cam.w = 0;
+		canFire = true;
+	}
+	//wating fireDalay secs before you cna fire again
+
+
 	RenderTarget = RenderToTexture.GetRenderTarget();
 	g_pImmediateContext->ClearRenderTargetView(RenderTarget, ClearColor);
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0, 0);
@@ -1091,12 +1182,12 @@ void Render_to_texture(long elapsed)
 	constantbuffer.CameraPos = XMFLOAT4(cam.position.x, cam.position.y, cam.position.z, 1);
 
 	//render model:
-	XMMATRIX S = XMMatrixScaling(0.001, 0.001, 0.001);
+	XMMATRIX S = XMMatrixScaling(1, 1, 1);
 
-	S = XMMatrixScaling(0.003, 0.003, 0.003);
+	S = XMMatrixScaling(1, 1, 1);
 	//S = XMMatrixScaling(10, 10, 10);
 	XMMATRIX T, R, M;
-	T = XMMatrixTranslation(20, 20, 20);
+	T = XMMatrixTranslation(0.1, 0.1, 0.1);
 	R = XMMatrixRotationX(-XM_PIDIV2);
 	static float angle = 0;
 	angle += elapsed / 7000000.0;
@@ -1118,17 +1209,126 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	g_pImmediateContext->Draw(model_vertex_anz, 0);
+	//g_pImmediateContext->Draw(model_vertex_anz, 0);
 
-	S = XMMatrixScaling(50,50,50);
-	R = XMMatrixRotationX(XM_PIDIV2);
-	T = XMMatrixTranslation(0, -5, 0);
-	M = S*R*T;
-	constantbuffer.World = XMMatrixTranspose(M);
+
+	//usefull rotations
+	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
+	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
+	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
+	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
+	R0 = XMMatrixRotationX(-XM_PI);
+	T2 = XMMatrixTranslation(0.0f, -2, 10);
+	Rx1 = XMMatrixRotationX(-cam.rotation.x);
+	Ry1 = XMMatrixRotationY(-cam.rotation.y);
+	Rx3 = XMMatrixRotationX(cam.rotation.x);
+	Ry3 = XMMatrixRotationY(cam.rotation.y);
+	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
+	M2 = R0* T* Rx3*Ry3* T2*  Rx1 * Ry1 * T3;
+
+	//reload status
+	//if (curtime < fireDelay) {
+	//	S = XMMatrixScaling(curtime / 1000, .05, 1);
+	//}
+	//else {
+	//	S = XMMatrixScaling(1, .05, 1);
+
+	//}
+
+	//R = XMMatrixRotationX(XM_PI);
+	//R *= XMMatrixRotationY(XM_PI);
+
+
+	//T = XMMatrixTranslation(-cam.position.x, cam.position.y - .3, -cam.position.z +1);
+	//
+	//M = S * R * T* Rx1 * Ry1 ;
+	//constantbuffer.World = XMMatrixTranspose(M);
+	//g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	//g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+
+	//g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
+	//g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	//g_pImmediateContext->Draw(6, 0);
+	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	////reload status restart
+
+
+	//nav arrow
+
+
+
+	//bullets
+	for (int ii = 0; ii < bullets.size(); ii++)
+	{
+		ConstantBuffer constantbuffer;
+		XMMATRIX worldmatrix = bullets[ii]->getmatrix(elapsed, view);
+
+
+		XMMATRIX T = XMMatrixTranspose(worldmatrix);
+		XMMATRIX R = XMMatrixRotationY(cam.rotation.y);
+
+
+		constantbuffer.World = Rx3*Ry3 * T;
+		constantbuffer.View = XMMatrixTranspose(view);
+		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+
+
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+
+		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+	}
+	//bullet end
+
+
+
+
+	constantbuffer.World = XMMatrixTranspose(M2);
+
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	g_pImmediateContext->Draw(6, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	//end nav arrow
+
+
+	//reload
+	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(-.95f, -0.8f, 0.0f));
+	font << "FIRE STATUS: ";
+
+	font.setColor(XMFLOAT3(1, .61, 1.58));
+
+	font.setPosition(XMFLOAT3(-.6f, -0.8f, 0.0f));
+
+	if (canFire) { font.setColor(XMFLOAT3(0, 1, .6)); }
+	else { font.setColor(XMFLOAT3(1, 0, 0)); }
+	font << reload;
+
+
+
+	//font
+	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(-0.5, .9, 0));
+	font << "Rail Gun Direction: ";
+
+	//font
+	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+
+	font.setPosition(XMFLOAT3(-.05, .9, 0));
+	if (fireFoward) {
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font << "FORWARD";
+	}
+	else {
+		font.setColor(XMFLOAT3(1, 0, 0));
+		font << "BACKWARD";
+		}
 
 	//explosions:
 	view = cam.get_matrix(&g_View);
