@@ -53,8 +53,18 @@ int									model_vertex_anz = 0;
 //MODELS
 
 //astroid
-ID3D11Buffer*                       g_pVertexBuffer_3ds_astroids = NULL;
-int									model_vertex_anz_astroids = 0;
+ID3D11Buffer*                       g_pVertexBuffer_3ds_asteroids = NULL;
+int									model_vertex_anz_asteroids = 0;
+ID3D11ShaderResourceView*           g_pTexture_asteroid = NULL;
+#define ASTEROIDCOUNT				1000;
+XMFLOAT4 asteroid_pos[1000];
+
+//instance Rendering
+ID3D11VertexShader*                 g_pInstanceShader = NULL;
+ID3D11InputLayout*                  g_pInstanceLayout = NULL;
+ID3D11Buffer*                       g_pInstancebuffer = NULL;
+
+
 
 //navigation arrow
 ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
@@ -124,6 +134,15 @@ void CleanupDevice();
 LRESULT CALLBACK    WndProc( HWND, UINT, WPARAM, LPARAM );
 void Render();
 
+//--------------------------------------------------------------------------------------
+// Extras
+//--------------------------------------------------------------------------------------
+float frand()
+{
+	int r = rand();
+	float res = (float)r / (float)RAND_MAX;
+	return res;
+}
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -425,6 +444,79 @@ HRESULT InitDevice()
     // Set the input layout
     g_pImmediateContext->IASetInputLayout( g_pVertexLayout );
 
+	pVSBlob = NULL;
+	hr = CompileShaderFromFile(L"shader.fx", "VS_instance", "vs_4_0", &pVSBlob);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL,
+			L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK);
+		return hr;
+	}
+
+	// Create the vertex shader
+	hr = g_pd3dDevice->CreateVertexShader(pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &g_pInstanceShader);
+	if (FAILED(hr))
+	{
+		pVSBlob->Release();
+		return hr;
+	}
+
+	// Define the input layout
+	D3D11_INPUT_ELEMENT_DESC layoutInstance[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "INSTANCEVEC", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "ROTATEINST", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+
+	};
+	numElements = ARRAYSIZE(layoutInstance);
+
+	// Create the input layout
+	hr = g_pd3dDevice->CreateInputLayout(layoutInstance, numElements, pVSBlob->GetBufferPointer(),
+		pVSBlob->GetBufferSize(), &g_pInstanceLayout);
+	pVSBlob->Release();
+	if (FAILED(hr))
+		return hr;
+
+	// Set the input layout
+	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
+
+	
+
+	for (int ii = 0; ii < ASTEROIDCOUNT ii += 2)
+	{
+		float x, y, z, w;
+		w = rand() % 50 - 25;
+		z = rand() % 1000 - 500;
+		x = rand() % 1000 - 500;
+		y = rand() % 1000 - 500;
+		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
+	}
+	for (int ii = 1; ii < ASTEROIDCOUNT ii += 2)
+	{
+		float x, y, z, w;
+		w = (frand()*2.0 - 1.0);
+		x = (frand()*2.0 - 1.0) * XM_PI*2.0;
+		y = (frand()*2.0 - 1.0) * XM_PI*2.0;
+		z = (frand()*2.0 - 1.0) * XM_PI*2.0;
+		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
+	}
+
+	D3D11_BUFFER_DESC bd;
+	D3D11_SUBRESOURCE_DATA InitData;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.ByteWidth = sizeof(XMFLOAT4)* ASTEROIDCOUNT;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	ZeroMemory(&InitData, sizeof(InitData));
+	InitData.pSysMem = (BYTE*)asteroid_pos;
+	hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pInstancebuffer);
+	if (FAILED(hr))
+		return hr;
+
     // Compile the pixel shader
     ID3DBlob* pPSBlob = NULL;
     hr = CompileShaderFromFile( L"shader.fx", "PS", "ps_5_0", &pPSBlob );
@@ -495,13 +587,13 @@ HRESULT InitDevice()
 		};
 	
 	//initialize d3dx verexbuff:
-	D3D11_BUFFER_DESC bd;
+	bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DEFAULT;
 	bd.ByteWidth = sizeof(SimpleVertex) * 6;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = 0;
-	D3D11_SUBRESOURCE_DATA InitData;
+	 InitData;
 	ZeroMemory(&InitData, sizeof(InitData));
 	InitData.pSysMem = vertices;
 	hr = g_pd3dDevice->CreateBuffer(&bd, &InitData, &g_pVertexBuffer_screen);
@@ -516,7 +608,7 @@ HRESULT InitDevice()
 	//carrier.3ds
 	//hornet.3ds
 	//f15.3ds
-	Load3DS("fakeastroid.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds, &model_vertex_anz);
+	Load3DS("asteroid.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_asteroids, &model_vertex_anz_asteroids);
 	//loading nav arrow
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
@@ -543,7 +635,7 @@ HRESULT InitDevice()
     
 
     // Load the Texture
-    hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"camouflage.png", NULL, NULL, &g_pTextureRV, NULL );
+    hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"asteroid_1.png", NULL, NULL, &g_pTexture_asteroid, NULL );
     if( FAILED( hr ) )
         return hr;
 
@@ -1211,6 +1303,49 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	//g_pImmediateContext->Draw(model_vertex_anz, 0);
 
+	//-----------------------------------------------------------------------------------
+	//Instance Rendering
+	//-----------------------------------------------------------------------------------
+	S = XMMatrixScaling(50, 50, 50);
+	R = XMMatrixRotationX(XM_PIDIV2);
+	T = XMMatrixTranslation(0, -5, 0);
+	M = S*R*T;
+	constantbuffer.World = XMMatrixTranspose(M);
+
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
+	g_pImmediateContext->Draw(6, 0);
+
+	static float rotation = 0;
+	rotation += 0.0000003*elapsed;
+	constantbuffer.info.z = rotation;
+	constantbuffer.View = XMMatrixTranspose(view);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
+	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	ID3D11Buffer* vertInstBuffer[2] = { g_pVertexBuffer_3ds_asteroids, NULL };
+	UINT strides[2] = { stride, sizeof(XMFLOAT4) * 2 };
+	UINT offsets[2] = { 0, 0 };
+	vertInstBuffer[1] = g_pInstancebuffer;
+	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
+	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000/ 2, 0, 0);
+
+	//-----------------------------------------------------------------------------------
+	//Collision detection
+	//-----------------------------------------------------------------------------------
+	
+	for (int i = 0; i < ASTEROIDCOUNT i++) {
+		float dx = cam.position.x - asteroid_pos[i].x;
+		float dz = cam.position.z - asteroid_pos[i].z;
+		float dy = cam.position.y - asteroid_pos[i].y;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		//if (c < 100) {
+		//	PostQuitMessage(0);
+		//}
+	}
 
 	//usefull rotations
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
