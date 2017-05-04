@@ -4,6 +4,36 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 
+matrix rotationmatrix_x(float angle)
+{
+	matrix M;
+	M._11 = 1;			M._12 = 0;				M._13 = 0;				M._14 = 0;
+	M._21 = 0;			M._22 = cos(angle);		M._23 = -sin(angle);	M._24 = 0;
+	M._31 = 0;			M._32 = sin(angle);		M._33 = cos(angle);		M._34 = 0;
+	M._41 = 0;			M._42 = 0;				M._43 = 0;				M._44 = 1;
+	return M;
+}
+
+matrix rotationmatrix_y(float angle)
+{
+	matrix M;
+	M._11 = cos(angle);	M._12 = 0;				M._13 = sin(angle);		M._14 = 0;
+	M._21 = 0;			M._22 = 1;				M._23 = 0;				M._24 = 0;
+	M._31 = -sin(angle); M._32 = 0;				M._33 = cos(angle);		M._34 = 0;
+	M._41 = 0;			M._42 = 0;				M._43 = 0;				M._44 = 1;
+	return M;
+}
+
+matrix rotationmatrix_z(float angle)
+{
+	matrix M;
+	M._11 = cos(angle);	M._12 = -sin(angle);	M._13 = 0;				M._14 = 0;
+	M._21 = sin(angle);	M._22 = cos(angle);		M._23 = 0;				M._24 = 0;
+	M._31 = 0;			M._32 = 0;				M._33 = 1;				M._34 = 0;
+	M._41 = 0;			M._42 = 0;				M._43 = 0;				M._44 = 1;
+	return M;
+}
+
 //--------------------------------------------------------------------------------------
 // Constant Buffer Variables
 //--------------------------------------------------------------------------------------
@@ -31,6 +61,16 @@ struct VS_INPUT
 	float3 Norm : NORMAL0;
 };
 
+struct VS_INPUT_INSTANCE
+{
+	float4 Pos : POSITION;
+	float2 Tex : TEXCOORD0;
+	float3 Norm : NORMAL0;//here
+	float4 iPos : INSTANCEVEC;
+	float4 iRot	: ROTATEINST;
+	uint instanceID : SV_InstanceID;
+};
+
 struct PS_INPUT
 {
     float4 Pos : SV_POSITION;
@@ -46,7 +86,7 @@ struct PS_INPUT
 //--------------------------------------------------------------------------------------
 
 PS_INPUT VS(VS_INPUT input)
-	{
+{
 	PS_INPUT output = (PS_INPUT)0;
 	output.OPos = input.Pos;
 	output.WorldPos = mul(input.Pos, World);
@@ -70,9 +110,10 @@ PS_INPUT VS(VS_INPUT input)
 	output.Pos = output.OPos;
 
 	return output;
-	}
+}
+
 PS_INPUT VS_screen(VS_INPUT input)
-	{
+{
 	PS_INPUT output = (PS_INPUT)0;
 	float4 pos = input.Pos;	
 	output.Pos = pos;
@@ -81,12 +122,56 @@ PS_INPUT VS_screen(VS_INPUT input)
 	//also turn the light normals in case of a rotation:
 	output.Norm.xyz =input.Norm;
 	output.Norm.w = 1;
+	
+	return output;
+}
+
+//--------------------------------------------------------------------------------------
+// Instance Vertex Shader
+//--------------------------------------------------------------------------------------
+PS_INPUT VS_instance(VS_INPUT_INSTANCE input)
+{
+
+	float rotation = info.z;
+	matrix Rx = rotationmatrix_x(input.iRot.x + input.iRot.w*rotation);
+	matrix Ry = rotationmatrix_y(input.iRot.y + input.iRot.w*rotation);
+	matrix Rz = rotationmatrix_z(input.iRot.z + input.iRot.w*rotation);
+	matrix W = mul(mul(Rx, Ry), Rz);
+
+	PS_INPUT output = (PS_INPUT)0;
+	//output.Pos = mul(input.Pos, World);
+	float scale = 1;
+
+	float4 instpos = input.iPos;
+	float4 instrot = input.iRot;
+	instpos.w = 1;
+	float rad = length(instpos);
 
 
+	float r, x, y, z, rx, ry, rz;
+	//x = pow(output.Pos.x, 2);
+	x = instpos.x;
+	//y = pow(output.Pos.y, 2);
+	y = instpos.y;
+	//z = pow(output.Pos.z, 2);
+	z = instpos.z;
 
+	r = sqrt(x + y + z); // radius fomr 0,0,0
+
+	z = info.x;
+
+	float4 pos = input.Pos*scale;
+	pos.w = 1;
+
+	pos = mul(pos, W);
+	pos += instpos;
+	pos.w = 1;
+	pos = mul(pos, View);
+	output.Pos = mul(pos, Projection);
+	output.Tex = input.Tex;
 
 	return output;
-	}
+}
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
@@ -139,6 +224,8 @@ if (pixeldepth > ( d + 0.000001))
 
 float4 texture_color = txDiffuse.Sample(samLinear, input.Tex);
 float4 color = texture_color;
+
+return color;
 
 float3 LightPosition = float3(30, 100, 0);
 float3 lightDir = normalize(input.WorldPos - LightPosition);
