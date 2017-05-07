@@ -71,7 +71,9 @@ ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
 int									model_vertex_anz_nav = 0;
 
 
-
+// Sky Sphere
+ID3D11Buffer*						g_pVertexBuffer_cmp;
+int									model_vertex_anz_sky;
 
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
@@ -604,16 +606,13 @@ HRESULT InitDevice()
    
 	//load model 3ds file
 
-
-	//carrier.3ds
-	//hornet.3ds
-	//f15.3ds
 	Load3DS("asteroid.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_asteroids, &model_vertex_anz_asteroids);
+	
 	//loading nav arrow
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
-	
-
+	//Load Sky Sphere
+	LoadCMP(L"planet.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
@@ -1303,6 +1302,25 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	//g_pImmediateContext->Draw(model_vertex_anz, 0);
 
+
+	//Sky Sphere
+
+
+	constantbuffer.World = XMMatrixTranspose(M);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader2, NULL, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureSun);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTextureSun);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->Draw(model_vertex_anz3, 0);
+
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
 	//-----------------------------------------------------------------------------------
@@ -1564,6 +1582,8 @@ void Render_to_screen(long elapsed)
 
 	g_pSwapChain->Present(0, 0);
 	}
+
+
 //############################################################################################################
 void Render()
 {
