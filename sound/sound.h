@@ -57,7 +57,6 @@
 
 
 #pragma once
-#include "groundwork.h"
 #include <dshow.h>
 #include <cstdio>
 #pragma comment(lib, "strmiids.lib") 

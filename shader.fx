@@ -169,6 +169,7 @@ PS_INPUT VS_instance(VS_INPUT_INSTANCE input)
 	pos = mul(pos, View);
 	output.Pos = mul(pos, Projection);
 	output.Tex = input.Tex;
+	output.Norm = float4(input.Norm, 1);
 
 	return output;
 }
@@ -225,9 +226,7 @@ if (pixeldepth > ( d + 0.000001))
 float4 texture_color = txDiffuse.Sample(samLinear, input.Tex);
 float4 color = texture_color;
 
-return color;
-
-float3 LightPosition = float3(30, 100, 0);
+float3 LightPosition = float3(1000, 1000, 1000);
 float3 lightDir = normalize(input.WorldPos - LightPosition);
 
 // Note: Non-uniform scaling not supported
