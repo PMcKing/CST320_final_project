@@ -56,14 +56,13 @@ int									model_vertex_anz = 0;
 ID3D11Buffer*                       g_pVertexBuffer_3ds_asteroids = NULL;
 int									model_vertex_anz_asteroids = 0;
 ID3D11ShaderResourceView*           g_pTexture_asteroid = NULL;
-#define ASTEROIDCOUNT				1000;
-XMFLOAT4 asteroid_pos[1000];
+#define ASTEROIDCOUNT				1000
+XMFLOAT4 asteroid_pos[2000];
 
 //instance Rendering
 ID3D11VertexShader*                 g_pInstanceShader = NULL;
 ID3D11InputLayout*                  g_pInstanceLayout = NULL;
 ID3D11Buffer*                       g_pInstancebuffer = NULL;
-
 
 
 //navigation arrow
@@ -485,16 +484,22 @@ HRESULT InitDevice()
 
 	
 
-	for (int ii = 0; ii < ASTEROIDCOUNT ii += 2)
+	for (int ii = 0; ii < ASTEROIDCOUNT; ii += 2)
 	{
 		float x, y, z, w;
 		w = rand() % 50 - 25;
 		z = rand() % 1000 - 500;
 		x = rand() % 1000 - 500;
 		y = rand() % 1000 - 500;
+		while (x < 40 && y < 40 && z < 40)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
 		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
 	}
-	for (int ii = 1; ii < ASTEROIDCOUNT ii += 2)
+	for (int ii = 1; ii < ASTEROIDCOUNT; ii += 2)
 	{
 		float x, y, z, w;
 		w = (frand()*2.0 - 1.0);
@@ -1337,14 +1342,14 @@ void Render_to_texture(long elapsed)
 	//Collision detection
 	//-----------------------------------------------------------------------------------
 	
-	for (int i = 0; i < ASTEROIDCOUNT i++) {
-		float dx = cam.position.x - asteroid_pos[i].x;
-		float dz = cam.position.z - asteroid_pos[i].z;
-		float dy = cam.position.y - asteroid_pos[i].y;
+	for (int i = 0; i < ASTEROIDCOUNT; i+=2) {
+		float dx = -cam.position.x - asteroid_pos[i].x;
+		float dy = -cam.position.y - asteroid_pos[i].y;
+		float dz = -cam.position.z - asteroid_pos[i].z - 6;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
-		//if (c < 100) {
-		//	PostQuitMessage(0);
-		//}
+		if (c < 20) {
+			PostQuitMessage(0);
+		}
 	}
 
 	//usefull rotations
