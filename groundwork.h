@@ -433,7 +433,7 @@ class level
 						impulseActual.y -= decayRate;
 					}
 					if (impulseActual.z > decayDiff) {
-						impulseActual.z += decayRate;
+						impulseActual.z -= decayRate;
 					}
 
 					if (impulseActual.x <decayDiff) {

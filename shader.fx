@@ -101,7 +101,7 @@ PS_INPUT VS(VS_INPUT input)
 	output.Tex = input.Tex;
 	//lighing:
 	//also turn the light normals in case of a rotation:
-	output.Norm = normalize( mul(input.Norm, World));
+	output.Norm = normalize( mul(float4(input.Norm, 0), World));
 	float z = output.Pos.z;
 	float w = output.Pos.w;
 	//output.OPos = float4(z,w,z/w,1);
@@ -169,7 +169,7 @@ PS_INPUT VS_instance(VS_INPUT_INSTANCE input)
 	pos = mul(pos, View);
 	output.Pos = mul(pos, Projection);
 	output.Tex = input.Tex;
-	output.Norm = float4(input.Norm, 1);
+	output.Norm = mul(float4(input.Norm, 0), W);
 
 	return output;
 }
@@ -192,7 +192,7 @@ float4 PSdepth(PS_INPUT input) : SV_Target
 float4 PS( PS_INPUT input) : SV_Target
 {
 //calculating shadows:
-
+		//return float4(input.Norm.xyz, 1);
 float4 pos = input.Pos;
 float4 Opos = input.OPos;
 float pixeldepth = 0;
@@ -233,7 +233,7 @@ float3 lightDir = normalize(input.WorldPos - LightPosition);
 float diffuseLighting = saturate(dot(input.Norm, -lightDir)); // per pixel diffuse lighting
 float LightDistanceSquared = 15000;
 															// Introduce fall-off of light intensity
-diffuseLighting *= (LightDistanceSquared / dot(LightPosition - input.WorldPos, LightPosition - input.WorldPos));
+//diffuseLighting *= (LightDistanceSquared / dot(LightPosition - input.WorldPos, LightPosition - input.WorldPos));
 
 // Using Blinn half angle modification for perofrmance over correctness
 float3 h = normalize(normalize(-CameraPos.xyz - input.WorldPos) - lightDir);

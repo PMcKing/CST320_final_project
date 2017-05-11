@@ -487,14 +487,14 @@ HRESULT InitDevice()
 
 	
 
-	for (int ii = 0; ii < ASTEROIDCOUNT; ii += 2)
+	for (int ii = 0; ii < ASTEROIDCOUNT * 2; ii += 2)
 	{
 		float x, y, z, w;
 		w = rand() % 50 - 25;
 		z = rand() % 1000 - 500;
 		x = rand() % 1000 - 500;
 		y = rand() % 1000 - 500;
-		while (x < 40 && y < 40 && z < 40)
+		while (x*x+y*y+z*z <= 1600)
 		{
 			z = rand() % 1000 - 500;
 			x = rand() % 1000 - 500;
@@ -502,7 +502,7 @@ HRESULT InitDevice()
 		}
 		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
 	}
-	for (int ii = 1; ii < ASTEROIDCOUNT; ii += 2)
+	for (int ii = 1; ii < ASTEROIDCOUNT * 2; ii += 2)
 	{
 		float x, y, z, w;
 		w = (frand()*2.0 - 1.0);
@@ -516,7 +516,7 @@ HRESULT InitDevice()
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(XMFLOAT4)* ASTEROIDCOUNT;
+	bd.ByteWidth = sizeof(XMFLOAT4)* ASTEROIDCOUNT * 2;
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	ZeroMemory(&InitData, sizeof(InitData));
@@ -1314,8 +1314,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//Sky Sphere
 	//-----------------------------------------------------------------------------------
-
-	constantbuffer.World = XMMatrixTranspose(XMMatrixIdentity());
+	constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z));
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
 	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
@@ -1366,10 +1365,10 @@ void Render_to_texture(long elapsed)
 	//Collision detection
 	//-----------------------------------------------------------------------------------
 	
-	for (int i = 0; i < ASTEROIDCOUNT; i+=2) {
+	for (int i = 0; i < ASTEROIDCOUNT * 2; i+=2) {
 		float dx = -cam.position.x - asteroid_pos[i].x;
 		float dy = -cam.position.y - asteroid_pos[i].y;
-		float dz = -cam.position.z - asteroid_pos[i].z - 6;
+		float dz = -cam.position.z - asteroid_pos[i].z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
 			PostQuitMessage(0);
