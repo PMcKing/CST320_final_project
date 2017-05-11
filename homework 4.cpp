@@ -70,7 +70,10 @@ ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
 int									model_vertex_anz_nav = 0;
 
 
-
+// Sky Sphere
+ID3D11Buffer*						g_pVertexBuffer_cmp;
+int									model_vertex_anz_sky;
+ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
@@ -573,8 +576,6 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-
-
 	
 	//create skybox vertex buffer
 	
@@ -609,16 +610,13 @@ HRESULT InitDevice()
    
 	//load model 3ds file
 
-
-	//carrier.3ds
-	//hornet.3ds
-	//f15.3ds
 	Load3DS("asteroid.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_asteroids, &model_vertex_anz_asteroids);
+	
 	//loading nav arrow
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
-	
-
+	//Load Sky Sphere
+	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
@@ -643,6 +641,11 @@ HRESULT InitDevice()
     hr = D3DX11CreateShaderResourceViewFromFile( g_pd3dDevice, L"asteroid_1.png", NULL, NULL, &g_pTexture_asteroid, NULL );
     if( FAILED( hr ) )
         return hr;
+
+	// Load the Texture
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"space.png", NULL, NULL, &g_pTexture_sky, NULL);
+	if (FAILED(hr))
+		return hr;
 
 	// Load the nav arrow
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"nav_arrow_tex.png", NULL, NULL, &g_pTextureNav, NULL);
@@ -1301,12 +1304,32 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureRV);
 	g_pImmediateContext->PSSetShaderResources(1, 1, &DepthTexture);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds, &stride, &offset);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	//g_pImmediateContext->Draw(model_vertex_anz, 0);
+
+	//-----------------------------------------------------------------------------------
+	//Sky Sphere
+	//-----------------------------------------------------------------------------------
+
+	constantbuffer.World = XMMatrixTranspose(XMMatrixIdentity());
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_sky);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_sky);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
@@ -1319,7 +1342,7 @@ void Render_to_texture(long elapsed)
 
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	g_pImmediateContext->Draw(6, 0);
+	//g_pImmediateContext->Draw(6, 0);
 
 	static float rotation = 0;
 	rotation += 0.0000003*elapsed;
@@ -1328,6 +1351,7 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
 	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
 	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
 	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
@@ -1336,7 +1360,7 @@ void Render_to_texture(long elapsed)
 	UINT offsets[2] = { 0, 0 };
 	vertInstBuffer[1] = g_pInstancebuffer;
 	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
-	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000/ 2, 0, 0);
+	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
 
 	//-----------------------------------------------------------------------------------
 	//Collision detection
@@ -1569,6 +1593,8 @@ void Render_to_screen(long elapsed)
 
 	g_pSwapChain->Present(0, 0);
 	}
+
+
 //############################################################################################################
 void Render()
 {

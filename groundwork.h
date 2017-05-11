@@ -499,9 +499,6 @@ class level
 				}
 		};
 
-
-
-
 	float Vec3Length(const XMFLOAT3 &v);
 	float Vec3Dot(XMFLOAT3 a, XMFLOAT3 b);
 	XMFLOAT3 Vec3Cross(XMFLOAT3 a, XMFLOAT3 b);
@@ -509,3 +506,4 @@ class level
 	XMFLOAT3 operator+(const XMFLOAT3 lhs, const XMFLOAT3 rhs);
 	XMFLOAT3 operator-(const XMFLOAT3 lhs, const XMFLOAT3 rhs);
 	bool Load3DS(char *filename, ID3D11Device* g_pd3dDevice, ID3D11Buffer **ppVertexBuffer, int *vertex_count);
+	bool LoadCMP(LPCTSTR filename, ID3D11Device* g_pd3dDevice, ID3D11Buffer **ppVertexBuffer, int *vertex_count);
