@@ -226,7 +226,7 @@ if (pixeldepth > ( d + 0.000001))
 float4 texture_color = txDiffuse.Sample(samLinear, input.Tex);
 float4 color = texture_color;
 
-float3 LightPosition = float3(1000, 1000, 1000);
+float3 LightPosition = float3(950, -2500, -7000);
 float3 lightDir = normalize(input.WorldPos - LightPosition);
 
 // Note: Non-uniform scaling not supported
