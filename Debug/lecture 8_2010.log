@@ -1,185 +1,222 @@
-﻿Build started 5/13/2017 1:41:19 PM.
-     1>Project "C:\Users\Administrator\Desktop\king_temp\CST320_final_project\lecture 8_2010.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IDXUT\Core /IDXUT\Optional /ZI /nologo /W4 /WX- /Od /Oi /Oy- /D WIN32 /D _DEBUG /D DEBUG /D PROFILE /D _WINDOWS /D D3DXFX_LARGEADDRESS_HANDLE /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /openmp- /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt  "homework 4.cpp"
-         homework 4.cpp
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50002) : see previous definition of 'DXGI_STATUS_OCCLUDED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50011) : see previous definition of 'DXGI_STATUS_CLIPPED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50020) : see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50029) : see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50038) : see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50047) : see previous definition of 'DXGI_STATUS_MODE_CHANGED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50056) : see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50071) : see previous definition of 'DXGI_ERROR_INVALID_CALL'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50080) : see previous definition of 'DXGI_ERROR_NOT_FOUND'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50089) : see previous definition of 'DXGI_ERROR_MORE_DATA'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50098) : see previous definition of 'DXGI_ERROR_UNSUPPORTED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50107) : see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50116) : see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50126) : see previous definition of 'DXGI_ERROR_DEVICE_RESET'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50135) : see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50145) : see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50154) : see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50164) : see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50173) : see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50182) : see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50192) : see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50201) : see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50379) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50388) : see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50398) : see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50407) : see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50355) : see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
-     1>c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND' : macro redefinition
-                 c:\program files (x86)\windows kits\8.1\include\shared\winerror.h(50364) : see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(96): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(101): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(114): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(294) : see declaration of 'wcscpy'
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(294) : see declaration of 'wcscpy'
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(197): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\sound.h(206): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(98): warning C4100: 'ViewMatrix' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(241): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(243): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(245): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(247): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(252): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(257): warning C4244: 'argument' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(290): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(295): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(315): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(319): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(380): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(489): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(490): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(491): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(516): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(517): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(518): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(545): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(546): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(547): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\groundwork.h(572): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(60): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(61): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(62): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(80): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(237): warning C4018: '>=' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(264): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(267): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(273): warning C4244: '=' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(274): warning C4244: '=' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(275): warning C4244: '=' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\explosion.h(276): warning C4244: '=' : conversion from 'int' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\controller.h(106): warning C4244: '=' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\controller.h(107): warning C4244: '=' : conversion from 'int' to 'WORD', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\font.h(179): warning C4512: 'Font' : assignment operator could not be generated
-                 c:\users\administrator\desktop\king_temp\cst320_final_project\font.h(28) : see declaration of 'Font'
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(191): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(518): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(519): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(520): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(521): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(524): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(525): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(526): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(533): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(534): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(535): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(536): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(650): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(651): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(652): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(649): warning C4101: 'w' : unreferenced local variable
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(862): warning C4100: 'keyFlags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(862): warning C4100: 'y' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(862): warning C4100: 'x' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(862): warning C4100: 'fDoubleClick' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(862): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(884): warning C4100: 'keyFlags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(884): warning C4100: 'y' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(884): warning C4100: 'x' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(884): warning C4100: 'fDoubleClick' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(884): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(891): warning C4100: 'cRepeat' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(891): warning C4100: 'ch' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(891): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(901): warning C4316: 'bullet' : object allocated on the heap may not be aligned 16
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(903): warning C4244: '=' : conversion from 'double' to 'FLOAT', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(898): warning C4100: 'keyFlags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(898): warning C4100: 'y' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(898): warning C4100: 'x' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(898): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(957): warning C4100: 'keyFlags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(957): warning C4100: 'y' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(957): warning C4100: 'x' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(957): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(997): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(998): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1008): warning C4245: 'initializing' : conversion from 'int' to 'unsigned int', signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1009): warning C4100: 'lpCreateStruct' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1054): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1060): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1032): warning C4100: 'id' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1032): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1067): warning C4100: 'flags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1067): warning C4100: 'cRepeat' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1067): warning C4100: 'fDown' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1067): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1092): warning C4100: 'flags' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1092): warning C4100: 'cRepeat' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1092): warning C4100: 'fDown' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1092): warning C4100: 'hwnd' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1264): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1357): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1452): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1457): warning C4244: 'argument' : conversion from 'long' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1622): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1508): warning C4189: 'V' : local variable is initialized but not referenced
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1684): warning C4100: 'elapsed' : unreferenced formal parameter
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1742): warning C4244: 'initializing' : conversion from 'long double' to 'long', possible loss of data
-     1>c:\users\administrator\desktop\king_temp\cst320_final_project\homework 4.cpp(1745): warning C4244: 'argument' : conversion from 'long' to 'float', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Administrator\Desktop\king_temp\CST320_final_project\Debug\homework 4.exe" /INCREMENTAL /NOLOGO d3d11.lib d3dcompiler.lib d3dx11d.lib d3dx9d.lib dxerr.lib dxguid.lib winmm.lib comctl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"C:\Users\Administrator\Desktop\king_temp\CST320_final_project\Debug\homework 4.pdb" /SUBSYSTEM:WINDOWS /LARGEADDRESSAWARE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Administrator\Desktop\king_temp\CST320_final_project\Debug\homework 4.lib" /MACHINE:X86 /SAFESEH  "Debug\homework 8.res"
-         Debug\Font.obj
-         Debug\FPS.obj
-         "Debug\homework 4.obj"
-         Debug\load3ds.obj
-         Debug\render_to_texture.obj
-         Debug\sound.obj
-         lecture 8_2010.vcxproj -> C:\Users\Administrator\Desktop\king_temp\CST320_final_project\Debug\homework 4.exe
-     1>Done Building Project "C:\Users\Administrator\Desktop\king_temp\CST320_final_project\lecture 8_2010.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:01.37
+﻿  homework 4.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52937): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52946): note: see previous definition of 'DXGI_STATUS_CLIPPED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52955): note: see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52964): note: see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52973): note: see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52982): note: see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(52991): note: see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53006): note: see previous definition of 'DXGI_ERROR_INVALID_CALL'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53015): note: see previous definition of 'DXGI_ERROR_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53024): note: see previous definition of 'DXGI_ERROR_MORE_DATA'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53033): note: see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53042): note: see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53051): note: see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53061): note: see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53070): note: see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53080): note: see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53089): note: see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53099): note: see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53108): note: see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53117): note: see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53127): note: see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53136): note: see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53400): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53409): note: see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53419): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53428): note: see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53376): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\shared\winerror.h(53385): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2662): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2663): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2664): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2665): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2666): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2667): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2668): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2689): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2690): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2691): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2694): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2695): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2698): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2702): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2712): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2713): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2715): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2716): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2717): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2727): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2728): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2729): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2730): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2731): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2732): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2742): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2743): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamath.h(2754): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathvector.inl(1269): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\corecrt_wstring.h(127): note: see declaration of 'wcscpy'
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\sound.h(206): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(98): warning C4100: 'ViewMatrix': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(241): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(243): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(245): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(247): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(252): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(257): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(290): warning C4018: '>=': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(295): warning C4018: '>=': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(319): warning C4018: '>=': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Ry' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Rx' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'T' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(380): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Rx' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Ry' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'T' hides class member
+  c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(489): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(490): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(491): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(516): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(517): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(518): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(545): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(546): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(547): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\groundwork.h(572): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(60): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(61): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(62): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(80): warning C4018: '>=': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(237): warning C4018: '>=': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(264): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(267): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(273): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(274): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(275): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\explosion.h(276): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(191): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(518): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(519): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(520): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(521): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(524): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(525): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(526): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(533): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(534): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(535): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(536): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(650): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(651): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(652): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(649): warning C4101: 'w': unreferenced local variable
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(862): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(862): warning C4100: 'y': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(862): warning C4100: 'x': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(862): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(862): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(884): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(884): warning C4100: 'y': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(884): warning C4100: 'x': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(884): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(884): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(891): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(891): warning C4100: 'ch': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(891): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(910): warning C4316: 'bullet': object allocated on the heap may not be aligned 16
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(912): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(898): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(898): warning C4100: 'y': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(898): warning C4100: 'x': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(898): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(947): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(947): warning C4100: 'y': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(947): warning C4100: 'x': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(947): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(987): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(988): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(998): warning C4245: 'initializing': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(999): warning C4100: 'lpCreateStruct': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1044): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1050): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1022): warning C4100: 'id': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1022): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1057): warning C4100: 'flags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1057): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1057): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1057): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1082): warning C4100: 'flags': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1082): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1082): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1082): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1254): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1347): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1442): warning C4018: '<': signed/unsigned mismatch
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1446): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1326): note: see declaration of 'constantbuffer'
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1447): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1474): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1326): note: see declaration of 'constantbuffer'
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1475): warning C4456: declaration of 'T' hides previous local declaration
+  c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1343): note: see declaration of 'T'
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1612): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1674): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1732): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
+c:\users\ctfp3\desktop\final\cst320_final_project\homework 4.cpp(1735): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+  lecture 8_2010.vcxproj -> C:\Users\CTFP3\Desktop\final\CST320_final_project\Debug\homework 4.exe
+  lecture 8_2010.vcxproj -> C:\Users\CTFP3\Desktop\final\CST320_final_project\Debug\homework 4.pdb (Full PDB)

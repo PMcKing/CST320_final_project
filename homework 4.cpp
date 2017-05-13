@@ -897,58 +897,48 @@ void OnChar(HWND hwnd, UINT ch, int cRepeat)
 ///////////////////////////////////
 void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 	{
+	
+	
+
+	if (canFire) {
+		cam.w = 1;
+		canFire = false;
+		fireTimer.start();//wating .5 secs before you cna fire again
+		reload = " ";//resetting fire UI
+		//bullets
 
 	bull = new bullet;
 	bull->pos.x = -cam.position.x;
 	bull->pos.y = -cam.position.y - 1.2;
 	bull->pos.z = -cam.position.z;
-	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-	XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-	
-	XMMATRIX CR2 = CR * CR1;
+	XMMATRIX CR = cam.get_matrix(&g_View);
+	CR._41 = 0;
+	CR._42 = 0;
+	CR._43 = 0;
+	XMVECTOR det;
+
+	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	//XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
+
+	//	XMMATRIX CR2 = CR * CR1;
 
 
 	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
 	XMVECTOR f = XMLoadFloat3(&forward);
-	f = XMVector3TransformCoord(f, CR);
+	if (fireFoward) {
+		f = XMVector3TransformCoord(f, ICR);
+	}
+	else {
+		f = XMVector3TransformCoord(f, CR);
+	}
+
 	XMStoreFloat3(&forward, f);
-	
-	
-	
 
 	bull->imp = forward;
 	bullets.push_back(bull);
-	//if (canFire) {
-	//	cam.w = 1;
-	//	canFire = false;
-	//	fireTimer.start();//wating .5 secs before you cna fire again
-	//	reload = " ";//resetting fire UI
-	//	//bullets
-	//	bull = new bullet;
-	//	bull->pos.x = -cam.position.x;
-	//	bull->pos.y = -cam.position.y - 1.2;
-	//	bull->pos.z = -cam.position.z;
-	//	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-	//	XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-	//	//XMMATRIX CR2 = CR * CR1;
 
-	//	XMFLOAT3 forward;
-	//	if (fireFoward){
-	//		forward = XMFLOAT3(0, 0, 3);
-	//	}
-	//	else{
-	//		forward = XMFLOAT3(0, 0, -3);
-	//		}
-	//		XMVECTOR f = XMLoadFloat3(&forward);
-	//		//XMVECTOR f1 = XMLoadFloat3(&forward);
-	//		f = XMVector3TransformCoord(f, CR);
-	//		//f = XMVector3TransformCoord(f, CR1);
-
-	//		XMStoreFloat3(&forward, f);
-	//		bull->imp = forward;
-	//		bullets.push_back(bull);
-	//		sound.play_fx("boost.mp3");
-		//}
+		sound.play_fx("boost.mp3");
+		}
 
 	}
 ///////////////////////////////////
@@ -1457,7 +1447,7 @@ void Render_to_texture(long elapsed)
 			XMMATRIX worldmatrix = bull->getmatrix(elapsed, view);
 			
 			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-			constantbuffer.World = XMMatrixTranspose(bull->rotation * worldmatrix);
+			constantbuffer.World = XMMatrixTranspose(worldmatrix);
 			constantbuffer.View = XMMatrixTranspose(view);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);

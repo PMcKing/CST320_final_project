@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v120:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
-Debug|Win32|C:\Users\Administrator\Desktop\king_temp\CST320_final_project\|
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.15063.0
+Debug|Win32|C:\Users\CTFP3\Desktop\final\CST320_final_project\|
