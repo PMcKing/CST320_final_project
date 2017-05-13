@@ -83,7 +83,6 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 
 //mines
 #define MINECOUNT					100
-
 Mine								g_Mines[MINECOUNT];
 
 
@@ -126,6 +125,7 @@ XMFLOAT3							rocket_position;
 
 //powerup objects
 vector<XMFLOAT3*>					oneUps;
+
 
 
 //movment variables
@@ -659,6 +659,15 @@ HRESULT InitDevice()
 		g_Mines[ii].pos = XMFLOAT3(x, y, z);
 	}
 	//randoming the oneup positions
+	for (int i = 0; i < oneUps.size(); i++) {
+		float x, y, z;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
+		oneUps[i]->z = z;
+		oneUps[i]->x = x;
+		oneUps[i]->y = y;
+	}
 
 
 
