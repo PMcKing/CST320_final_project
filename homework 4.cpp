@@ -178,6 +178,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         else
         {
             Render();
+			sound.play_fx("SO.mp3");
         }
     }
 
