@@ -68,6 +68,8 @@ ID3D11InputLayout*                  g_pInstanceLayout = NULL;
 ID3D11Buffer*                       g_pInstancebuffer = NULL;
 
 
+Mine test;
+
 //navigation arrow
 ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
 int									model_vertex_anz_nav = 0;
@@ -866,28 +868,33 @@ void OnChar(HWND hwnd, UINT ch, int cRepeat)
 ///////////////////////////////////
 void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 	{
-		if (canFire) {
-			cam.w = 1;
-			canFire = false;
-			fireTimer.start();//wating .5 secs before you cna fire again
-			reload = " ";//resetting fire UI
-						 //bullets
-			bull = new bullet;
-			bull->pos.x = -cam.position.x;
-			bull->pos.y = -cam.position.y - 1.2;
-			bull->pos.z = -cam.position.z;
-			XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-			XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-			XMMATRIX CR2 = CR * CR1;
-			
-			XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+	if (canFire) {
+		cam.w = 1;
+		canFire = false;
+		fireTimer.start();//wating .5 secs before you cna fire again
+		reload = " ";//resetting fire UI
+		//bullets
+		bull = new bullet;
+		bull->pos.x = -cam.position.x;
+		bull->pos.y = -cam.position.y - 1.2;
+		bull->pos.z = -cam.position.z;
+		XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
+		XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
+		//XMMATRIX CR2 = CR * CR1;
+
+		XMFLOAT3 forward;
+		if (fireFoward){
+			forward = XMFLOAT3(0, 0, 3);
+		}
+		else{
+			forward = XMFLOAT3(0, 0, -3);
+			}
 			XMVECTOR f = XMLoadFloat3(&forward);
-			XMVECTOR f1 = XMLoadFloat3(&forward);
-			f = XMVector3Normalize(XMVector3TransformCoord(f, CR));
-			f1 = XMVector3Normalize(XMVector3TransformCoord(f1, CR1));
-			XMVECTOR f3 = XMVectorAdd(f, f1);
-			f3 = f3 / 2;
-			XMStoreFloat3(&forward, f3);
+			//XMVECTOR f1 = XMLoadFloat3(&forward);
+			f = XMVector3TransformCoord(f, CR);
+			//f = XMVector3TransformCoord(f, CR1);
+
+			XMStoreFloat3(&forward, f);
 			bull->imp = forward;
 			bullets.push_back(bull);
 			sound.play_fx("boost.mp3");
@@ -1398,13 +1405,9 @@ void Render_to_texture(long elapsed)
 	{
 		ConstantBuffer constantbuffer;
 		XMMATRIX worldmatrix = bullets[ii]->getmatrix(elapsed, view);
-
-
 		XMMATRIX T = XMMatrixTranspose(worldmatrix);
 		XMMATRIX R = XMMatrixRotationY(-cam.rotation.y);
-
-
-		constantbuffer.World = XMMatrixTranspose(R * worldmatrix);
+		constantbuffer.World = XMMatrixTranspose(worldmatrix);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
