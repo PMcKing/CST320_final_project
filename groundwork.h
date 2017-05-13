@@ -529,6 +529,77 @@ class level
 		
 	};
 
+
+	class TrackerMine
+	{
+	public:
+		XMFLOAT3 pos, imp, rot;
+		TrackerMine()
+		{
+			pos = imp = XMFLOAT3(0, 0, 0);
+		}
+		XMMATRIX getmatrix(float elapsed, XMMATRIX &view)
+		{
+
+			pos.x = pos.x + imp.x *(elapsed / 100000.0);
+			pos.y = pos.y + imp.y *(elapsed / 100000.0);
+			pos.z = pos.z + imp.z *(elapsed / 100000.0);
+
+			XMMATRIX R, T;
+			R = view;
+			R._41 = R._42 = R._43 = 0.0;
+			XMVECTOR det;
+			R = XMMatrixInverse(&det, R);
+			T = XMMatrixTranslation(pos.x, pos.y, pos.z);
+
+			return R * T;
+		}
+		void animate(XMFLOAT3 g, float elapsed_microseconds) {
+			XMMATRIX Ry, Rx, T;
+			Ry = XMMatrixRotationY(-rot.y);
+			Rx = XMMatrixRotationX(-rot.x);
+
+			XMFLOAT3 forward = XMFLOAT3(0, 0, 1);
+			XMVECTOR f = XMLoadFloat3(&forward);
+			f = XMVector3TransformCoord(f, Rx*Ry);
+			XMStoreFloat3(&forward, f);
+			XMFLOAT3 side = XMFLOAT3(1, 0, 0);
+			XMVECTOR si = XMLoadFloat3(&side);
+			si = XMVector3TransformCoord(si, Rx*Ry);
+			XMStoreFloat3(&side, si);
+
+			float speed = elapsed_microseconds / 100000.0;
+
+			XMFLOAT3 tar;
+			/*float x = g.x / 100;
+			float y = g.y / 100;
+			float z = g.z / 100;*/
+
+
+			tar.x = g.x / 1000;
+			tar.y = g.y / 1000;
+			tar.z = g.z / 1000;
+			XMVECTOR a = XMVectorSet(g.x, g.y, g.z, 1.0f);
+			a = XMVector4Normalize(a);
+
+
+			//tar = g- position;
+			imp.x += tar.x;
+			imp.y += tar.y;
+			imp.z += tar.z;
+
+			pos.x += imp.x * speed;
+			pos.y += imp.y *speed;
+			pos.z += imp.z *speed;
+
+
+
+
+		}
+
+
+	};
+
 	float Vec3Length(const XMFLOAT3 &v);
 	float Vec3Dot(XMFLOAT3 a, XMFLOAT3 b);
 	XMFLOAT3 Vec3Cross(XMFLOAT3 a, XMFLOAT3 b);
