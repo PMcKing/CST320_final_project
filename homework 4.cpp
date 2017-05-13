@@ -82,7 +82,9 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 //
 
 //mines
-Mine								g_Mines[50];
+#define MINECOUNT					100
+
+Mine								g_Mines[MINECOUNT];
 
 
 
@@ -509,7 +511,7 @@ HRESULT InitDevice()
 	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
 
 	
-
+	//randomizing astroids
 	for (int ii = 0; ii < ASTEROIDCOUNT * 2; ii += 2)
 	{
 		float x, y, z, w;
@@ -534,6 +536,7 @@ HRESULT InitDevice()
 		z = (frand()*2.0 - 1.0) * XM_PI*2.0;
 		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
 	}
+
 
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
@@ -640,6 +643,16 @@ HRESULT InitDevice()
 
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
+
+	//randomizing the mine position
+	for (int ii = 0; ii < MINECOUNT; ii++){
+		float x, y, z, w;
+		z = rand() % 1000 - 500;
+		x = rand() % 1000 - 500;
+		y = rand() % 1000 - 500;
+		g_Mines[ii].pos = XMFLOAT3(x, y, z);
+	}
+
 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
@@ -1435,8 +1448,22 @@ void Render_to_texture(long elapsed)
 
 
 	//-----------------------------------------------------------------------------------
-	//Mine
+	//Mine rendering
 	//-----------------------------------------------------------------------------------
+	for (int ii = 0; ii < MINECOUNT; ii++)
+	{
+		ConstantBuffer constantbuffer;
+		XMMATRIX T = XMMatrixTranslation(g_Mines[ii].pos.x, g_Mines[ii].pos.y, g_Mines[ii].pos.x);
+		constantbuffer.World = XMMatrixTranspose(T);
+		constantbuffer.View = XMMatrixTranspose(view);
+		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
+	}
 	static Mine a;
 	static float ms = 1.0f;
 	
@@ -1455,19 +1482,8 @@ void Render_to_texture(long elapsed)
 			explosionhandler.new_explosion(XMFLOAT3(a.pos.x, a.pos.y+5, a.pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
 		}
 		
-	}
-
-
-	constantbuffer.World = XMMatrixTranspose(S * XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z));
-	constantbuffer.View = XMMatrixTranspose(view);
-	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-
-	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
-
+	};
+	
 
 	//reload
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
