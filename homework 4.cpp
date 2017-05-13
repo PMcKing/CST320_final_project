@@ -1467,8 +1467,30 @@ void Render_to_texture(long elapsed)
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	}
+
+	//-----------------------------------------------------------------------------------
+	//tracker Mine rendering
+	//-----------------------------------------------------------------------------------
+	
+	TrackerMine a;
+	XMMATRIX TMT, TMR, TMM;
+	a.pos = XMFLOAT3(0, 0, 100);
+	T = XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z);
+	S = XMMatrixScaling(10, 10, 10);
+
+	XMFLOAT3  v = cam.position - a.pos;
+	XMVECTOR V = XMVectorSet(v.x, v.y, v.z, 0.0f);
 	
 	
+	constantbuffer.World = XMMatrixTranspose(S*T);
+	constantbuffer.View = XMMatrixTranspose(view);
+	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
 
 	
 
@@ -1610,7 +1632,7 @@ void Render_to_texture(long elapsed)
 			if (c < 20)
 			{
 				explosionhandler.new_explosion(XMFLOAT3(g_Mines[ii].pos.x, g_Mines[ii].pos.y + 5, g_Mines[ii].pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
-				PostQuitMessage(1);
+				//PostQuitMessage(1); END THE GAMe
 			}
 		}
 
