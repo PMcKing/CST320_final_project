@@ -81,6 +81,9 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 //ID3D11Buffer*                       g_pInstancebuffer_mines = NULL;
 //
 
+//mines
+Mine								g_Mines[50];
+
 
 
 //navigation arrow
@@ -1435,8 +1438,27 @@ void Render_to_texture(long elapsed)
 	//Mine
 	//-----------------------------------------------------------------------------------
 	static Mine a;
-	a.pos = XMFLOAT3(00, 0,100);
-	constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z));
+	static float ms = 1.0f;
+	
+	ms += .01;
+	a.pos = XMFLOAT3(00, 0,50);
+
+	float dx = -cam.position.x - a.pos.x;
+	float dy = -cam.position.y - a.pos.y;
+	float dz = -cam.position.z - a.pos.z;
+	float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+	if (c < 50) {
+		//change color
+		S = XMMatrixScaling(ms, ms, ms);
+		if (c < 20)
+		{
+			explosionhandler.new_explosion(XMFLOAT3(a.pos.x, a.pos.y+5, a.pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+		}
+		
+	}
+
+
+	constantbuffer.World = XMMatrixTranspose(S * XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z));
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
