@@ -47,18 +47,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
 #pragma once
 #include <dshow.h>
 #include <cstdio>
+#include <vector>
+using std::vector;
 #pragma comment(lib, "strmiids.lib") 
 #define VOLUME_FX -1200
 

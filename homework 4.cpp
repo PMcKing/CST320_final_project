@@ -121,6 +121,8 @@ XMFLOAT3							bullet_position;
 Font								font;
 string								reload = "";
 
+//Sound
+music_								sound;
 
 explosion_handler  explosionhandler;
 
@@ -884,6 +886,7 @@ void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 			XMStoreFloat3(&forward, f3);
 			bull->imp = forward;
 			bullets.push_back(bull);
+			sound.play_fx("boost.mp3");
 		}
 
 	}
