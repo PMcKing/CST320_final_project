@@ -56,8 +56,11 @@ int									model_vertex_anz = 0;
 ID3D11Buffer*                       g_pVertexBuffer_3ds_asteroids = NULL;
 int									model_vertex_anz_asteroids = 0;
 ID3D11ShaderResourceView*           g_pTexture_asteroid = NULL;
-#define ASTEROIDCOUNT				1000
+#define ASTEROIDCOUNT				100
 XMFLOAT4 asteroid_pos[2000];
+
+
+
 
 //instance Rendering
 ID3D11VertexShader*                 g_pInstanceShader = NULL;
@@ -875,7 +878,8 @@ void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 			bull->pos.z = -cam.position.z;
 			XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
 			XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-			//CR = XMMatrixMultiply(CR, CR1);
+			XMMATRIX CR2 = CR * CR1;
+			
 			XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
 			XMVECTOR f = XMLoadFloat3(&forward);
 			XMVECTOR f1 = XMLoadFloat3(&forward);
@@ -1333,51 +1337,6 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
-	//-----------------------------------------------------------------------------------
-	//Instance Rendering
-	//-----------------------------------------------------------------------------------
-	S = XMMatrixScaling(50, 50, 50);
-	R = XMMatrixRotationX(XM_PIDIV2);
-	T = XMMatrixTranslation(0, -5, 0);
-	M = S*R*T;
-	constantbuffer.World = XMMatrixTranspose(M);
-
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	//g_pImmediateContext->Draw(6, 0);
-
-	static float rotation = 0;
-	rotation += 0.0000003*elapsed;
-	constantbuffer.info.z = rotation;
-	constantbuffer.View = XMMatrixTranspose(view);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
-	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	ID3D11Buffer* vertInstBuffer[2] = { g_pVertexBuffer_3ds_asteroids, NULL };
-	UINT strides[2] = { stride, sizeof(XMFLOAT4) * 2 };
-	UINT offsets[2] = { 0, 0 };
-	vertInstBuffer[1] = g_pInstancebuffer;
-	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
-	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
-
-	//-----------------------------------------------------------------------------------
-	//Collision detection
-	//-----------------------------------------------------------------------------------
-	
-	for (int i = 0; i < ASTEROIDCOUNT * 2; i+=2) {
-		float dx = -cam.position.x - asteroid_pos[i].x;
-		float dy = -cam.position.y - asteroid_pos[i].y;
-		float dz = -cam.position.z - asteroid_pos[i].z;
-		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
-		if (c < 20) {
-			PostQuitMessage(0);
-		}
-	}
-
 	//usefull rotations
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
 	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
@@ -1391,6 +1350,14 @@ void Render_to_texture(long elapsed)
 	Ry3 = XMMatrixRotationY(cam.rotation.y);
 	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
 	M2 = R0* T* Rx3*Ry3* T2*  Rx1 * Ry1 * T3;
+	constantbuffer.World = XMMatrixTranspose(M2);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+	
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
 
 	//reload status
 	//if (curtime < fireDelay) {
@@ -1421,6 +1388,9 @@ void Render_to_texture(long elapsed)
 
 	//nav arrow
 
+	
+	//end nav arrow
+
 
 
 	//bullets
@@ -1431,15 +1401,13 @@ void Render_to_texture(long elapsed)
 
 
 		XMMATRIX T = XMMatrixTranspose(worldmatrix);
-		XMMATRIX R = XMMatrixRotationY(cam.rotation.y);
+		XMMATRIX R = XMMatrixRotationY(-cam.rotation.y);
 
 
-		constantbuffer.World = Rx3*Ry3 * T;
+		constantbuffer.World = XMMatrixTranspose(R * worldmatrix);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-
-
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
@@ -1449,17 +1417,7 @@ void Render_to_texture(long elapsed)
 
 
 
-	constantbuffer.World = XMMatrixTranspose(M2);
-
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
-
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	//end nav arrow
-
+	
 
 	//reload
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
@@ -1535,6 +1493,52 @@ void Render_to_texture(long elapsed)
 	explosionhandler.render(&view, &g_Projection, elapsed);
 	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
+
+	//-----------------------------------------------------------------------------------
+	//Instance Rendering
+	//-----------------------------------------------------------------------------------
+	S = XMMatrixScaling(50, 50, 50);
+	R = XMMatrixRotationX(XM_PIDIV2);
+	T = XMMatrixTranslation(0, -5, 0);
+	M = S*R*T;
+	constantbuffer.World = XMMatrixTranspose(M);
+
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
+	//g_pImmediateContext->Draw(6, 0);
+
+	static float rotation = 0;
+	rotation += 0.0000003*elapsed;
+	constantbuffer.info.z = rotation;
+	constantbuffer.View = XMMatrixTranspose(view);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
+	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	ID3D11Buffer* vertInstBuffer[2] = { g_pVertexBuffer_3ds_asteroids, NULL };
+	UINT strides[2] = { stride, sizeof(XMFLOAT4)* 2 };
+	UINT offsets[2] = { 0, 0 };
+	vertInstBuffer[1] = g_pInstancebuffer;
+	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
+	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
+
+	//-----------------------------------------------------------------------------------
+	//Collision detection
+	//-----------------------------------------------------------------------------------
+
+	for (int i = 0; i < ASTEROIDCOUNT * 2; i += 2) {
+		float dx = -cam.position.x - asteroid_pos[i].x;
+		float dy = -cam.position.y - asteroid_pos[i].y;
+		float dz = -cam.position.z - asteroid_pos[i].z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		if (c < 20) {
+			PostQuitMessage(0);
+		}
+	}
 
 	//
 	// Present our back buffer to our front buffer
