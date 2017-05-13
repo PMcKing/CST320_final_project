@@ -647,9 +647,9 @@ HRESULT InitDevice()
 	//randomizing the mine position
 	for (int ii = 0; ii < MINECOUNT; ii++){
 		float x, y, z, w;
-		z = rand() % 1000 - 500;
-		x = rand() % 1000 - 500;
-		y = rand() % 1000 - 500;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
 		g_Mines[ii].pos = XMFLOAT3(x, y, z);
 	}
 
@@ -1450,10 +1450,13 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//Mine rendering
 	//-----------------------------------------------------------------------------------
+	static float ms = 1.0f;
+	ms += .01;
 	for (int ii = 0; ii < MINECOUNT; ii++)
 	{
+		//display
 		ConstantBuffer constantbuffer;
-		XMMATRIX T = XMMatrixTranslation(g_Mines[ii].pos.x, g_Mines[ii].pos.y, g_Mines[ii].pos.x);
+		XMMATRIX T = XMMatrixTranslation(g_Mines[ii].pos.x, g_Mines[ii].pos.y, g_Mines[ii].pos.z);
 		constantbuffer.World = XMMatrixTranspose(T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
@@ -1464,25 +1467,12 @@ void Render_to_texture(long elapsed)
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	}
-	static Mine a;
-	static float ms = 1.0f;
 	
-	ms += .01;
-	a.pos = XMFLOAT3(00, 0,50);
+	
 
-	float dx = -cam.position.x - a.pos.x;
-	float dy = -cam.position.y - a.pos.y;
-	float dz = -cam.position.z - a.pos.z;
-	float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
-	if (c < 50) {
-		//change color
-		S = XMMatrixScaling(ms, ms, ms);
-		if (c < 20)
-		{
-			explosionhandler.new_explosion(XMFLOAT3(a.pos.x, a.pos.y+5, a.pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
-		}
-		
-	};
+	
+
+	
 	
 
 	//reload
@@ -1606,6 +1596,25 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//Collision detection
 	//-----------------------------------------------------------------------------------
+
+	//collision dections
+	for (int ii = 0; ii < MINECOUNT; ii++) {
+		float dx = -cam.position.x - g_Mines[ii].pos.x;
+		float dy = -cam.position.y - g_Mines[ii].pos.y;
+		float dz = -cam.position.z - g_Mines[ii].pos.z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+
+		if (c < 50) {
+			//change color
+			S = XMMatrixScaling(ms, ms, ms);
+			if (c < 20)
+			{
+				explosionhandler.new_explosion(XMFLOAT3(g_Mines[ii].pos.x, g_Mines[ii].pos.y + 5, g_Mines[ii].pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+				PostQuitMessage(1);
+			}
+		}
+
+	}
 
 	for (int i = 0; i < ASTEROIDCOUNT * 2; i += 2) {
 		float dx = -cam.position.x - asteroid_pos[i].x;
