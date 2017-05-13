@@ -658,15 +658,18 @@ HRESULT InitDevice()
 		y = rand() % 1000 - 100;
 		g_Mines[ii].pos = XMFLOAT3(x, y, z);
 	}
-	//randoming the oneup positions
-	for (int i = 0; i < oneUps.size(); i++) {
+	XMFLOAT3* ps;
+
+	for (int i = 0; i < 20; i++) {
 		float x, y, z;
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
-		oneUps[i]->z = z;
-		oneUps[i]->x = x;
-		oneUps[i]->y = y;
+		ps = new XMFLOAT3(x, y, z);
+		oneUps.push_back(ps);
+
+
+
 	}
 
 
@@ -1506,6 +1509,27 @@ void Render_to_texture(long elapsed)
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	}
+	//-----------------------------------------------------------------------------------
+	//One up render
+	//-----------------------------------------------------------------------------------
+	for (int ii = 0; ii < oneUps.size(); ii++)
+	{
+		//display
+		ConstantBuffer constantbuffer;
+		XMMATRIX S = XMMatrixScaling(50, 50, 50);
+		XMMATRIX T = XMMatrixTranslation(oneUps[ii]->x, oneUps[ii]->y, oneUps[ii]->z);
+		constantbuffer.World = XMMatrixTranspose(S* T);
+		constantbuffer.View = XMMatrixTranspose(view);
+		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
+	}
+
+
 
 	//-----------------------------------------------------------------------------------
 	//tracker Mine rendering
