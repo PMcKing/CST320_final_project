@@ -1719,6 +1719,21 @@ void Render_to_texture(long elapsed)
 
 	}
 	//bullets mines collisions
+	//One ups
+	for (int ii = 0; ii < oneUps.size(); ii++) {
+		float dx = -cam.position.x - oneUps[ii]->x;
+		float dy = -cam.position.y - oneUps[ii]->y;
+		float dz = -cam.position.z - oneUps[ii]->z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+
+		if (c < 50) {
+			//change color
+			oneUps.erase(oneUps.begin() + ii);
+			playerLives++;
+
+		}
+
+	}
 
 
 
