@@ -9,6 +9,7 @@
 #include <time.h>
 #include <io.h>
 #include "resource.h"
+#include "sound.h"
 using namespace std;
 
 

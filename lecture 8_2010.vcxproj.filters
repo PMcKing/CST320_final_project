@@ -19,6 +19,7 @@
     <ClCompile Include="render_to_texture.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPS.cpp" />
+    <ClCompile Include="sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h">
@@ -30,6 +31,7 @@
     <ClInclude Include="explosion.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPS.h" />
+    <ClInclude Include="sound.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.fx">
