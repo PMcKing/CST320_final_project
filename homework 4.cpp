@@ -897,37 +897,58 @@ void OnChar(HWND hwnd, UINT ch, int cRepeat)
 ///////////////////////////////////
 void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 	{
-	if (canFire) {
-		cam.w = 1;
-		canFire = false;
-		fireTimer.start();//wating .5 secs before you cna fire again
-		reload = " ";//resetting fire UI
-		//bullets
-		bull = new bullet;
-		bull->pos.x = -cam.position.x;
-		bull->pos.y = -cam.position.y - 1.2;
-		bull->pos.z = -cam.position.z;
-		XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-		XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-		//XMMATRIX CR2 = CR * CR1;
 
-		XMFLOAT3 forward;
-		if (fireFoward){
-			forward = XMFLOAT3(0, 0, 3);
-		}
-		else{
-			forward = XMFLOAT3(0, 0, -3);
-			}
-			XMVECTOR f = XMLoadFloat3(&forward);
-			//XMVECTOR f1 = XMLoadFloat3(&forward);
-			f = XMVector3TransformCoord(f, CR);
-			//f = XMVector3TransformCoord(f, CR1);
+	bull = new bullet;
+	bull->pos.x = -cam.position.x;
+	bull->pos.y = -cam.position.y - 1.2;
+	bull->pos.z = -cam.position.z;
+	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
+	XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
+	
+	XMMATRIX CR2 = CR * CR1;
 
-			XMStoreFloat3(&forward, f);
-			bull->imp = forward;
-			bullets.push_back(bull);
-			sound.play_fx("boost.mp3");
-		}
+
+	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+	XMVECTOR f = XMLoadFloat3(&forward);
+	f = XMVector3TransformCoord(f, CR);
+	XMStoreFloat3(&forward, f);
+	
+	
+	
+
+	bull->imp = forward;
+	bullets.push_back(bull);
+	//if (canFire) {
+	//	cam.w = 1;
+	//	canFire = false;
+	//	fireTimer.start();//wating .5 secs before you cna fire again
+	//	reload = " ";//resetting fire UI
+	//	//bullets
+	//	bull = new bullet;
+	//	bull->pos.x = -cam.position.x;
+	//	bull->pos.y = -cam.position.y - 1.2;
+	//	bull->pos.z = -cam.position.z;
+	//	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
+	//	XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
+	//	//XMMATRIX CR2 = CR * CR1;
+
+	//	XMFLOAT3 forward;
+	//	if (fireFoward){
+	//		forward = XMFLOAT3(0, 0, 3);
+	//	}
+	//	else{
+	//		forward = XMFLOAT3(0, 0, -3);
+	//		}
+	//		XMVECTOR f = XMLoadFloat3(&forward);
+	//		//XMVECTOR f1 = XMLoadFloat3(&forward);
+	//		f = XMVector3TransformCoord(f, CR);
+	//		//f = XMVector3TransformCoord(f, CR1);
+
+	//		XMStoreFloat3(&forward, f);
+	//		bull->imp = forward;
+	//		bullets.push_back(bull);
+	//		sound.play_fx("boost.mp3");
+		//}
 
 	}
 ///////////////////////////////////
@@ -1430,17 +1451,22 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	for (int ii = 0; ii < bullets.size(); ii++)
 	{
-		ConstantBuffer constantbuffer;
-		XMMATRIX worldmatrix = bullets[ii]->getmatrix(elapsed, view);
-		XMMATRIX T = XMMatrixTranspose(worldmatrix);
-		XMMATRIX R = XMMatrixRotationY(-cam.rotation.y);
-		constantbuffer.World = XMMatrixTranspose(worldmatrix);
-		constantbuffer.View = XMMatrixTranspose(view);
-		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+		if (bull != NULL)
+		{
+			ConstantBuffer constantbuffer;
+			XMMATRIX worldmatrix = bull->getmatrix(elapsed, view);
+			
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+			constantbuffer.World = XMMatrixTranspose(bull->rotation * worldmatrix);
+			constantbuffer.View = XMMatrixTranspose(view);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+			g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+			g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+			g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
+		}
 	}
 	//bullet end
 
@@ -1619,7 +1645,7 @@ void Render_to_texture(long elapsed)
 	//Collision detection
 	//-----------------------------------------------------------------------------------
 
-	//collision dections
+	//collision dections 
 	for (int ii = 0; ii < MINECOUNT; ii++) {
 		float dx = -cam.position.x - g_Mines[ii].pos.x;
 		float dy = -cam.position.y - g_Mines[ii].pos.y;

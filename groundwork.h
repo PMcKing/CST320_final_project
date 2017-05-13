@@ -478,6 +478,7 @@ class level
 		{
 		public:
 			XMFLOAT3 pos, imp;
+			XMMATRIX rotation;
 			bullet()
 				{
 				pos = imp = XMFLOAT3(0, 0, 0);
