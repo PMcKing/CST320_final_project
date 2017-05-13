@@ -572,9 +572,9 @@ class level
 			float speed = elapsed_microseconds / 100000.0;
 
 			XMFLOAT3 tar;
-			/*float x = g.x / 100;
+			float x = g.x / 100;
 			float y = g.y / 100;
-			float z = g.z / 100;*/
+			float z = g.z / 100;
 
 
 			tar.x = g.x / 1000;

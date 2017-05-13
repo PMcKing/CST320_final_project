@@ -124,6 +124,9 @@ level								level1;
 vector<billboard*>					smokeray;
 XMFLOAT3							rocket_position;
 
+//powerup objects
+vector<XMFLOAT3*>					oneUps;
+
 
 //movment variables
 
@@ -135,6 +138,9 @@ bool								canFire = true;
 XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow to point to object cords
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
+int									playerLives;
+
+
 
 															//rail gun
 vector<bullet*>						bullets;
@@ -153,7 +159,7 @@ explosion_handler  explosionhandler;
 
 #define ROCKETRADIUS				10
 //--------------------------------------------------------------------------------------
-// Forward declarations
+// Forward declarxzations
 //--------------------------------------------------------------------------------------
 HRESULT InitWindow( HINSTANCE hInstance, int nCmdShow );
 HRESULT InitDevice();
@@ -652,6 +658,8 @@ HRESULT InitDevice()
 		y = rand() % 1000 - 100;
 		g_Mines[ii].pos = XMFLOAT3(x, y, z);
 	}
+	//randoming the oneup positions
+
 
 
     // Set vertex buffer
@@ -687,6 +695,11 @@ HRESULT InitDevice()
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"nav_arrow_tex.png", NULL, NULL, &g_pTextureNav, NULL);
 	if (FAILED(hr))
 		return hr;
+
+	//setting player lives
+	playerLives = 1;
+
+	//randomzing one ups
 
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
@@ -1199,6 +1212,7 @@ sprites mario;
 //--------------------------------------------------------------------------------------
 // Render a frame
 //--------------------------------------------------------------------------------------
+TrackerMine a;
 
 //############################################################################################################
 void Render_from_light_source(long elapsed)
@@ -1488,7 +1502,7 @@ void Render_to_texture(long elapsed)
 	//tracker Mine rendering
 	//-----------------------------------------------------------------------------------
 	
-	TrackerMine a;
+	
 	XMMATRIX TMT, TMR, TMM;
 	a.pos = XMFLOAT3(0, 0, 100);
 	T = XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z);
@@ -1496,9 +1510,15 @@ void Render_to_texture(long elapsed)
 
 	XMFLOAT3  v = cam.position - a.pos;
 	XMVECTOR V = XMVectorSet(v.x, v.y, v.z, 0.0f);
+
+	V = XMVector4Normalize(V);
+	a.animate(v, elapsed);
+	//TT = a.getmatrix(elapsed, 
+	TMR = a.getmatrix(elapsed, view);
 	
 	
-	constantbuffer.World = XMMatrixTranspose(S*T);
+	
+	constantbuffer.World = XMMatrixTranspose(TMR);
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
@@ -1583,6 +1603,18 @@ void Render_to_texture(long elapsed)
 	font.setPosition(XMFLOAT3(0.84, -.9, 0));
 	font << std::to_string(impulseUI.z);
 
+	//player lives
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(-0.99, .99,0));
+	font << "Player lives: ";
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(0, 1, .6));
+	font.setPosition(XMFLOAT3(-0.8, .99, 0));
+	font << std::to_string(playerLives);
+
+
 	///-----------------------------------------------------------------------------------
 	//Explosions
 	//-----------------------------------------------------------------------------------
@@ -1624,7 +1656,7 @@ void Render_to_texture(long elapsed)
 	UINT offsets[2] = { 0, 0 };
 	vertInstBuffer[1] = g_pInstancebuffer;
 	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
-	//g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
+	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
 	
 
 	
@@ -1635,7 +1667,7 @@ void Render_to_texture(long elapsed)
 	//Collision detection
 	//-----------------------------------------------------------------------------------
 
-	//collision dections 
+	//mines 
 	for (int ii = 0; ii < MINECOUNT; ii++) {
 		float dx = -cam.position.x - g_Mines[ii].pos.x;
 		float dy = -cam.position.y - g_Mines[ii].pos.y;
@@ -1653,7 +1685,11 @@ void Render_to_texture(long elapsed)
 		}
 
 	}
+	//bullets mines collisions
 
+
+
+	//astroid
 	for (int i = 0; i < ASTEROIDCOUNT * 2; i += 2) {
 		float dx = -cam.position.x - asteroid_pos[i].x;
 		float dy = -cam.position.y - asteroid_pos[i].y;
