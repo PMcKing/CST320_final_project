@@ -500,6 +500,35 @@ class level
 				}
 		};
 
+
+	class Mine
+	{
+	public:
+		XMFLOAT3 pos, imp;
+		Mine()
+		{
+			pos = imp = XMFLOAT3(0, 0, 0);
+		}
+		XMMATRIX getmatrix(float elapsed, XMMATRIX &view)
+		{
+
+			pos.x = pos.x + imp.x *(elapsed / 100000.0);
+			pos.y = pos.y + imp.y *(elapsed / 100000.0);
+			pos.z = pos.z + imp.z *(elapsed / 100000.0);
+
+			XMMATRIX R, T;
+			R = view;
+			R._41 = R._42 = R._43 = 0.0;
+			XMVECTOR det;
+			R = XMMatrixInverse(&det, R);
+			T = XMMatrixTranslation(pos.x, pos.y, pos.z);
+
+			return R * T;
+		}
+
+		
+	};
+
 	float Vec3Length(const XMFLOAT3 &v);
 	float Vec3Dot(XMFLOAT3 a, XMFLOAT3 b);
 	XMFLOAT3 Vec3Cross(XMFLOAT3 a, XMFLOAT3 b);

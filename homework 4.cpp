@@ -68,7 +68,20 @@ ID3D11InputLayout*                  g_pInstanceLayout = NULL;
 ID3D11Buffer*                       g_pInstancebuffer = NULL;
 
 
-Mine test;
+////amines
+//ID3D11Buffer*                       g_pVertexBuffer_3ds_mines = NULL;
+//int									model_vertex_anz_mines = 0;
+//ID3D11ShaderResourceView*           g_pTexture_mines = NULL;
+//#define MINECOUNT				50
+//XMFLOAT4 asteroid_pos[50];
+//
+////instance Rendering Mines
+//ID3D11VertexShader*                 g_pInstanceShader_mines = NULL;
+//ID3D11InputLayout*                  g_pInstanceLayout_mines = NULL;
+//ID3D11Buffer*                       g_pInstancebuffer_mines = NULL;
+//
+
+
 
 //navigation arrow
 ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
@@ -1344,7 +1357,9 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
-	//usefull rotations
+	//-----------------------------------------------------------------------------------
+	//NAV ARROW
+	//-----------------------------------------------------------------------------------
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
 	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
 	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
@@ -1391,16 +1406,12 @@ void Render_to_texture(long elapsed)
 	//g_pImmediateContext->Draw(6, 0);
 	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	////reload status restart
-
-
-	//nav arrow
-
-	
 	//end nav arrow
 
 
-
-	//bullets
+	//-----------------------------------------------------------------------------------
+	//BULLETS
+	//-----------------------------------------------------------------------------------
 	for (int ii = 0; ii < bullets.size(); ii++)
 	{
 		ConstantBuffer constantbuffer;
@@ -1412,7 +1423,7 @@ void Render_to_texture(long elapsed)
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 	}
 	//bullet end
@@ -1420,7 +1431,21 @@ void Render_to_texture(long elapsed)
 
 
 
-	
+	//-----------------------------------------------------------------------------------
+	//Mine
+	//-----------------------------------------------------------------------------------
+	static Mine a;
+	a.pos = XMFLOAT3(00, 0,100);
+	constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z));
+	constantbuffer.View = XMMatrixTranspose(view);
+	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
 
 	//reload
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
@@ -1438,7 +1463,9 @@ void Render_to_texture(long elapsed)
 
 	
 
-	//HUD UI font
+	//-----------------------------------------------------------------------------------
+	//HEADS UP DISPLAy
+	//-----------------------------------------------------------------------------------
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-0.5, .9, 0));
@@ -1490,13 +1517,17 @@ void Render_to_texture(long elapsed)
 	font.setPosition(XMFLOAT3(0.84, -.9, 0));
 	font << std::to_string(impulseUI.z);
 
-	//explosions:
+	///-----------------------------------------------------------------------------------
+	//Explosions
+	//-----------------------------------------------------------------------------------
 	view = cam.get_matrix(&g_View);
 	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
 	explosionhandler.render(&view, &g_Projection, elapsed);
 	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
+	
+	
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
@@ -1527,7 +1558,12 @@ void Render_to_texture(long elapsed)
 	UINT offsets[2] = { 0, 0 };
 	vertInstBuffer[1] = g_pInstancebuffer;
 	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
-	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
+	//g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
+	
+
+	
+
+
 
 	//-----------------------------------------------------------------------------------
 	//Collision detection
