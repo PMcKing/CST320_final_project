@@ -1251,9 +1251,9 @@ void Render_from_light_source(long elapsed)
 	g_pSwapChain->Present(0, 0);
 
 	}
-//############################################################################################################
 
 //############################################################################################################
+
 void Render_to_texture(long elapsed)
 	{
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
@@ -1419,8 +1419,8 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
 	//g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	//g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
+	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//usefull rotations
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
