@@ -68,19 +68,6 @@ ID3D11InputLayout*                  g_pInstanceLayout = NULL;
 ID3D11Buffer*                       g_pInstancebuffer = NULL;
 
 
-////amines
-//ID3D11Buffer*                       g_pVertexBuffer_3ds_mines = NULL;
-//int									model_vertex_anz_mines = 0;
-//ID3D11ShaderResourceView*           g_pTexture_mines = NULL;
-//#define MINECOUNT				50
-//XMFLOAT4 asteroid_pos[50];
-//
-////instance Rendering Mines
-//ID3D11VertexShader*                 g_pInstanceShader_mines = NULL;
-//ID3D11InputLayout*                  g_pInstanceLayout_mines = NULL;
-//ID3D11Buffer*                       g_pInstancebuffer_mines = NULL;
-//
-
 //mines
 #define MINECOUNT					50
 vector<Mine*>						StationaryMines;
@@ -96,6 +83,12 @@ int									model_vertex_anz_nav = 0;
 ID3D11Buffer*						g_pVertexBuffer_cmp;
 int									model_vertex_anz_sky;
 ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
+
+//Space Station
+ID3D11Buffer*						g_pVertexBuffer_ss;
+int									model_vertex_anz_ss;
+ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
+
 
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
@@ -135,7 +128,8 @@ bool								fireFoward = true; //used to switch movment dictions, true = shoot f
 bool								canFire = true;
 
 // globals for game balance
-XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow to point to object cords
+XMFLOAT3							objectivePos = XMFLOAT3(1, 1, 1);//used to nav arrow to point to object cords
+
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
@@ -659,6 +653,9 @@ HRESULT InitDevice()
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
+	//Load Space station
+	LoadCMP(L"station.3ds", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
+
 	//randomizing the mine position
 	Mine * tm; 
 	for (int ii = 0; ii < MINECOUNT; ii++){
@@ -672,10 +669,8 @@ HRESULT InitDevice()
 
 	}
 	
-
-
+	//randomizing the one ups
 	XMFLOAT3* ps;
-
 	for (int i = 0; i < 20; i++) {
 		float x, y, z;
 		z = rand() % 1000 - 100;
@@ -683,10 +678,25 @@ HRESULT InitDevice()
 		y = rand() % 1000 - 100;
 		ps = new XMFLOAT3(x, y, z);
 		oneUps.push_back(ps);
-
-
-
+		
 	}
+	//randominging the space station
+	float px, py, pz;
+
+	pz = rand() % 1000 - 100;
+	px = rand() % 1000 - 100;
+	py = rand() % 1000 - 100;
+	objectivePos.x = px;
+	objectivePos.x = pz;
+	objectivePos.x = py;
+
+	while (px*px + py*py + pz*pz <= 5000)
+		{
+		pz = rand() % 1000 - 500;
+		px = rand() % 1000 - 500;
+		py = rand() % 1000 - 500;
+		 }
+
 
 
 
@@ -1456,32 +1466,6 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 
-	//reload status
-	//if (curtime < fireDelay) {
-	//	S = XMMatrixScaling(curtime / 1000, .05, 1);
-	//}
-	//else {
-	//	S = XMMatrixScaling(1, .05, 1);
-
-	//}
-
-	//R = XMMatrixRotationX(XM_PI);
-	//R *= XMMatrixRotationY(XM_PI);
-
-
-	//T = XMMatrixTranslation(-cam.position.x, cam.position.y - .3, -cam.position.z +1);
-	//
-	//M = S * R * T* Rx1 * Ry1 ;
-	//constantbuffer.World = XMMatrixTranspose(M);
-	//g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	//g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-
-	//g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	//g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	//g_pImmediateContext->Draw(6, 0);
-	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	////reload status restart
-
 
 	//end nav arrow
 
@@ -1534,6 +1518,24 @@ void Render_to_texture(long elapsed)
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	}
+
+	//-----------------------------------------------------------------------------------
+	//Space Station
+	//-----------------------------------------------------------------------------------
+	S = XMMatrixScaling(1, 1, 1);
+	R = XMMatrixRotationX(XM_PIDIV2);
+	T = XMMatrixTranslation(0, 0, 100);
+	M = S*R*T;
+	constantbuffer.World = XMMatrixTranspose(M);
+	constantbuffer.View = XMMatrixTranspose(view);
+	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_ss, &stride, &offset);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
+
+
 	//-----------------------------------------------------------------------------------
 	//One up render
 	//-----------------------------------------------------------------------------------
@@ -1586,12 +1588,11 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 
-	
+		
 
-	
-	
-
-	//reload
+	//-----------------------------------------------------------------------------------
+	//HEADS UP DISPLAy
+	//-----------------------------------------------------------------------------------
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-.95f, -0.8f, 0.0f));
@@ -1605,11 +1606,6 @@ void Render_to_texture(long elapsed)
 	else { font.setColor(XMFLOAT3(1, 0, 0)); }
 	font << reload;
 
-	
-
-	//-----------------------------------------------------------------------------------
-	//HEADS UP DISPLAy
-	//-----------------------------------------------------------------------------------
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-0.5, .9, 0));
