@@ -681,7 +681,7 @@ HRESULT InitDevice()
 		return hr;
 
 	// Load the nav arrow
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.jpg", NULL, NULL, &g_pTexture_ss, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.png", NULL, NULL, &g_pTexture_ss, NULL);
 	if (FAILED(hr))
 		return hr;
 
