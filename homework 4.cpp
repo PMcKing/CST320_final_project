@@ -84,6 +84,8 @@ ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 ID3D11Buffer*                       g_pVertexBuffer_3ds_ship = NULL;
 int									model_vertex_anz_ship = 0;
 ID3D11ShaderResourceView*           g_pTexture_small_ship = NULL;
+ID3D11ShaderResourceView*           g_pTexture_small_ship_oneup = NULL;
+
 
 //Space Station
 ID3D11Buffer*						g_pVertexBuffer_ss;
@@ -147,7 +149,7 @@ XMFLOAT3							objectivePos;//used to nav arrow to point to object cords
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
-int									playerField = 1000;//used to determine how far the player can go. 
+int									playField = 1000;//used to determine how far the player can go. 
 
 
 //Font
@@ -156,6 +158,9 @@ string								reload = "";
 
 //Sound
 music_								sound;
+
+//GAME STATE 
+int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over.
 
 explosion_handler  explosionhandler;
 
@@ -753,9 +758,13 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"oneUp_tex.png", NULL, NULL, &g_pTexture_small_ship, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
 	if (FAILED(hr))
 		return hr;
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"oneUp_tex.png", NULL, NULL, &g_pTexture_small_ship_oneup, NULL); 
+		if (FAILED(hr))
+			return hr;
+
 
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
@@ -899,6 +908,9 @@ HRESULT InitDevice()
 	hr = explosionhandler.init_types(L"exp2.dds", 9, 9,1500000);
 	if (FAILED(hr))
 		return hr;
+
+	gamestate = 0;
+
     return S_OK;
 }
 
@@ -953,7 +965,7 @@ void OnChar(HWND hwnd, UINT ch, int cRepeat)
 ///////////////////////////////////
 void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 	{
-		if (canFire) {
+		if (canFire && gamestate == 2) {
 			cam.w = 1;
 			canFire = false;
 			fireTimer.start();//wating .5 secs before you cna fire again
@@ -999,45 +1011,47 @@ void OnRBU(HWND hwnd, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnMM(HWND hwnd, int x, int y, UINT keyFlags)
 	{
-	static int holdx = x, holdy = y;
-	static int reset_cursor = 0;
+		if (gamestate == 2) {
+			static int holdx = x, holdy = y;
+			static int reset_cursor = 0;
 
 
 
-	RECT rc; 			//rectange structure
-	GetWindowRect(hwnd, &rc); 	//retrieves the window size
-	int border = 20;
-	rc.bottom -= border;
-	rc.right -= border;
-	rc.left += border;
-	rc.top += border;
-	ClipCursor(&rc);
+			RECT rc; 			//rectange structure
+			GetWindowRect(hwnd, &rc); 	//retrieves the window size
+			int border = 20;
+			rc.bottom -= border;
+			rc.right -= border;
+			rc.left += border;
+			rc.top += border;
+			ClipCursor(&rc);
 
-	if ((keyFlags & MK_LBUTTON) == MK_LBUTTON)
-		{
+			if ((keyFlags & MK_LBUTTON) == MK_LBUTTON)
+			{
+			}
+
+			if ((keyFlags & MK_RBUTTON) == MK_RBUTTON)
+			{
+			}
+			if (reset_cursor == 1)
+			{
+				reset_cursor = 0;
+				holdx = x;
+				holdy = y;
+				return;
+			}
+			int diffx = holdx - x;
+			int diffy = holdy - y;
+			float angle_y = (float)diffx / 300.0;
+			float angle_x = (float)diffy / 300.0;
+			cam.rotation.y += angle_y;
+			cam.rotation.x += angle_x;
+
+			int midx = (rc.left + rc.right) / 2;
+			int midy = (rc.top + rc.bottom) / 2;
+			SetCursorPos(midx, midy);
+			reset_cursor = 1;
 		}
-
-	if ((keyFlags & MK_RBUTTON) == MK_RBUTTON)
-		{
-		}
-	if (reset_cursor == 1)
-		{		
-		reset_cursor = 0;
-		holdx = x;
-		holdy = y;
-		return;
-		}
-	int diffx = holdx - x;
-	int diffy = holdy - y;
-	float angle_y = (float)diffx / 300.0;
-	float angle_x = (float)diffy / 300.0;
-	cam.rotation.y += angle_y;
-	cam.rotation.x += angle_x;
-
-	int midx = (rc.left + rc.right) / 2;
-	int midy = (rc.top + rc.bottom) / 2;
-	SetCursorPos(midx, midy);
-	reset_cursor = 1;
 	}
 
 unsigned int Timer = -1;
@@ -1342,10 +1356,10 @@ void Render_from_light_source(long elapsed)
 //############################################################################################################
 
 void Render_to_texture(long elapsed)
-	{
+{
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
-	
+
 	//Rotation Assist
 	static float rotation = 0;
 	rotation += 0.0000003*elapsed;
@@ -1432,10 +1446,12 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
-	
+
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
 	//-----------------------------------------------------------------------------------
+
+	if (gamestate == 2 ){
 	XMMATRIX R0, R1, M1, M2, T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
 	XMVECTOR cur = XMVector4Normalize(XMVectorSet(-cam.position.x, -cam.position.y + 2.0f, -cam.position.z - 10.0f, 0.0f));//current position
 	XMVECTOR goal = XMVector4Normalize(XMVectorSet(1.0, 1.0, 1.0, 1.0f)); //look at i.e. objective location
@@ -1469,6 +1485,7 @@ void Render_to_texture(long elapsed)
 
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	}
 
 	//-----------------------------------------------------------------------------------
 	//Bullets
@@ -1556,14 +1573,32 @@ void Render_to_texture(long elapsed)
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship_oneup);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_ship, 0);
 
 	}
+	//-----------------------------------------------------------------------------------
+	//menu ship rindering
+	//---------------
+	if (gamestate == 0) {
+		S = XMMatrixScaling(.055, .055, .055);
+		R = XMMatrixRotationX(-XM_PIDIV2);
+		XMMATRIX R1 = XMMatrixRotationY(-0.785398);
+		XMMATRIX R2 = XMMatrixRotationZ(0.174533);
+		Ry = XMMatrixRotationY(rotation);
+		T = XMMatrixTranslation(12 + sin(rotation), sin(rotation), 40);
 
-
+		constantbuffer.World = XMMatrixTranspose(S *R* R1* R2* T);
+		constantbuffer.View = XMMatrixTranspose(view);
+		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship);
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_ship, 0);
+	}
 	//-----------------------------------------------------------------------------------
 	//tracker Mine rendering
 	//-----------------------------------------------------------------------------------
@@ -1580,9 +1615,7 @@ void Render_to_texture(long elapsed)
 	a.animate(v, elapsed);
 	//TT = a.getmatrix(elapsed, 
 	TMR = a.getmatrix(elapsed, view);
-
-
-
+	
 	constantbuffer.World = XMMatrixTranspose(TMR);
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
@@ -1591,112 +1624,7 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
-		
 
-	//-----------------------------------------------------------------------------------
-	//HEADS UP DISPLAY
-	//-----------------------------------------------------------------------------------
-
-	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(-.95f, -0.8f, 0.0f));
-	font << "FIRE STATUS: ";
-
-	font.setColor(XMFLOAT3(1, .61, 1.58));
-	font.setPosition(XMFLOAT3(-.6f, -0.8f, 0.0f));
-	if (canFire) { font.setColor(XMFLOAT3(0, 1, .6)); }
-	else { font.setColor(XMFLOAT3(1, 0, 0)); }
-	font << reload;
-
-
-	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(-0.5, .9, 0));
-	font << "Rail Gun Direction: ";
-
-	//font
-	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
-
-	font.setPosition(XMFLOAT3(-.05, .9, 0));
-	if (fireFoward) {
-		font.setColor(XMFLOAT3(0, 1, .6));
-		font << "FORWARD";
-	}
-	else {
-		font.setColor(XMFLOAT3(1, 0, 0));
-		font << "BACKWARD";
-		}
-
-	XMFLOAT3 impulseUI = cam.getImpulse();
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(0.66, -.7, 0));
-	font << "Impulse X: ";
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(0, 1, .6));
-	font.setPosition(XMFLOAT3(0.84, -.7, 0));
-	font << std::to_string(impulseUI.x);
-
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(0.66, -.8, 0));
-	font << "Impulse Z: ";
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(0, 1, .6));
-	font.setPosition(XMFLOAT3(0.84, -.8, 0));
-	font << std::to_string(impulseUI.y);
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(0.66, -.9, 0));
-	font << "Impulse z: ";
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(0, 1, .6));
-	font.setPosition(XMFLOAT3(0.84, -.9, 0));
-	font << std::to_string(impulseUI.z);
-
-	//player lives
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-	font.setPosition(XMFLOAT3(-0.99, .99, 0));
-	font << "Player lives: ";
-
-	font.setScaling(XMFLOAT3(1, 1, 1));
-	font.setColor(XMFLOAT3(0, 1, .6));
-	font.setPosition(XMFLOAT3(-0.8, .99, 0));
-	font << std::to_string(playerLives);
-
-	//-----------------------------------------------------------------------------------
-	//Play Area Warning
-	//-----------------------------------------------------------------------------------
-	if (abs(cam.position.x) > playerField - 200 || abs(cam.position.y) > playerField - 200 || abs(cam.position.z) > playerField - 200) {//checking if a player has gone too far from boundrys
-		font.setScaling(XMFLOAT3(1.3, 1.3, 0.0));
-		font.setColor(XMFLOAT3(1, 0, 0));
-		font.setPosition(XMFLOAT3(-.5, -.5, 0.0));
-		font << "WARNING! Approaching Enemy Controled space";
-		font.setScaling(XMFLOAT3(1, 1, 1));
-		font.setPosition(XMFLOAT3(-.2, -.6, 0.0));
-		font << "DNC line in: ";
-		font.setPosition(XMFLOAT3(0, -.6, 0.0));
-
-		font << std::to_string(abs(cam.position.x / 100));
-		font.setPosition(XMFLOAT3(0, -.65, 0.0));
-
-		font << std::to_string(abs(cam.position.y / 100));
-		font.setPosition(XMFLOAT3(0, -.7, 0.0));
-
-		font << std::to_string(abs(cam.position.z / 100));
-		if (abs(cam.position.x) > playerField || abs(cam.position.y) > playerField || abs(cam.position.z) > playerField)
-			PostQuitMessage(1);
-
-	}
-
-	
 	///-----------------------------------------------------------------------------------
 	//Explosions
 	//-----------------------------------------------------------------------------------
@@ -1735,6 +1663,136 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
 	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
 
+		
+
+	//-----------------------------------------------------------------------------------
+	//UI FOR START UP 
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 0) {
+		font.setScaling(XMFLOAT3(2.5,2.5,2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
+		font << "CELESTERIAL DRIFT";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
+		font << "Press 'I' for instructions";
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font << "Press 'Space' to start";
+		
+	}
+
+
+	//-----------------------------------------------------------------------------------
+	//HEADS UP DISPLAY
+	//-----------------------------------------------------------------------------------
+
+	if (gamestate == 2) {
+
+		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.95f, -0.8f, 0.0f));
+		font << "FIRE STATUS: ";
+
+		font.setColor(XMFLOAT3(1, .61, 1.58));
+		font.setPosition(XMFLOAT3(-.6f, -0.8f, 0.0f));
+		if (canFire) { font.setColor(XMFLOAT3(0, 1, .6)); }
+		else { font.setColor(XMFLOAT3(1, 0, 0)); }
+		font << reload;
+
+
+		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.5, .9, 0));
+		font << "Rail Gun Direction: ";
+
+		//font
+		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
+
+		font.setPosition(XMFLOAT3(-.05, .9, 0));
+		if (fireFoward) {
+			font.setColor(XMFLOAT3(0, 1, .6));
+			font << "FORWARD";
+		}
+		else {
+			font.setColor(XMFLOAT3(1, 0, 0));
+			font << "BACKWARD";
+		}
+
+		XMFLOAT3 impulseUI = cam.getImpulse();
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(0.66, -.7, 0));
+		font << "Impulse X: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(0.84, -.7, 0));
+		font << std::to_string(impulseUI.x);
+
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(0.66, -.8, 0));
+		font << "Impulse Z: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(0.84, -.8, 0));
+		font << std::to_string(impulseUI.y);
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(0.66, -.9, 0));
+		font << "Impulse z: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(0.84, -.9, 0));
+		font << std::to_string(impulseUI.z);
+
+		//player lives
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.99, .99, 0));
+		font << "Player lives: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(-0.8, .99, 0));
+		font << std::to_string(playerLives);
+
+		//-----------------------------------------------------------------------------------
+		//Play Area Warning
+		//-----------------------------------------------------------------------------------
+		if (abs(cam.position.x) > playField - 200 || abs(cam.position.y) > playField - 200 || abs(cam.position.z) > playField - 200) {//checking if a player has gone too far from boundrys
+			font.setScaling(XMFLOAT3(1.3, 1.3, 0.0));
+			font.setColor(XMFLOAT3(1, 0, 0));
+			font.setPosition(XMFLOAT3(-.5, -.5, 0.0));
+			font << "WARNING! Approaching Enemy Controled space";
+			font.setScaling(XMFLOAT3(1, 1, 1));
+			font.setPosition(XMFLOAT3(-.2, -.6, 0.0));
+			font << "DNC line in: ";
+			font.setPosition(XMFLOAT3(0, -.6, 0.0));
+
+			font << std::to_string(abs(cam.position.x / 100));
+			font.setPosition(XMFLOAT3(0, -.65, 0.0));
+
+			font << std::to_string(abs(cam.position.y / 100));
+			font.setPosition(XMFLOAT3(0, -.7, 0.0));
+
+			font << std::to_string(abs(cam.position.z / 100));
+			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
+				PostQuitMessage(1);
+
+		}
+	}
+	
+	
 	//-----------------------------------------------------------------------------------
 	//Collision detection
 	//-----------------------------------------------------------------------------------
