@@ -1421,7 +1421,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
 	//-----------------------------------------------------------------------------------
-	XMMATRIX R0, R1, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
+	XMMATRIX R0, R1, M1, M2,T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
 	//XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
 	//XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
 
@@ -1441,11 +1441,12 @@ void Render_to_texture(long elapsed)
 	CR._43 = 0;
 	XMVECTOR det;
 	XMMATRIX ICR = XMMatrixInverse(&det, CR);
-	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y -1.5, -cam.position.z + 5);
+	T1 = XMMatrixTranslation(0.0f, -1.0f, 5.0f);
+	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y , -cam.position.z );
 	
 	R1 = Rx1 * Ry1;
 	
-	M2 = R0* T3 * ICR;
+	M2 = R0* T1 * ICR * T3;
 	constantbuffer.World = XMMatrixTranspose(M2);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
