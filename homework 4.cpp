@@ -75,6 +75,7 @@ ID3D11Buffer*						g_pVertexBuffer_cmp;
 int									model_vertex_anz_sky;
 ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 
+
 //Space Station
 ID3D11Buffer*						g_pVertexBuffer_ss;
 int									model_vertex_anz_ss;
@@ -111,6 +112,16 @@ vector<billboard*>					smokeray;
 XMFLOAT3							rocket_position;
 
 
+//Mines
+#define MINECOUNT					50
+vector<Mine*>						StationaryMines;
+//One Ups
+vector<XMFLOAT3*>					oneUps;
+//rail gun
+vector<bullet*>						bullets;
+XMFLOAT3							bullet_position;
+
+
 //movment variables
 
 static StopWatchMicro_				fireTimer;
@@ -121,10 +132,9 @@ bool								canFire = true;
 XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow to point to object cords
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
+int									playerLives;
+int									playerField = 1000;//used to determine how far the player can go. 
 
-															//rail gun
-vector<bullet*>						bullets;
-XMFLOAT3							bullet_position;
 
 //Font
 Font								font;
@@ -155,6 +165,14 @@ float frand()
 	int r = rand();
 	float res = (float)r / (float)RAND_MAX;
 	return res;
+}
+void playerDeath() {
+	//if player collids with mine, or astroid then -1 life. functions checks if this fall below zero, if so ends game. TODO change to change game state.
+	playerLives--;
+	if (playerLives < 1) {
+		PostQuitMessage(1);
+	}
+	return;
 }
 
 //--------------------------------------------------------------------------------------
@@ -535,6 +553,31 @@ HRESULT InitDevice()
 		pz = rand() % 1000 - 500;
 		px = rand() % 1000 - 500;
 		py = rand() % 1000 - 500;
+		//TODO add to objectivePos
+	}
+	
+	//randomizing the mine position
+	Mine * tm;
+	for (int ii = 0; ii < MINECOUNT; ii++) {
+		float x, y, z, w;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
+		tm = new Mine(XMFLOAT3(x, y, z));
+
+		StationaryMines.push_back(tm);
+
+	}
+	//randomizing the one ups
+	XMFLOAT3* ps;
+	for (int i = 0; i < 20; i++) {
+		float x, y, z;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
+		ps = new XMFLOAT3(x, y, z);
+		oneUps.push_back(ps);
+
 	}
 
 	D3D11_BUFFER_DESC bd;
@@ -680,7 +723,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	// Load the nav arrow
+	// Textureing for ds
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.png", NULL, NULL, &g_pTexture_ss, NULL);
 	if (FAILED(hr))
 		return hr;
@@ -858,20 +901,7 @@ void CleanupDevice()
 bullet *bull = NULL;
 void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-	/*bull = new bullet;
-	bull->pos.x = -cam.position.x;
-	bull->pos.y = -cam.position.y-1.2;
-	bull->pos.z = -cam.position.z;
-	XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-
-	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
-	XMVECTOR f = XMLoadFloat3(&forward);
-	f = XMVector3TransformCoord(f, CR);
-	XMStoreFloat3(&forward, f);
-
-	bull->imp = forward;
-
-	explosionhandler.new_explosion(XMFLOAT3(0, 0, 10), XMFLOAT3(0, 0, 0), 0, 8.0);*/
+	
 
 	}
 
@@ -880,7 +910,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-	//explosionhandler.new_explosion(XMFLOAT3(0, 0, 11), XMFLOAT3(0, 0, 5), 1, 4.0);
+	
 	}
 ///////////////////////////////////
 //		This Function is called every time a character key is pressed
@@ -899,28 +929,34 @@ void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 			canFire = false;
 			fireTimer.start();//wating .5 secs before you cna fire again
 			reload = " ";//resetting fire UI
-						 //bullets
+
 			bull = new bullet;
 			bull->pos.x = -cam.position.x;
 			bull->pos.y = -cam.position.y - 1.2;
 			bull->pos.z = -cam.position.z;
-			XMMATRIX CR = XMMatrixRotationY(-cam.rotation.y);
-			XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-			//CR = XMMatrixMultiply(CR, CR1);
+			XMMATRIX CR = cam.get_matrix(&g_View);
+			CR._41 = 0;
+			CR._42 = 0;
+			CR._43 = 0;
+			XMVECTOR det;
+			XMMATRIX ICR = XMMatrixInverse(&det, CR);
 			XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
 			XMVECTOR f = XMLoadFloat3(&forward);
-			XMVECTOR f1 = XMLoadFloat3(&forward);
-			f = XMVector3Normalize(XMVector3TransformCoord(f, CR));
-			f1 = XMVector3Normalize(XMVector3TransformCoord(f1, CR1));
-			XMVECTOR f3 = XMVectorAdd(f, f1);
-			f3 = f3 / 2;
-			XMStoreFloat3(&forward, f3);
+
+			if (fireFoward) {
+				f = XMVector3TransformCoord(f, ICR);
+			}
+			else {
+				f = XMVector3TransformCoord(f, CR);
+			}
+
+			XMStoreFloat3(&forward, f);
 			bull->imp = forward;
 			bullets.push_back(bull);
-			sound.play_fx("HyperSpace.wav");
+			sound.play_fx("boost.mp3");
 		}
 
-	}
+}
 ///////////////////////////////////
 //		This Function is called every time the Right Mouse Button is up
 ///////////////////////////////////
@@ -1179,6 +1215,7 @@ sprites mario;
 //--------------------------------------------------------------------------------------
 // Render a frame
 //--------------------------------------------------------------------------------------
+TrackerMine a; // FOR TESTING ONLY
 
 //############################################################################################################
 void Render_from_light_source(long elapsed)
@@ -1280,7 +1317,9 @@ void Render_to_texture(long elapsed)
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
 
-	//for delaying fire
+	//-----------------------------------------------------------------------------------
+	//FIRE DELAY
+	//-----------------------------------------------------------------------------------
 	long double curtime = fireTimer.elapse_milli();//if code isn't working, check StopWatchMicro .elapse_milli...
 	if (elapsed % 10 == 0 && reload.size() < 10) {
 		reload += "|";
@@ -1289,19 +1328,17 @@ void Render_to_texture(long elapsed)
 		cam.w = 0;
 		canFire = true;
 	}
-	//wating fireDalay secs before you cna fire again
-
-
+	//-----------------------------------------------------------------------------------
+	//RENDERING MODELS
+	//-----------------------------------------------------------------------------------
 	RenderTarget = RenderToTexture.GetRenderTarget();
 	g_pImmediateContext->ClearRenderTargetView(RenderTarget, ClearColor);
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0, 0);
 	g_pImmediateContext->OMSetRenderTargets(1, &RenderTarget, g_pDepthStencilView);
-
 	XMMATRIX view = cam.get_matrix(&g_View);
 
 	UINT stride = sizeof(SimpleVertex);
 	UINT offset = 0;
-
 	// Update constant buffer
 	ConstantBuffer constantbuffer;
 
@@ -1317,9 +1354,6 @@ void Render_to_texture(long elapsed)
 
 	//render model:
 	XMMATRIX S = XMMatrixScaling(1, 1, 1);
-
-	S = XMMatrixScaling(1, 1, 1);
-	//S = XMMatrixScaling(10, 10, 10);
 	XMMATRIX T, R, M;
 	T = XMMatrixTranslation(0.1, 0.1, 0.1);
 	R = XMMatrixRotationX(-XM_PIDIV2);
@@ -1329,6 +1363,7 @@ void Render_to_texture(long elapsed)
 	M = S*R*Ry*T;
 	constantbuffer.World = XMMatrixTranspose(M);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+
 	// Render terrain
 	ID3D11ShaderResourceView*          DepthTexture = DepthLight.GetShaderResourceView();
 	g_pImmediateContext->GenerateMips(DepthTexture);
@@ -1364,54 +1399,93 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
-	//-----------------------------------------------------------------------------------
-	//Instance Rendering
-	//-----------------------------------------------------------------------------------
-	S = XMMatrixScaling(50, 50, 50);
-	R = XMMatrixRotationX(XM_PIDIV2);
-	T = XMMatrixTranslation(0, -5, 0);
-	M = S*R*T;
-	constantbuffer.World = XMMatrixTranspose(M);
-
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	//g_pImmediateContext->Draw(6, 0);
-
-	static float rotation = 0;
-	rotation += 0.0000003*elapsed;
-	constantbuffer.info.z = rotation;
-	constantbuffer.View = XMMatrixTranspose(view);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
-	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	ID3D11Buffer* vertInstBuffer[2] = { g_pVertexBuffer_3ds_asteroids, NULL };
-	UINT strides[2] = { stride, sizeof(XMFLOAT4) * 2 };
-	UINT offsets[2] = { 0, 0 };
-	vertInstBuffer[1] = g_pInstancebuffer;
-	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
-	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
-
-	//-----------------------------------------------------------------------------------
-	//Collision detection
-	//-----------------------------------------------------------------------------------
 	
-	for (int i = 0; i < ASTEROIDCOUNT * 2; i+=2) {
-		float dx = -cam.position.x - asteroid_pos[i].x;
-		float dy = -cam.position.y - asteroid_pos[i].y;
-		float dz = -cam.position.z - asteroid_pos[i].z;
-		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
-		if (c < 20) {
-			PostQuitMessage(0);
+	//-----------------------------------------------------------------------------------
+	//NAV ARROW
+	//-----------------------------------------------------------------------------------
+	XMMATRIX R0, R1, M1, M2, T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
+	XMVECTOR cur = XMVector4Normalize(XMVectorSet(-cam.position.x, -cam.position.y + 2.0f, -cam.position.z - 10.0f, 0.0f));//current position
+	XMVECTOR goal = XMVector4Normalize(XMVectorSet(1.0, 1.0, 1.0, 1.0f)); //look at i.e. objective location
+
+	//XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y, cam.position.z, 0.0f);//current position
+	//XMVECTOR goal = XMVectorSet(1.0f,1.0f,1.0f, 1.0f); //look at i.e. objective location
+	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
+	R0 = XMMatrixRotationX(-XM_PI);
+	T2 = XMMatrixTranslation(0.0f, -2, 10);
+	Rx1 = XMMatrixRotationX(-cam.rotation.y);
+	Ry1 = XMMatrixRotationY(-cam.rotation.x);
+	Rx3 = XMMatrixRotationX(cam.rotation.x);
+	Ry3 = XMMatrixRotationY(cam.rotation.y);
+
+	XMMATRIX CR = cam.get_matrix(&g_View);
+	CR._41 = 0;
+	CR._42 = 0;
+	CR._43 = 0;
+	XMVECTOR det;
+	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	T1 = XMMatrixTranslation(0.0f, -1.0f, 5.0f);
+	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
+
+	R1 = Rx1 * Ry1;
+
+	M2 = T * R0 * T2 *ICR * T3;
+	constantbuffer.World = XMMatrixTranspose(M2);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
+	//-----------------------------------------------------------------------------------
+	//Bullets
+	//-----------------------------------------------------------------------------------
+	for (int ii = 0; ii < bullets.size(); ii++)
+	{
+		if (bull != NULL)
+		{
+			ConstantBuffer constantbuffer;
+			XMMATRIX worldmatrix = bull->getmatrix(elapsed, view);
+
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+			constantbuffer.World = XMMatrixTranspose(worldmatrix);
+			constantbuffer.View = XMMatrixTranspose(view);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+			g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+			g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+			g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
 		}
 	}
 
+	//-----------------------------------------------------------------------------------
+	//Mine rendering
+	//-----------------------------------------------------------------------------------
+	static float ms = 1.0f;
+	ms += .01;
+	for (int ii = 0; ii < StationaryMines.size(); ii++)
+	{
+		//display 
+		ConstantBuffer constantbuffer;
+		XMMATRIX T = XMMatrixTranslation(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z);
+		XMMATRIX S = XMMatrixScaling(20, 20, 20);
+		constantbuffer.World = XMMatrixTranspose(S*T);
+		constantbuffer.View = XMMatrixTranspose(view);
+		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
+	}
+
+	//-----------------------------------------------------------------------------------
 	//Space Station
-	
-	
+	//-----------------------------------------------------------------------------------
+
 	S = XMMatrixScaling(1, 1, 1);
 	R = XMMatrixRotationX(XM_PIDIV2);
 	T = XMMatrixTranslation(px, py, pz);
@@ -1432,106 +1506,72 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
-	//usefull rotations
-	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
-	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
-	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
-	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
-	R0 = XMMatrixRotationX(-XM_PI);
-	T2 = XMMatrixTranslation(0.0f, -2, 10);
-	Rx1 = XMMatrixRotationX(-cam.rotation.x);
-	Ry1 = XMMatrixRotationY(-cam.rotation.y);
-	Rx3 = XMMatrixRotationX(cam.rotation.x);
-	Ry3 = XMMatrixRotationY(cam.rotation.y);
-	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
-	M2 = R0* T* Rx3*Ry3* T2*  Rx1 * Ry1 * T3;
-
-	//reload status
-	//if (curtime < fireDelay) {
-	//	S = XMMatrixScaling(curtime / 1000, .05, 1);
-	//}
-	//else {
-	//	S = XMMatrixScaling(1, .05, 1);
-
-	//}
-
-	//R = XMMatrixRotationX(XM_PI);
-	//R *= XMMatrixRotationY(XM_PI);
-
-
-	//T = XMMatrixTranslation(-cam.position.x, cam.position.y - .3, -cam.position.z +1);
-	//
-	//M = S * R * T* Rx1 * Ry1 ;
-	//constantbuffer.World = XMMatrixTranspose(M);
-	//g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	//g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-
-	//g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
-	//g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	//g_pImmediateContext->Draw(6, 0);
-	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	////reload status restart
-
-
-	//nav arrow
-
-
-
-	//bullets
-	for (int ii = 0; ii < bullets.size(); ii++)
+	//-----------------------------------------------------------------------------------
+	//One up render
+	//-----------------------------------------------------------------------------------
+	for (int ii = 0; ii < oneUps.size(); ii++)
 	{
+		//display
 		ConstantBuffer constantbuffer;
-		XMMATRIX worldmatrix = bullets[ii]->getmatrix(elapsed, view);
-
-
-		XMMATRIX T = XMMatrixTranspose(worldmatrix);
-		XMMATRIX R = XMMatrixRotationY(cam.rotation.y);
-
-
-		constantbuffer.World = Rx3*Ry3 * T;
+		XMMATRIX S = XMMatrixScaling(50, 50, 50);
+		XMMATRIX T = XMMatrixTranslation(oneUps[ii]->x, oneUps[ii]->y, oneUps[ii]->z);
+		constantbuffer.World = XMMatrixTranspose(S* T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-
-
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+
 	}
-	//bullet end
+
+
+	//-----------------------------------------------------------------------------------
+	//tracker Mine rendering
+	//-----------------------------------------------------------------------------------
+	
+	XMMATRIX TMT, TMR, TMM;
+	a.pos = XMFLOAT3(0, 0, 100);
+	T = XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z);
+	S = XMMatrixScaling(10, 10, 10);
+
+	XMFLOAT3  v = cam.position - a.pos;
+	XMVECTOR V = XMVectorSet(v.x, v.y, v.z, 0.0f);
+
+	V = XMVector4Normalize(V);
+	a.animate(v, elapsed);
+	//TT = a.getmatrix(elapsed, 
+	TMR = a.getmatrix(elapsed, view);
 
 
 
-
-	constantbuffer.World = XMMatrixTranspose(M2);
-
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	constantbuffer.World = XMMatrixTranspose(TMR);
+	constantbuffer.View = XMMatrixTranspose(view);
+	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
-
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	//end nav arrow
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+		
 
+	//-----------------------------------------------------------------------------------
+	//HEADS UP DISPLAY
+	//-----------------------------------------------------------------------------------
 
-	//reload
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-.95f, -0.8f, 0.0f));
 	font << "FIRE STATUS: ";
 
 	font.setColor(XMFLOAT3(1, .61, 1.58));
-
 	font.setPosition(XMFLOAT3(-.6f, -0.8f, 0.0f));
-
 	if (canFire) { font.setColor(XMFLOAT3(0, 1, .6)); }
 	else { font.setColor(XMFLOAT3(1, 0, 0)); }
 	font << reload;
 
-	
 
-	//HUD UI font
 	font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 	font.setPosition(XMFLOAT3(-0.5, .9, 0));
@@ -1583,12 +1623,147 @@ void Render_to_texture(long elapsed)
 	font.setPosition(XMFLOAT3(0.84, -.9, 0));
 	font << std::to_string(impulseUI.z);
 
-	//explosions:
+	//player lives
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(-0.99, .99, 0));
+	font << "Player lives: ";
+
+	font.setScaling(XMFLOAT3(1, 1, 1));
+	font.setColor(XMFLOAT3(0, 1, .6));
+	font.setPosition(XMFLOAT3(-0.8, .99, 0));
+	font << std::to_string(playerLives);
+
+	//-----------------------------------------------------------------------------------
+	//Play Area Warning
+	//-----------------------------------------------------------------------------------
+	if (abs(cam.position.x) > playerField - 200 || abs(cam.position.y) > playerField - 200 || abs(cam.position.z) > playerField - 200) {//checking if a player has gone too far from boundrys
+		font.setScaling(XMFLOAT3(1.3, 1.3, 0.0));
+		font.setColor(XMFLOAT3(1, 0, 0));
+		font.setPosition(XMFLOAT3(-.5, -.5, 0.0));
+		font << "WARNING! Approaching Enemy Controled space";
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setPosition(XMFLOAT3(-.2, -.6, 0.0));
+		font << "DNC line in: ";
+		font.setPosition(XMFLOAT3(0, -.6, 0.0));
+
+		font << std::to_string(abs(cam.position.x / 100));
+		font.setPosition(XMFLOAT3(0, -.65, 0.0));
+
+		font << std::to_string(abs(cam.position.y / 100));
+		font.setPosition(XMFLOAT3(0, -.7, 0.0));
+
+		font << std::to_string(abs(cam.position.z / 100));
+		if (abs(cam.position.x) > playerField || abs(cam.position.y) > playerField || abs(cam.position.z) > playerField)
+			PostQuitMessage(1);
+
+	}
+
+	
+	///-----------------------------------------------------------------------------------
+	//Explosions
+	//-----------------------------------------------------------------------------------
 	view = cam.get_matrix(&g_View);
 	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
 	explosionhandler.render(&view, &g_Projection, elapsed);
 	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
+	//-----------------------------------------------------------------------------------
+	//Instance Rendering
+	//-----------------------------------------------------------------------------------
+	S = XMMatrixScaling(50, 50, 50);
+	R = XMMatrixRotationX(XM_PIDIV2);
+	T = XMMatrixTranslation(0, -5, 0);
+	M = S*R*T;
+	constantbuffer.World = XMMatrixTranspose(M);
+
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
+	//g_pImmediateContext->Draw(6, 0);
+
+	static float rotation = 0;
+	rotation += 0.0000003*elapsed;
+	constantbuffer.info.z = rotation;
+	constantbuffer.View = XMMatrixTranspose(view);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->VSSetShader(g_pInstanceShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader, NULL, 0);
+	g_pImmediateContext->IASetInputLayout(g_pInstanceLayout);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	ID3D11Buffer* vertInstBuffer[2] = { g_pVertexBuffer_3ds_asteroids, NULL };
+	UINT strides[2] = { stride, sizeof(XMFLOAT4) * 2 };
+	UINT offsets[2] = { 0, 0 };
+	vertInstBuffer[1] = g_pInstancebuffer;
+	g_pImmediateContext->IASetVertexBuffers(0, 2, vertInstBuffer, strides, offsets);
+	g_pImmediateContext->DrawInstanced(model_vertex_anz_asteroids, 1000, 0, 0);
+
+	//-----------------------------------------------------------------------------------
+	//Collision detection
+	//-----------------------------------------------------------------------------------
+	
+	//mines 
+	for (int ii = 0; ii < StationaryMines.size(); ii++) {
+		float dx = -cam.position.x - StationaryMines[ii]->pos.x;
+		float dy = -cam.position.y - StationaryMines[ii]->pos.y;
+		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+
+		if (c < 50) {
+			//change color
+			S = XMMatrixScaling(ms, ms, ms); //NEED TO MAKE A GLOBAL VAR
+			if (c < 20)
+			{
+				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+				StationaryMines.erase(StationaryMines.begin() + ii);
+				//playerDeath();
+			}
+		}
+
+	}
+	
+	//BULLLETS CLEAN UP
+	//Temp solution check for distance later
+	if (bullets.size() > 15) {
+
+		bullets.erase(bullets.begin() + 10);
+
+	}
+
+
+	//ONE UPS
+	for (int ii = 0; ii < oneUps.size(); ii++) {
+		float dx = -cam.position.x - oneUps[ii]->x;
+		float dy = -cam.position.y - oneUps[ii]->y;
+		float dz = -cam.position.z - oneUps[ii]->z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		if (c < 50) {
+			oneUps.erase(oneUps.begin() + ii);
+			playerLives++;
+			}
+		}
+
+	//ASTROIDS
+	for (int i = 0; i < ASTEROIDCOUNT * 2; i += 2) {
+		float dx = -cam.position.x - asteroid_pos[i].x;
+		float dy = -cam.position.y - asteroid_pos[i].y;
+		float dz = -cam.position.z - asteroid_pos[i].z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		if (c < 20) {
+			playerDeath();
+		}
+	}
+	//OUT OF BOUNDS
+	float gx = -cam.position.x - objectivePos.x;
+	float gy = -cam.position.y - objectivePos.y;
+	float gz = -cam.position.z - objectivePos.z;
+
+	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
+	if (c < 20) {
+		playerDeath(); // need to remove astroid from the playing fiel
+	}
 
 	//
 	// Present our back buffer to our front buffer
