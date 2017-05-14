@@ -159,6 +159,10 @@ string								reload = "";
 //Sound
 music_								sound;
 
+//lazy UI
+bool displayInstruct = false;
+bool rotateback = true;
+
 //GAME STATE 
 int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over.
 
@@ -909,7 +913,9 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
+	//global vars for gameplay
 	gamestate = 0;
+	playerLives = 1;
 
     return S_OK;
 }
@@ -1126,12 +1132,22 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 68: cam.d = 0;//d
 				break;
 			case 32: //space
+				if (gamestate == 0 || gamestate == 1) {
+					gamestate = 2;
+				}
+
 				cam.fireFoward_flip();
 				fireFoward = !fireFoward;
 				break;
 			case 87: cam.w = 0; //w
 				break;
 			case 83:cam.s = 0; //s
+				break;
+			case 73:
+				if (gamestate == 0) {
+					gamestate = 1;
+					}
+				break;
 			default:break;
 
 		}
@@ -1447,6 +1463,27 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 
+
+	//-----------------------------------------------------------------------------------
+	//ANIMATION FOR INSTRUCTION SCREEn
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 1) {
+		if(cam.rotation.y < 2)
+		cam.rotation.y += rotation/5;
+		else
+			displayInstruct = true;
+		
+	}
+
+	if (gamestate == 2 && rotateback) {
+		if (cam.rotation.y > 0)
+			cam.rotation.y -= rotation / 5;
+		else
+			rotateback = false;
+	
+	}
+
+
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
 	//-----------------------------------------------------------------------------------
@@ -1685,6 +1722,66 @@ void Render_to_texture(long elapsed)
 		
 	}
 
+	//-----------------------------------------------------------------------------------
+	//UI FOR START UP 
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 0) {
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
+		font << "CELESTERIAL DRIFT";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
+		font << "Press 'I' for instructions";
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font << "Press 'Space' to start";
+
+	}
+	//-----------------------------------------------------------------------------------
+	//UI FOR INSTRUCTIONS
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 1 & displayInstruct) {
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
+		font << "CELESTERIAL DRIFT";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, 0.0f, 0.0f));
+		font << "INSTRUCTIONS";
+
+		font.setScaling(XMFLOAT3(.9, .9, .9));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, -0.1f, 0.0f));
+		font << "Avoid mines and astroid, try to reach the space station before time runs out.";
+		font.setPosition(XMFLOAT3(-.74f, -0.2f, 0.0f));
+		font << "pick up extra lives, at the end of the level they increase your score.";
+		font.setPosition(XMFLOAT3(-.74f, -0.3f, 0.0f));
+		font << "Don't drift out of the astroid field or the enemy will spot you";
+		
+		
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, -0.4f, 0.0f));
+		font << "STORY";
+		font.setScaling(XMFLOAT3(.9, .9, .9));
+		font.setPosition(XMFLOAT3(-.74f, -0.5f, 0.0f));
+		font << "When you main engines were damage you took refuge in an astroid field";
+		font.setPosition(XMFLOAT3(-.74f, -0.6f, 0.0f));
+		font << "you can only use you the recoil from your rail gun to move.";
+
+		
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, -0.73f, 0.0f));
+		font << "Press 'Space' to start";
+
+	}
 
 	//-----------------------------------------------------------------------------------
 	//HEADS UP DISPLAY
