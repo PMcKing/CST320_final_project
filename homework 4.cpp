@@ -654,7 +654,7 @@ HRESULT InitDevice()
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
 	//Load Space station
-	LoadCMP(L"station.3ds", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
+	//adCMP(L"nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
 
 	//randomizing the mine position
 	Mine * tm; 
@@ -1529,11 +1529,11 @@ void Render_to_texture(long elapsed)
 	constantbuffer.World = XMMatrixTranspose(M);
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_ss, &stride, &offset);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
+	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 
 	//-----------------------------------------------------------------------------------
@@ -1798,8 +1798,6 @@ void Render_to_texture(long elapsed)
 
 	}
 
-
-
 	//astroid
 	for (int i = 0; i < ASTEROIDCOUNT * 2; i += 2) {
 		float dx = -cam.position.x - asteroid_pos[i].x;
@@ -1809,6 +1807,16 @@ void Render_to_texture(long elapsed)
 		if (c < 20) {
 			playerDeath(); // need to remove astroid from the playing field. 
 		}
+	}
+
+	//checking for end of level collision
+	float gx = -cam.position.x - objectivePos.x;
+	float gy = -cam.position.y - objectivePos.y;
+	float gz = -cam.position.z - objectivePos.z;
+
+	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
+	if (c < 20){
+		playerDeath(); // need to remove astroid from the playing fiel
 	}
 
 	//
