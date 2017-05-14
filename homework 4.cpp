@@ -83,7 +83,6 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 
 //mines
 #define MINECOUNT					50
-Mine								g_Mines[MINECOUNT];
 vector<Mine*>						StationaryMines;
 
 
@@ -660,13 +659,20 @@ HRESULT InitDevice()
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
 	//randomizing the mine position
+	Mine * tm; 
 	for (int ii = 0; ii < MINECOUNT; ii++){
 		float x, y, z, w;
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
-		g_Mines[ii].pos = XMFLOAT3(x, y, z);
+		tm = new Mine(XMFLOAT3(x, y, z));
+
+		StationaryMines.push_back(tm);
+
 	}
+	
+
+
 	XMFLOAT3* ps;
 
 	for (int i = 0; i < 20; i++) {
@@ -1503,16 +1509,17 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	static float ms = 1.0f;
 	ms += .01;
-	for (int ii = 0; ii < MINECOUNT; ii++)
+	for (int ii = 0; ii < StationaryMines.size(); ii++)
 	{
-		//display
-		ConstantBuffer constantbuffer;
-		XMMATRIX T = XMMatrixTranslation(g_Mines[ii].pos.x, g_Mines[ii].pos.y, g_Mines[ii].pos.z);
-		constantbuffer.World = XMMatrixTranspose(T);
+		//display 
+			ConstantBuffer constantbuffer;
+		XMMATRIX T = XMMatrixTranslation(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z);
+		XMMATRIX S = XMMatrixScaling(20, 20, 20);
+		constantbuffer.World = XMMatrixTranspose(S*T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
@@ -1710,19 +1717,20 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 
 	//mines 
-	for (int ii = 0; ii < MINECOUNT; ii++) {
-		float dx = -cam.position.x - g_Mines[ii].pos.x;
-		float dy = -cam.position.y - g_Mines[ii].pos.y;
-		float dz = -cam.position.z - g_Mines[ii].pos.z;
+	for (int ii = 0; ii < StationaryMines.size(); ii++) {
+		float dx = -cam.position.x - StationaryMines[ii]->pos.x;
+		float dy = -cam.position.y - StationaryMines[ii]->pos.y;
+		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
 		if (c < 50) {
 			//change color
-			S = XMMatrixScaling(ms, ms, ms);
+			S = XMMatrixScaling(ms, ms, ms); //NEED TO MAKE A GLOBAL VAR
 			if (c < 20)
 			{
-				explosionhandler.new_explosion(XMFLOAT3(g_Mines[ii].pos.x, g_Mines[ii].pos.y + 5, g_Mines[ii].pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
-				playerDeath();
+				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+				StationaryMines.erase(StationaryMines.begin() + ii);
+				//playerDeath();
 			}
 		}
 
