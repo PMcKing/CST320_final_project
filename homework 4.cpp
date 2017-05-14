@@ -104,6 +104,8 @@ ID3D11Buffer*                       g_pCBuffer = NULL;
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
 
+
+
 ID3D11RasterizerState				*rs_CW, *rs_CCW, *rs_NO, *rs_Wire;
 
 ID3D11SamplerState*                 g_pSamplerLinear = NULL;
@@ -741,7 +743,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.JPG", NULL, NULL, &g_pTexture_small_ship, NULL);
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"oneUp_tex.png", NULL, NULL, &g_pTexture_small_ship, NULL);
 	if (FAILED(hr))
 		return hr;
 
@@ -1544,7 +1546,7 @@ void Render_to_texture(long elapsed)
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_ss);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_ship, 0);
