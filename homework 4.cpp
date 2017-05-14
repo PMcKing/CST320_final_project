@@ -193,7 +193,7 @@ void playerDeath() {
 	//if player collids with mine, or astroid then -1 life. functions checks if this fall below zero, if so ends game. TODO change to change game state.
 	playerLives--;
 	if (playerLives < 1) {
-		PostQuitMessage(1);
+		gamestate = 3;
 	}
 	return;
 }
@@ -1135,6 +1135,12 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 				if (gamestate == 0 || gamestate == 1) {
 					gamestate = 2;
 				}
+				if (gamestate == 3) {//restart
+					cam.position = XMFLOAT3(0.0, 0.0, 0.0f);
+					cam.impulseActual = XMFLOAT3(0.0, 0.0, 0.0f);
+					gamestate = 2;
+					playerLives = 1;
+				}
 
 				cam.fireFoward_flip();
 				fireFoward = !fireFoward;
@@ -1666,14 +1672,7 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
-	///-----------------------------------------------------------------------------------
-	//Explosions
-	//-----------------------------------------------------------------------------------
-	view = cam.get_matrix(&g_View);
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	explosionhandler.render(&view, &g_Projection, elapsed);
-	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
@@ -1724,6 +1723,23 @@ void Render_to_texture(long elapsed)
 		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
 		font << "Press 'Space' to start";
 		
+	}
+
+	//-----------------------------------------------------------------------------------
+	//UI FOR END GAME
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 3) {
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.25f, 0.0f, 0.0f));
+		font << "GAME OVER";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
+		font << "press 'space' to start over";
+		
+
 	}
 
 	//-----------------------------------------------------------------------------------
@@ -1888,7 +1904,7 @@ void Render_to_texture(long elapsed)
 
 			font << std::to_string(abs(cam.position.z / 100));
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
-				PostQuitMessage(1);
+				playerDeath();
 
 		}
 	}
@@ -1913,13 +1929,14 @@ void Render_to_texture(long elapsed)
 
 			if (StationaryMines[ii]->explode(elapsed)) { //in death}
 					StationaryMines.erase(StationaryMines.begin() + ii);
-					if (c < 79) {
+					explosionhandler.new_explosion(XMFLOAT3(-StationaryMines[ii]->pos.x, -StationaryMines[ii]->pos.y + 20, -StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0);
+					if (c < 80) {
 						playerDeath();
 					}
 			}
-			else if (c < 20) //collision death
+			if (c < 20) //collision death
 			{
-				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y +20, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
 				playerDeath();
 			}
@@ -1964,8 +1981,17 @@ void Render_to_texture(long elapsed)
 
 	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
 	if (c < 50) {
-		PostQuitMessage(2); // ROUND WIN
+		cam.position = XMFLOAT3(0, 0, 0);
 	}
+
+	///-----------------------------------------------------------------------------------
+	//Explosions
+	//-----------------------------------------------------------------------------------
+	view = cam.get_matrix(&g_View);
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	explosionhandler.render(&view, &g_Projection, elapsed);
+	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//
 	// Present our back buffer to our front buffer
