@@ -139,6 +139,7 @@ XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow 
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
+int									playerField = 500;//used to determine how far the player can go. 
 
 
 
@@ -1662,6 +1663,38 @@ void Render_to_texture(long elapsed)
 	font.setColor(XMFLOAT3(0, 1, .6));
 	font.setPosition(XMFLOAT3(-0.8, .99, 0));
 	font << std::to_string(playerLives);
+
+	//-----------------------------------------------------------------------------------
+	//Play Area Warning
+	//-----------------------------------------------------------------------------------
+
+	
+
+	if (abs(cam.position.x) > playerField - 200 || abs(cam.position.y) > playerField - 200 || abs(cam.position.z) > playerField -200) {//checking if a player has gone too far from boundrys
+		font.setScaling(XMFLOAT3(1.3, 1.3, 0.0));
+		font.setColor(XMFLOAT3(1, 0, 0));
+		font.setPosition(XMFLOAT3(-.5, -.5, 0.0));
+		font << "WARNING! Approaching Enemy Controled space";
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setPosition(XMFLOAT3(-.2, -.6, 0.0));
+		font << "DNC line in: ";
+		font.setPosition(XMFLOAT3(0, -.6, 0.0));
+
+		font << std::to_string(abs(cam.position.x / 100));
+		font.setPosition(XMFLOAT3(0, -.65, 0.0));
+
+		font << std::to_string(abs(cam.position.y / 100));
+
+		font.setPosition(XMFLOAT3(0, -.7, 0.0));
+
+		font << std::to_string(abs(cam.position.z / 100));
+
+		if (abs(cam.position.x) > playerField || abs(cam.position.y) > playerField || abs(cam.position.z) > playerField)
+			PostQuitMessage(1);
+
+	
+	}
+
 
 
 	///-----------------------------------------------------------------------------------
