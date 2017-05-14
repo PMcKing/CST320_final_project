@@ -75,6 +75,15 @@ ID3D11Buffer*						g_pVertexBuffer_cmp;
 int									model_vertex_anz_sky;
 ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 
+//Space Station
+ID3D11Buffer*						g_pVertexBuffer_ss;
+int									model_vertex_anz_ss;
+ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
+float px, py, pz;
+
+
+
+
 //states for turning off and on the depth buffer
 ID3D11DepthStencilState				*ds_on, *ds_off;
 ID3D11BlendState*					g_BlendState;
@@ -515,6 +524,19 @@ HRESULT InitDevice()
 		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
 	}
 
+	//setting Space Station
+
+	px = rand() % 1000 - 500;
+	py = rand() % 1000 - 500;
+	pz = rand() % 1000 - 500;
+
+	while (px*px + py*py + pz*pz <= 5000)
+	{
+		pz = rand() % 1000 - 500;
+		px = rand() % 1000 - 500;
+		py = rand() % 1000 - 500;
+	}
+
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&bd, sizeof(bd));
@@ -621,6 +643,9 @@ HRESULT InitDevice()
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
+	//Load space station
+	LoadCMP(L"planet.cmp", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
+
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
     UINT offset = 0;
@@ -652,6 +677,11 @@ HRESULT InitDevice()
 
 	// Load the nav arrow
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"nav_arrow_tex.png", NULL, NULL, &g_pTextureNav, NULL);
+	if (FAILED(hr))
+		return hr;
+
+	// Load the nav arrow
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.png", NULL, NULL, &g_pTexture_ss, NULL);
 	if (FAILED(hr))
 		return hr;
 
@@ -1242,9 +1272,9 @@ void Render_from_light_source(long elapsed)
 	g_pSwapChain->Present(0, 0);
 
 	}
-//############################################################################################################
 
 //############################################################################################################
+
 void Render_to_texture(long elapsed)
 	{
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
@@ -1378,6 +1408,29 @@ void Render_to_texture(long elapsed)
 			PostQuitMessage(0);
 		}
 	}
+
+	//Space Station
+	
+	
+	S = XMMatrixScaling(1, 1, 1);
+	R = XMMatrixRotationX(XM_PIDIV2);
+	T = XMMatrixTranslation(px, py, pz);
+	M = S*R*T;
+	constantbuffer.World = XMMatrixTranspose(M);
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_ss);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_ss);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_ss, &stride, &offset);
+	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//usefull rotations
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
