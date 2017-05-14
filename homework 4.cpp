@@ -1422,11 +1422,11 @@ void Render_to_texture(long elapsed)
 	//NAV ARROW
 	//-----------------------------------------------------------------------------------
 	XMMATRIX R0, R1, M1, M2,T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
-	//XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
-	//XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
+	XMVECTOR cur = XMVector4Normalize(XMVectorSet(-cam.position.x, -cam.position.y + 2.0f, -cam.position.z - 10.0f, 0.0f));//current position
+	XMVECTOR goal = XMVector4Normalize(XMVectorSet(1.0,1.0,1.0, 1.0f)); //look at i.e. objective location
 
-	XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f);//current position
-	XMVECTOR goal = XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f); //look at i.e. objective location
+	//XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y, cam.position.z, 0.0f);//current position
+	//XMVECTOR goal = XMVectorSet(1.0f,1.0f,1.0f, 1.0f); //look at i.e. objective location
 	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
 	R0 = XMMatrixRotationX(-XM_PI);
 	T2 = XMMatrixTranslation(0.0f, -2, 10);
@@ -1446,7 +1446,7 @@ void Render_to_texture(long elapsed)
 	
 	R1 = Rx1 * Ry1;
 	
-	M2 = R0* T1 * ICR * T3;
+	M2 = T * R0 * T2 *ICR * T3;
 	constantbuffer.World = XMMatrixTranspose(M2);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
