@@ -139,7 +139,7 @@ XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow 
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
-int									playerField = 500;//used to determine how far the player can go. 
+int									playerField = 1000;//used to determine how far the player can go. 
 
 
 
@@ -946,38 +946,30 @@ void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 		canFire = false;
 		fireTimer.start();//wating .5 secs before you cna fire again
 		reload = " ";//resetting fire UI
-		//bullets
+	
+		bull = new bullet;
+		bull->pos.x = -cam.position.x;
+		bull->pos.y = -cam.position.y - 1.2;
+		bull->pos.z = -cam.position.z;
+		XMMATRIX CR = cam.get_matrix(&g_View);
+		CR._41 = 0;
+		CR._42 = 0;
+		CR._43 = 0;
+		XMVECTOR det;
+		XMMATRIX ICR = XMMatrixInverse(&det, CR);
+		XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+		XMVECTOR f = XMLoadFloat3(&forward);
 
-	bull = new bullet;
-	bull->pos.x = -cam.position.x;
-	bull->pos.y = -cam.position.y - 1.2;
-	bull->pos.z = -cam.position.z;
-	XMMATRIX CR = cam.get_matrix(&g_View);
-	CR._41 = 0;
-	CR._42 = 0;
-	CR._43 = 0;
-	XMVECTOR det;
+		if (fireFoward) {
+			f = XMVector3TransformCoord(f, ICR);
+		}
+		else {
+			f = XMVector3TransformCoord(f, CR);
+		}
 
-	XMMATRIX ICR = XMMatrixInverse(&det, CR);
-	//XMMATRIX CR1 = XMMatrixRotationX(-cam.rotation.x);
-
-	//	XMMATRIX CR2 = CR * CR1;
-
-
-	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
-	XMVECTOR f = XMLoadFloat3(&forward);
-	if (fireFoward) {
-		f = XMVector3TransformCoord(f, ICR);
-	}
-	else {
-		f = XMVector3TransformCoord(f, CR);
-	}
-
-	XMStoreFloat3(&forward, f);
-
-	bull->imp = forward;
-	bullets.push_back(bull);
-
+		XMStoreFloat3(&forward, f);
+		bull->imp = forward;
+		bullets.push_back(bull);
 		sound.play_fx("boost.mp3");
 		}
 
@@ -1429,18 +1421,31 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
 	//-----------------------------------------------------------------------------------
-	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
-	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
-	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
+	XMMATRIX R0, R1, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
+	//XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f));//current position
+	//XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
+
+	XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y + 2.0f, cam.position.z - 10.0f, 0.0f);//current position
+	XMVECTOR goal = XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f); //look at i.e. objective location
 	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
 	R0 = XMMatrixRotationX(-XM_PI);
 	T2 = XMMatrixTranslation(0.0f, -2, 10);
-	Rx1 = XMMatrixRotationX(-cam.rotation.x);
-	Ry1 = XMMatrixRotationY(-cam.rotation.y);
+	Rx1 = XMMatrixRotationX(-cam.rotation.y);
+	Ry1 = XMMatrixRotationY(-cam.rotation.x);
 	Rx3 = XMMatrixRotationX(cam.rotation.x);
 	Ry3 = XMMatrixRotationY(cam.rotation.y);
-	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
-	M2 = R0* T* Rx3*Ry3* T2*  Rx1 * Ry1 * T3;
+
+	XMMATRIX CR = cam.get_matrix(&g_View);
+	CR._41 = 0;
+	CR._42 = 0;
+	CR._43 = 0;
+	XMVECTOR det;
+	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y -1.5, -cam.position.z + 5);
+	
+	R1 = Rx1 * Ry1;
+	
+	M2 = R0* T3 * ICR;
 	constantbuffer.World = XMMatrixTranspose(M2);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
@@ -1475,6 +1480,8 @@ void Render_to_texture(long elapsed)
 	//g_pImmediateContext->Draw(6, 0);
 	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	////reload status restart
+
+
 	//end nav arrow
 
 
