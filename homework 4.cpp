@@ -680,6 +680,11 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 
+	// Load the nav arrow
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.jpg", NULL, NULL, &g_pTexture_ss, NULL);
+	if (FAILED(hr))
+		return hr;
+
     // Create the sample state
     D3D11_SAMPLER_DESC sampDesc;
     ZeroMemory( &sampDesc, sizeof(sampDesc) );
@@ -1417,8 +1422,8 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
 	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
 	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTextureNav);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_ss);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_ss);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_ss, &stride, &offset);
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
