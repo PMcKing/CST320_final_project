@@ -1735,7 +1735,15 @@ void Render_to_texture(long elapsed)
 		}
 
 	}
-	//bullets mines collisions
+	//bullets lossions //USED TO DETCH ENEMY HIT, MINE HIT and weather to delete.
+	
+	//Temp solution check for distance later
+	if (bullets.size() > 15) {
+	
+		bullets.erase(bullets.begin() + 10);
+	
+	}
+
 
 	//One ups
 	for (int ii = 0; ii < oneUps.size(); ii++) {
