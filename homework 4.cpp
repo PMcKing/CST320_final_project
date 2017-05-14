@@ -79,6 +79,9 @@ ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 ID3D11Buffer*						g_pVertexBuffer_ss;
 int									model_vertex_anz_ss;
 ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
+float px, py, pz;
+
+
 
 
 //states for turning off and on the depth buffer
@@ -184,7 +187,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         else
         {
             Render();
-			sound.play_fx("SO.mp3");
+			//sound.play_fx("SO.mp3");
         }
     }
 
@@ -521,6 +524,19 @@ HRESULT InitDevice()
 		asteroid_pos[ii] = XMFLOAT4(x, y, z, w);
 	}
 
+	//setting Space Station
+
+	px = rand() % 1000 - 500;
+	py = rand() % 1000 - 500;
+	pz = rand() % 1000 - 500;
+
+	while (px*px + py*py + pz*pz <= 5000)
+	{
+		pz = rand() % 1000 - 500;
+		px = rand() % 1000 - 500;
+		py = rand() % 1000 - 500;
+	}
+
 	D3D11_BUFFER_DESC bd;
 	D3D11_SUBRESOURCE_DATA InitData;
 	ZeroMemory(&bd, sizeof(bd));
@@ -628,7 +644,7 @@ HRESULT InitDevice()
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
 	//Load space station
-	LoadCMP(L"station.3ds", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
+	LoadCMP(L"planet.cmp", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
@@ -1389,22 +1405,11 @@ void Render_to_texture(long elapsed)
 	}
 
 	//Space Station
-/*	
-	float x, y, z, w;
-	w = rand() % 50 - 25;
-	z = rand() % 1000 - 500;
-	x = rand() % 1000 - 500;
-	y = rand() % 1000 - 500;
-	while (x*x + y*y + z*z <= 10000)
-	{
-		z = rand() % 1000 - 500;
-		x = rand() % 1000 - 500;
-		y = rand() % 1000 - 500;
-	}
-*/
-	S = XMMatrixScaling(.01, .01, .01);
+	
+	
+	S = XMMatrixScaling(1, 1, 1);
 	R = XMMatrixRotationX(XM_PIDIV2);
-	T = XMMatrixTranslation(100, 100, 100);
+	T = XMMatrixTranslation(px, py, pz);
 	M = S*R*T;
 	constantbuffer.World = XMMatrixTranspose(M);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
@@ -1418,9 +1423,9 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
-	//g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	//g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
-	//g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//usefull rotations
 	XMMATRIX R0, M1, M2, T2, Rx1, Ry1, T3, Rx3, Ry3;
