@@ -89,7 +89,7 @@ ID3D11ShaderResourceView*           g_pTexture_small_ship = NULL;
 ID3D11Buffer*						g_pVertexBuffer_ss;
 int									model_vertex_anz_ss;
 ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
-float px, py, pz;
+
 
 
 
@@ -142,7 +142,8 @@ bool								fireFoward = true; //used to switch movment dictions, true = shoot f
 bool								canFire = true;
 
 // globals for game balance
-XMFLOAT3							objectivePos = XMFLOAT3(10.0f, 10.0, 100.0f);//used to nav arrow to point to object cords
+XMFLOAT3							objectivePos;//used to nav arrow to point to object cords
+
 int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds = 500).
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
@@ -556,7 +557,7 @@ HRESULT InitDevice()
 	}
 
 	//setting Space Station
-
+	float px, py, pz;
 	px = rand() % 1000 - 500;
 	py = rand() % 1000 - 500;
 	pz = rand() % 1000 - 500;
@@ -567,8 +568,11 @@ HRESULT InitDevice()
 		px = rand() % 1000 - 500;
 		py = rand() % 1000 - 500;
 		//TODO add to objectivePos
+
 	}
 	
+	objectivePos = XMFLOAT3(px, py, pz);
+
 	//randomizing the mine position
 	Mine * tm;
 	for (int ii = 0; ii < MINECOUNT; ii++) {
@@ -1517,7 +1521,7 @@ void Render_to_texture(long elapsed)
 
 	S = XMMatrixScaling(1, 1, 1);
 	R = XMMatrixRotationX(XM_PIDIV2);
-	T = XMMatrixTranslation(px, py, pz);
+	T = XMMatrixTranslation(objectivePos.x, objectivePos.y, objectivePos.z);
 	M = S*R*T;
 	constantbuffer.World = XMMatrixTranspose(M);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
@@ -1749,7 +1753,7 @@ void Render_to_texture(long elapsed)
 			{
 				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
-				//playerDeath();
+				playerDeath();
 			}
 		}
 
@@ -1762,7 +1766,6 @@ void Render_to_texture(long elapsed)
 		bullets.erase(bullets.begin() + 10);
 
 	}
-
 
 	//ONE UPS
 	for (int ii = 0; ii < oneUps.size(); ii++) {
@@ -1792,8 +1795,8 @@ void Render_to_texture(long elapsed)
 	float gz = -cam.position.z - objectivePos.z;
 
 	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
-	if (c < 20) {
-		playerDeath(); // need to remove astroid from the playing fiel
+	if (c < 50) {
+		PostQuitMessage(2); // ROUND WIN
 	}
 
 	//
