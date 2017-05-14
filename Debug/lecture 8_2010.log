@@ -152,95 +152,99 @@ c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_proj
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(276): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(195): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(523): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(524): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(525): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(526): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(529): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(530): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(203): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(531): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(538): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(539): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(540): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(541): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(547): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(548): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(549): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(553): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(554): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(532): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(533): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(534): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(537): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(538): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(539): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(546): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(547): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(548): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(549): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(555): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(556): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(557): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(561): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(562): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(563): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(564): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(565): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(575): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(576): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(577): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(562): warning C4101: 'w': unreferenced local variable
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(902): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(902): warning C4100: 'y': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(902): warning C4100: 'x': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(902): warning C4100: 'fDoubleClick': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(902): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(911): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(911): warning C4100: 'y': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(911): warning C4100: 'x': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(911): warning C4100: 'fDoubleClick': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(911): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(918): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(918): warning C4100: 'ch': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(918): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(935): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(925): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(925): warning C4100: 'y': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(925): warning C4100: 'x': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(925): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(963): warning C4100: 'keyFlags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(963): warning C4100: 'y': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(963): warning C4100: 'x': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(963): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1003): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1004): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1014): warning C4245: 'initializing': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1015): warning C4100: 'lpCreateStruct': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1060): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1066): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1038): warning C4100: 'id': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1038): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1073): warning C4100: 'flags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1073): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1073): warning C4100: 'fDown': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1073): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1098): warning C4100: 'flags': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1098): warning C4100: 'cRepeat': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1098): warning C4100: 'fDown': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1098): warning C4100: 'hwnd': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1271): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1361): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1443): warning C4018: '<': signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1447): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1343): note: see declaration of 'constantbuffer'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1448): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1468): warning C4018: '<': signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1471): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1343): note: see declaration of 'constantbuffer'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1472): warning C4456: declaration of 'T' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1357): note: see declaration of 'T'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1473): warning C4456: declaration of 'S' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1356): note: see declaration of 'S'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1512): warning C4018: '<': signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1515): warning C4456: declaration of 'constantbuffer' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1343): note: see declaration of 'constantbuffer'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1516): warning C4456: declaration of 'S' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1356): note: see declaration of 'S'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1517): warning C4456: declaration of 'T' hides previous local declaration
-  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1357): note: see declaration of 'T'
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1543): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1545): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1686): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1708): warning C4018: '<': signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1737): warning C4018: '<': signed/unsigned mismatch
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1775): warning C4100: 'elapsed': unreferenced formal parameter
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1833): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
-c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1836): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(571): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(572): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(573): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(583): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(584): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(585): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(570): warning C4101: 'w': unreferenced local variable
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(919): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(919): warning C4100: 'y': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(919): warning C4100: 'x': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(919): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(919): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(928): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(928): warning C4100: 'y': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(928): warning C4100: 'x': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(928): warning C4100: 'fDoubleClick': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(928): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(935): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(935): warning C4100: 'ch': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(935): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(952): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(942): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(942): warning C4100: 'y': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(942): warning C4100: 'x': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(942): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(980): warning C4100: 'keyFlags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(980): warning C4100: 'y': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(980): warning C4100: 'x': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(980): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1020): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1021): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1031): warning C4245: 'initializing': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1032): warning C4100: 'lpCreateStruct': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1077): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1083): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1055): warning C4100: 'id': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1055): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1090): warning C4100: 'flags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1090): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1090): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1090): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1115): warning C4100: 'flags': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1115): warning C4100: 'cRepeat': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1115): warning C4100: 'fDown': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1115): warning C4100: 'hwnd': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1288): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1339): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1382): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1464): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1468): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1364): note: see declaration of 'constantbuffer'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1469): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1489): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1492): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1364): note: see declaration of 'constantbuffer'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1493): warning C4456: declaration of 'T' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1378): note: see declaration of 'T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1494): warning C4456: declaration of 'S' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1377): note: see declaration of 'S'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1534): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1537): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1364): note: see declaration of 'constantbuffer'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1538): warning C4456: declaration of 'S' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1377): note: see declaration of 'S'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1539): warning C4456: declaration of 'R' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1378): note: see declaration of 'R'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1540): warning C4456: declaration of 'Ry' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1383): note: see declaration of 'Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1542): warning C4456: declaration of 'T' hides previous local declaration
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1378): note: see declaration of 'T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1568): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1570): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1731): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1760): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1798): warning C4100: 'elapsed': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1856): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\homework 4.cpp(1859): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
   lecture 8_2010.vcxproj -> C:\Users\Peter King Desktop\Documents\Spring 2017\finalproject\CST320_final_project\Debug\homework 4.exe

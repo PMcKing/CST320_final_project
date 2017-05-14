@@ -50,7 +50,9 @@ ID3D11Buffer*                       g_pVertexBuffer_sky = NULL;
 ID3D11Buffer*                       g_pVertexBuffer_3ds = NULL;
 int									model_vertex_anz = 0;
 
+//-----------------------------------------------------------------------------------
 //MODELS
+//-----------------------------------------------------------------------------------
 
 //astroid
 ID3D11Buffer*                       g_pVertexBuffer_3ds_asteroids = NULL;
@@ -75,12 +77,18 @@ ID3D11Buffer*						g_pVertexBuffer_cmp;
 int									model_vertex_anz_sky;
 ID3D11ShaderResourceView*           g_pTexture_sky = NULL;
 
+//small ship
+ID3D11Buffer*                       g_pVertexBuffer_3ds_ship = NULL;
+int									model_vertex_anz_ship = 0;
+ID3D11ShaderResourceView*           g_pTexture_small_ship = NULL;
 
 //Space Station
 ID3D11Buffer*						g_pVertexBuffer_ss;
 int									model_vertex_anz_ss;
 ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
 float px, py, pz;
+
+
 
 
 
@@ -683,12 +691,17 @@ HRESULT InitDevice()
 	//loading nav arrow
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
+	//Load Small ship for Ones and Title screen
+	Load3DS("small_fighter_1.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
+
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
 
 	//Load space station
 	LoadCMP(L"planet.cmp", g_pd3dDevice, &g_pVertexBuffer_ss, &model_vertex_anz_ss);
 
+	
+	 
     // Set vertex buffer
     UINT stride = sizeof( SimpleVertex );
     UINT offset = 0;
@@ -725,6 +738,10 @@ HRESULT InitDevice()
 
 	// Textureing for ds
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"ds.png", NULL, NULL, &g_pTexture_ss, NULL);
+	if (FAILED(hr))
+		return hr;
+	// Textureing for small ship
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.JPG", NULL, NULL, &g_pTexture_small_ship, NULL);
 	if (FAILED(hr))
 		return hr;
 
@@ -1316,6 +1333,10 @@ void Render_to_texture(long elapsed)
 	{
 	float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; // red, green, blue, alpha
 	ID3D11RenderTargetView*			RenderTarget;
+	
+	//Rotation Assist
+	static float rotation = 0;
+	rotation += 0.0000003*elapsed;
 
 	//-----------------------------------------------------------------------------------
 	//FIRE DELAY
@@ -1509,20 +1530,24 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//One up render
 	//-----------------------------------------------------------------------------------
+	
 	for (int ii = 0; ii < oneUps.size(); ii++)
 	{
 		//display
 		ConstantBuffer constantbuffer;
-		XMMATRIX S = XMMatrixScaling(50, 50, 50);
+		XMMATRIX S = XMMatrixScaling(.08, .08, .08);
+		XMMATRIX R = XMMatrixRotationX(XM_PIDIV2);
+		XMMATRIX Ry = XMMatrixRotationY(rotation);
+
 		XMMATRIX T = XMMatrixTranslation(oneUps[ii]->x, oneUps[ii]->y, oneUps[ii]->z);
-		constantbuffer.World = XMMatrixTranspose(S* T);
+		constantbuffer.World = XMMatrixTranspose(S *R* Ry* T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_ss);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+		g_pImmediateContext->Draw(model_vertex_anz_ship, 0);
 
 	}
 
@@ -1682,8 +1707,6 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_screen, &stride, &offset);
 	//g_pImmediateContext->Draw(6, 0);
 
-	static float rotation = 0;
-	rotation += 0.0000003*elapsed;
 	constantbuffer.info.z = rotation;
 	constantbuffer.View = XMMatrixTranspose(view);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
