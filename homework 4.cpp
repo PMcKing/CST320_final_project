@@ -1469,7 +1469,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	if (gamestate == 1) {
 		if(cam.rotation.y < 2)
-		cam.rotation.y += rotation/5;
+		cam.rotation.y += rotation/20;
 		else
 			displayInstruct = true;
 		
@@ -1477,7 +1477,7 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 && rotateback) {
 		if (cam.rotation.y > 0)
-			cam.rotation.y -= rotation / 5;
+			cam.rotation.y -= rotation / 20;
 		else
 			rotateback = false;
 	
@@ -1562,7 +1562,11 @@ void Render_to_texture(long elapsed)
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+		if (StationaryMines[ii]->activated)
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship_oneup); //TODO CHANGE TO RED
+		else
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_mine, 0);
@@ -1901,10 +1905,19 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
-		if (c < 50) {
+		if (c < 80) {
 			//change color
-			S = XMMatrixScaling(ms, ms, ms); //NEED TO MAKE A GLOBAL VAR
-			if (c < 20)
+			
+			if(!StationaryMines[ii]->activated) //if it isn't activated activate it
+				StationaryMines[ii]->activate(elapsed);
+
+			if (StationaryMines[ii]->explode(elapsed)) { //in death}
+					StationaryMines.erase(StationaryMines.begin() + ii);
+					if (c < 79) {
+						playerDeath();
+					}
+			}
+			else if (c < 20) //collision death
 			{
 				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
