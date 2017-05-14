@@ -71,6 +71,9 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 ID3D11Buffer*                       g_pVertexBuffer_3ds_nav = NULL;
 int									model_vertex_anz_nav = 0;
 
+//space mine
+ID3D11Buffer*                       g_pVertexBuffer_3ds_mine = NULL;
+int									model_vertex_anz_mine = 0;
 
 // Sky Sphere
 ID3D11Buffer*						g_pVertexBuffer_cmp;
@@ -695,6 +698,9 @@ HRESULT InitDevice()
 
 	//Load Small ship for Ones and Title screen
 	Load3DS("small_fighter_1.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
+
+	//Loa space mines
+	Load3DS("mine.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_mine, &model_vertex_anz_mine);
 
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
@@ -1493,15 +1499,15 @@ void Render_to_texture(long elapsed)
 		//display 
 		ConstantBuffer constantbuffer;
 		XMMATRIX T = XMMatrixTranslation(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z);
-		XMMATRIX S = XMMatrixScaling(20, 20, 20);
+		XMMATRIX S = XMMatrixScaling(10, 10, 10);
 		constantbuffer.World = XMMatrixTranspose(S*T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
 		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-		g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+		g_pImmediateContext->Draw(model_vertex_anz_mine, 0);
 
 	}
 
