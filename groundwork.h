@@ -510,6 +510,11 @@ class level
 		{
 			pos = imp = XMFLOAT3(0, 0, 0);
 		}
+		Mine(XMFLOAT3 apos) {
+			pos = apos;
+		
+		}
+
 		XMMATRIX getmatrix(float elapsed, XMMATRIX &view)
 		{
 

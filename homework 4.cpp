@@ -82,8 +82,9 @@ ID3D11Buffer*                       g_pInstancebuffer = NULL;
 //
 
 //mines
-#define MINECOUNT					100
+#define MINECOUNT					50
 Mine								g_Mines[MINECOUNT];
+vector<Mine*>						StationaryMines;
 
 
 
@@ -175,6 +176,14 @@ float frand()
 	int r = rand();
 	float res = (float)r / (float)RAND_MAX;
 	return res;
+}
+void playerDeath() {
+	//if player collids with mine, or astroid then -1 life. functions checks if this fall below zero, if so ends game. TODO change to change game state.
+	playerLives--;
+	if (playerLives < 1) {
+		PostQuitMessage(1);
+	}
+	return;
 }
 
 //--------------------------------------------------------------------------------------
@@ -1713,12 +1722,13 @@ void Render_to_texture(long elapsed)
 			if (c < 20)
 			{
 				explosionhandler.new_explosion(XMFLOAT3(g_Mines[ii].pos.x, g_Mines[ii].pos.y + 5, g_Mines[ii].pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
-				//PostQuitMessage(1); END THE GAMe
+				playerDeath();
 			}
 		}
 
 	}
 	//bullets mines collisions
+
 	//One ups
 	for (int ii = 0; ii < oneUps.size(); ii++) {
 		float dx = -cam.position.x - oneUps[ii]->x;
@@ -1727,7 +1737,7 @@ void Render_to_texture(long elapsed)
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
 		if (c < 50) {
-			//change color
+			
 			oneUps.erase(oneUps.begin() + ii);
 			playerLives++;
 
@@ -1744,7 +1754,7 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - asteroid_pos[i].z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
-			PostQuitMessage(0);
+			playerDeath(); // need to remove astroid from the playing field. 
 		}
 	}
 
