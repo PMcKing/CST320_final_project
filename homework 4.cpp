@@ -178,7 +178,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         else
         {
             Render();
-			sound.play_fx("SO.mp3");
+			//sound.play_fx("SO.mp3");
         }
     }
 
@@ -887,7 +887,7 @@ void OnLBU(HWND hwnd, int x, int y, UINT keyFlags)
 			XMStoreFloat3(&forward, f3);
 			bull->imp = forward;
 			bullets.push_back(bull);
-			sound.play_fx("boost.mp3");
+			sound.play_fx("HyperSpace.wav");
 		}
 
 	}
