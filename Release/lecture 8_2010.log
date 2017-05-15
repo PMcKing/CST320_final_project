@@ -1,0 +1,736 @@
+﻿  Font.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101): note: see previous definition of 'DXGI_STATUS_CLIPPED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110): note: see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119): note: see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128): note: see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137): note: see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146): note: see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161): note: see previous definition of 'DXGI_ERROR_INVALID_CALL'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170): note: see previous definition of 'DXGI_ERROR_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179): note: see previous definition of 'DXGI_ERROR_MORE_DATA'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188): note: see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197): note: see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206): note: see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216): note: see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225): note: see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235): note: see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244): note: see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254): note: see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263): note: see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272): note: see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282): note: see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291): note: see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478): note: see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497): note: see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2662): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2663): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2664): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2665): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2666): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2667): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2668): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2689): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2690): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2691): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2694): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2695): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2698): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2702): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2712): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2713): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2715): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2716): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2717): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2727): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2728): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2729): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2730): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2731): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2732): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2742): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2743): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2754): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+Font.cpp(66): warning C4244: 'initializing': conversion from 'TCHAR' to 'char', possible loss of data
+Font.cpp(67): warning C4244: 'argument': conversion from 'UINT' to 'const wchar_t', possible loss of data
+Font.cpp(69): warning C4244: 'argument': conversion from 'UINT' to 'const wchar_t', possible loss of data
+Font.cpp(66): warning C4189: 'value': local variable is initialized but not referenced
+Font.cpp(164): warning C4018: '<': signed/unsigned mismatch
+Font.cpp(167): warning C4389: '==': signed/unsigned mismatch
+Font.cpp(174): warning C4018: '<': signed/unsigned mismatch
+Font.cpp(188): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(189): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(192): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(193): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(197): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(198): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(202): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(203): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(209): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(210): warning C4238: nonstandard extension used: class rvalue used as lvalue
+Font.cpp(366): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(367): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(368): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(373): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(374): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(375): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(376): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(381): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(382): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(383): warning C4244: '=': conversion from 'int' to 'TCHAR', possible loss of data
+Font.cpp(386): warning C4018: '<': signed/unsigned mismatch
+Font.cpp(388): warning C4018: '<': signed/unsigned mismatch
+  FPS.cpp
+FPS.cpp(12): warning C4100: 'other': unreferenced formal parameter
+  homework 4.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101): note: see previous definition of 'DXGI_STATUS_CLIPPED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110): note: see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119): note: see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128): note: see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137): note: see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146): note: see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161): note: see previous definition of 'DXGI_ERROR_INVALID_CALL'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170): note: see previous definition of 'DXGI_ERROR_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179): note: see previous definition of 'DXGI_ERROR_MORE_DATA'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188): note: see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197): note: see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206): note: see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216): note: see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225): note: see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235): note: see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244): note: see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254): note: see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263): note: see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272): note: see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282): note: see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291): note: see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478): note: see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497): note: see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2662): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2663): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2664): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2665): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2666): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2667): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2668): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2689): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2690): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2691): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2694): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2695): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2698): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2702): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2712): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2713): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2715): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2716): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2717): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2727): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2728): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2729): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2730): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2731): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2732): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2742): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2743): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2754): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(206): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(98): warning C4100: 'ViewMatrix': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(241): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(243): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(245): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(247): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(252): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(257): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(290): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(295): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(319): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(380): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(488): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(489): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(490): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(526): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(527): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(528): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(575): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(576): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(577): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'elapsed_microseconds': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'g': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(60): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(61): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(62): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(80): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(237): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(264): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(267): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(273): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(274): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(275): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(276): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+homework 4.cpp(249): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+homework 4.cpp(578): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(579): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(580): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(581): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(584): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(585): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(586): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(593): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(594): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(595): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(596): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(602): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(603): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(604): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(608): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(609): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(610): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(614): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(615): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(616): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(627): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(628): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(629): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(633): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(634): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(635): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(647): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(648): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(649): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(653): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(654): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(655): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(668): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(669): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(670): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(674): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(675): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(676): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(626): warning C4101: 'w': unreferenced local variable
+homework 4.cpp(646): warning C4101: 'w': unreferenced local variable
+homework 4.cpp(1041): warning C4100: 'keyFlags': unreferenced formal parameter
+homework 4.cpp(1041): warning C4100: 'y': unreferenced formal parameter
+homework 4.cpp(1041): warning C4100: 'x': unreferenced formal parameter
+homework 4.cpp(1041): warning C4100: 'fDoubleClick': unreferenced formal parameter
+homework 4.cpp(1041): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1050): warning C4100: 'keyFlags': unreferenced formal parameter
+homework 4.cpp(1050): warning C4100: 'y': unreferenced formal parameter
+homework 4.cpp(1050): warning C4100: 'x': unreferenced formal parameter
+homework 4.cpp(1050): warning C4100: 'fDoubleClick': unreferenced formal parameter
+homework 4.cpp(1050): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1057): warning C4100: 'cRepeat': unreferenced formal parameter
+homework 4.cpp(1057): warning C4100: 'ch': unreferenced formal parameter
+homework 4.cpp(1057): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1074): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+homework 4.cpp(1064): warning C4100: 'keyFlags': unreferenced formal parameter
+homework 4.cpp(1064): warning C4100: 'y': unreferenced formal parameter
+homework 4.cpp(1064): warning C4100: 'x': unreferenced formal parameter
+homework 4.cpp(1064): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1102): warning C4100: 'keyFlags': unreferenced formal parameter
+homework 4.cpp(1102): warning C4100: 'y': unreferenced formal parameter
+homework 4.cpp(1102): warning C4100: 'x': unreferenced formal parameter
+homework 4.cpp(1102): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1143): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1144): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1155): warning C4245: 'initializing': conversion from 'int' to 'unsigned int', signed/unsigned mismatch
+homework 4.cpp(1156): warning C4100: 'lpCreateStruct': unreferenced formal parameter
+homework 4.cpp(1201): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1207): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1179): warning C4100: 'id': unreferenced formal parameter
+homework 4.cpp(1179): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1227): warning C4554: '|': check operator precedence for possible error; use parentheses to clarify precedence
+homework 4.cpp(1214): warning C4100: 'flags': unreferenced formal parameter
+homework 4.cpp(1214): warning C4100: 'cRepeat': unreferenced formal parameter
+homework 4.cpp(1214): warning C4100: 'fDown': unreferenced formal parameter
+homework 4.cpp(1214): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1265): warning C4100: 'flags': unreferenced formal parameter
+homework 4.cpp(1265): warning C4100: 'cRepeat': unreferenced formal parameter
+homework 4.cpp(1265): warning C4100: 'fDown': unreferenced formal parameter
+homework 4.cpp(1265): warning C4100: 'hwnd': unreferenced formal parameter
+homework 4.cpp(1438): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1489): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1548): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+homework 4.cpp(1668): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(1672): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  homework 4.cpp(1530): note: see declaration of 'constantbuffer'
+homework 4.cpp(1673): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+homework 4.cpp(1693): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(1696): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  homework 4.cpp(1530): note: see declaration of 'constantbuffer'
+homework 4.cpp(1697): warning C4456: declaration of 'T' hides previous local declaration
+  homework 4.cpp(1544): note: see declaration of 'T'
+homework 4.cpp(1698): warning C4456: declaration of 'S' hides previous local declaration
+  homework 4.cpp(1543): note: see declaration of 'S'
+homework 4.cpp(1743): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(1746): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  homework 4.cpp(1530): note: see declaration of 'constantbuffer'
+homework 4.cpp(1747): warning C4456: declaration of 'S' hides previous local declaration
+  homework 4.cpp(1543): note: see declaration of 'S'
+homework 4.cpp(1748): warning C4456: declaration of 'R' hides previous local declaration
+  homework 4.cpp(1544): note: see declaration of 'R'
+homework 4.cpp(1749): warning C4456: declaration of 'Ry' hides previous local declaration
+  homework 4.cpp(1549): note: see declaration of 'Ry'
+homework 4.cpp(1751): warning C4456: declaration of 'T' hides previous local declaration
+  homework 4.cpp(1544): note: see declaration of 'T'
+homework 4.cpp(1786): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(1789): warning C4456: declaration of 'constantbuffer' hides previous local declaration
+  homework 4.cpp(1530): note: see declaration of 'constantbuffer'
+homework 4.cpp(1790): warning C4456: declaration of 'T' hides previous local declaration
+  homework 4.cpp(1544): note: see declaration of 'T'
+homework 4.cpp(1791): warning C4456: declaration of 'S' hides previous local declaration
+  homework 4.cpp(1543): note: see declaration of 'S'
+homework 4.cpp(1810): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+homework 4.cpp(1941): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+homework 4.cpp(1968): warning C4554: '&': check operator precedence for possible error; use parentheses to clarify precedence
+homework 4.cpp(2160): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(2166): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+homework 4.cpp(2168): warning C4244: 'initializing': conversion from 'FLOAT' to 'int', possible loss of data
+homework 4.cpp(2169): warning C4244: 'initializing': conversion from 'FLOAT' to 'int', possible loss of data
+homework 4.cpp(2170): warning C4244: 'initializing': conversion from 'FLOAT' to 'int', possible loss of data
+homework 4.cpp(2171): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+homework 4.cpp(2184): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+homework 4.cpp(2198): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(2223): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(2225): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(2246): warning C4018: '<': signed/unsigned mismatch
+homework 4.cpp(2280): warning C4244: '=': conversion from 'long' to 'float', possible loss of data
+homework 4.cpp(2284): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2285): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2286): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2290): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2291): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2292): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+homework 4.cpp(2319): warning C4100: 'elapsed': unreferenced formal parameter
+homework 4.cpp(2377): warning C4244: 'initializing': conversion from 'long double' to 'long', possible loss of data
+homework 4.cpp(2380): warning C4244: 'argument': conversion from 'long' to 'float', possible loss of data
+  load3ds.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101): note: see previous definition of 'DXGI_STATUS_CLIPPED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110): note: see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119): note: see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128): note: see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137): note: see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146): note: see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161): note: see previous definition of 'DXGI_ERROR_INVALID_CALL'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170): note: see previous definition of 'DXGI_ERROR_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179): note: see previous definition of 'DXGI_ERROR_MORE_DATA'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188): note: see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197): note: see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206): note: see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216): note: see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225): note: see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235): note: see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244): note: see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254): note: see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263): note: see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272): note: see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282): note: see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291): note: see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478): note: see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497): note: see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2662): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2663): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2664): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2665): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2666): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2667): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2668): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2689): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2690): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2691): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2694): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2695): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2698): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2702): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2712): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2713): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2715): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2716): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2717): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2727): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2728): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2729): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2730): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2731): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2732): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2742): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2743): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2754): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(206): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(98): warning C4100: 'ViewMatrix': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(241): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(243): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(245): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(247): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(252): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(257): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(290): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(295): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(319): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(380): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(488): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(489): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(490): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(526): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(527): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(528): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(575): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(576): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(577): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'elapsed_microseconds': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'g': unreferenced formal parameter
+load3ds.cpp(151): warning C4456: declaration of 'i' hides previous local declaration
+  load3ds.cpp(37): note: see declaration of 'i'
+load3ds.cpp(248): warning C4018: '<': signed/unsigned mismatch
+load3ds.cpp(254): warning C4018: '<': signed/unsigned mismatch
+load3ds.cpp(38): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+load3ds.cpp(53): warning C4996: 'filelength': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _filelength. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_io.h(484): note: see declaration of 'filelength'
+load3ds.cpp(95): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1193): note: see declaration of 'fscanf'
+load3ds.cpp(105): warning C4189: 'z': local variable is initialized but not referenced
+load3ds.cpp(449): warning C4456: declaration of 'i' hides previous local declaration
+  load3ds.cpp(442): note: see declaration of 'i'
+load3ds.cpp(442): warning C4101: 'i': unreferenced local variable
+load3ds.cpp(356): warning C4189: 'pVertexBuffer': local variable is initialized but not referenced
+  render_to_texture.cpp
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(12): warning C4005: 'DXGI_STATUS_OCCLUDED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50092): note: see previous definition of 'DXGI_STATUS_OCCLUDED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(13): warning C4005: 'DXGI_STATUS_CLIPPED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50101): note: see previous definition of 'DXGI_STATUS_CLIPPED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(14): warning C4005: 'DXGI_STATUS_NO_REDIRECTION': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50110): note: see previous definition of 'DXGI_STATUS_NO_REDIRECTION'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(15): warning C4005: 'DXGI_STATUS_NO_DESKTOP_ACCESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50119): note: see previous definition of 'DXGI_STATUS_NO_DESKTOP_ACCESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(16): warning C4005: 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50128): note: see previous definition of 'DXGI_STATUS_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(17): warning C4005: 'DXGI_STATUS_MODE_CHANGED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50137): note: see previous definition of 'DXGI_STATUS_MODE_CHANGED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(18): warning C4005: 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50146): note: see previous definition of 'DXGI_STATUS_MODE_CHANGE_IN_PROGRESS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(21): warning C4005: 'DXGI_ERROR_INVALID_CALL': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50161): note: see previous definition of 'DXGI_ERROR_INVALID_CALL'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(22): warning C4005: 'DXGI_ERROR_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50170): note: see previous definition of 'DXGI_ERROR_NOT_FOUND'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(23): warning C4005: 'DXGI_ERROR_MORE_DATA': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50179): note: see previous definition of 'DXGI_ERROR_MORE_DATA'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(24): warning C4005: 'DXGI_ERROR_UNSUPPORTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50188): note: see previous definition of 'DXGI_ERROR_UNSUPPORTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(25): warning C4005: 'DXGI_ERROR_DEVICE_REMOVED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50197): note: see previous definition of 'DXGI_ERROR_DEVICE_REMOVED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(26): warning C4005: 'DXGI_ERROR_DEVICE_HUNG': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50206): note: see previous definition of 'DXGI_ERROR_DEVICE_HUNG'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(27): warning C4005: 'DXGI_ERROR_DEVICE_RESET': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50216): note: see previous definition of 'DXGI_ERROR_DEVICE_RESET'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(28): warning C4005: 'DXGI_ERROR_WAS_STILL_DRAWING': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50225): note: see previous definition of 'DXGI_ERROR_WAS_STILL_DRAWING'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(29): warning C4005: 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50235): note: see previous definition of 'DXGI_ERROR_FRAME_STATISTICS_DISJOINT'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(30): warning C4005: 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50244): note: see previous definition of 'DXGI_ERROR_GRAPHICS_VIDPN_SOURCE_IN_USE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(31): warning C4005: 'DXGI_ERROR_DRIVER_INTERNAL_ERROR': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50254): note: see previous definition of 'DXGI_ERROR_DRIVER_INTERNAL_ERROR'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(32): warning C4005: 'DXGI_ERROR_NONEXCLUSIVE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50263): note: see previous definition of 'DXGI_ERROR_NONEXCLUSIVE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(33): warning C4005: 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50272): note: see previous definition of 'DXGI_ERROR_NOT_CURRENTLY_AVAILABLE'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(34): warning C4005: 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50282): note: see previous definition of 'DXGI_ERROR_REMOTE_CLIENT_DISCONNECTED'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\dxgitype.h(35): warning C4005: 'DXGI_ERROR_REMOTE_OUTOFMEMORY': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50291): note: see previous definition of 'DXGI_ERROR_REMOTE_OUTOFMEMORY'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(917): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50469): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(918): warning C4005: 'D3D11_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50478): note: see previous definition of 'D3D11_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(919): warning C4005: 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50488): note: see previous definition of 'D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\d3d11.h(920): warning C4005: 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50497): note: see previous definition of 'D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50445): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
+  C:\Program Files (x86)\Windows Kits\8.1\Include\shared\winerror.h(50454): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2662): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2663): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2664): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2665): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2666): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2667): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2668): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2689): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2690): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2691): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2694): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2695): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2698): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2702): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2712): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2713): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2715): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2716): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2717): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2727): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2728): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2729): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2730): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2731): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2732): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2742): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2743): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include\xnamath.h(2754): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(2254): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4523): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4577): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4639): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4707): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4770): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathconvert.inl(4832): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(518): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\program files (x86)\microsoft directx sdk (june 2010)\include\xnamathmisc.inl(519): warning C4838: conversion from 'unsigned int' to 'INT' requires a narrowing conversion
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(206): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(98): warning C4100: 'ViewMatrix': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(241): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(243): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(245): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(247): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(252): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(257): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(290): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(295): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(315): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(319): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(367): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(380): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Rx' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Rx'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'Ry' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::Ry'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(458): warning C4458: declaration of 'T' hides class member
+  c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(347): note: see declaration of 'camera::T'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(488): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(489): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(490): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(526): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(527): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(528): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(575): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(576): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(577): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'elapsed_microseconds': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\groundwork.h(588): warning C4100: 'g': unreferenced formal parameter
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(60): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(61): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(62): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(80): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(237): warning C4018: '>=': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(264): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(267): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(273): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(274): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(275): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\explosion.h(276): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(106): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\controller.h(107): warning C4244: '=': conversion from 'int' to 'WORD', possible loss of data
+render_to_texture.cpp(19): warning C4101: 'renderTargetViewDesc': unreferenced local variable
+  sound.cpp
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(101): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(150): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(168): warning C4996: 'wcscpy': This function or variable may be unsafe. Consider using wcscpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\corecrt_wstring.h(121): note: see declaration of 'wcscpy'
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(197): warning C4018: '<': signed/unsigned mismatch
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.h(206): warning C4018: '<': signed/unsigned mismatch
+sound.cpp(102): warning C4996: 'mbstowcs': This function or variable may be unsafe. Consider using mbstowcs_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(920): note: see declaration of 'mbstowcs'
+  Generating code
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\render_to_texture.cpp(174): warning C4701: potentially uninitialized local variable 'textureWidth' used
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\render_to_texture.cpp(175): warning C4701: potentially uninitialized local variable 'textureHeight' used
+c:\users\peter king desktop\documents\spring 2017\finalproject\cst320_final_project\sound.cpp(90): warning C4715: 'run_mp3_thread': not all control paths return a value
+  All 1552 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  lecture 8_2010.vcxproj -> C:\Users\Peter King Desktop\Documents\Spring 2017\finalproject\CST320_final_project\Release\homework 4.exe

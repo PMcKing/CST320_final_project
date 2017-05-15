@@ -69,6 +69,7 @@ struct VS_INPUT_INSTANCE
 	float4 iPos : INSTANCEVEC;
 	float4 iRot	: ROTATEINST;
 	uint instanceID : SV_InstanceID;
+	float4 Scale : SCALE;
 };
 
 struct PS_INPUT

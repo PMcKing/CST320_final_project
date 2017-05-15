@@ -557,13 +557,21 @@ class level
 	{
 	public:
 		XMFLOAT3 pos, imp, rot;
+		bool activated;
 		TrackerMine()
 		{
 			pos = imp = XMFLOAT3(0, 0, 0);
+			activated = false;
+		}
+		TrackerMine(XMFLOAT3 apos) {
+			pos = apos;
+			activated = false;
+			
+
 		}
 		XMMATRIX getmatrix(float elapsed, XMMATRIX &view)
 		{
-
+		
 			pos.x = pos.x + imp.x *(elapsed / 100000.0);
 			pos.y = pos.y + imp.y *(elapsed / 100000.0);
 			pos.z = pos.z + imp.z *(elapsed / 100000.0);
@@ -579,44 +587,10 @@ class level
 		}
 		void animate(XMFLOAT3 g, float elapsed_microseconds) {
 			XMMATRIX Ry, Rx, T;
-			Ry = XMMatrixRotationY(-rot.y);
-			Rx = XMMatrixRotationX(-rot.x);
-
-			XMFLOAT3 forward = XMFLOAT3(0, 0, 1);
-			XMVECTOR f = XMLoadFloat3(&forward);
-			f = XMVector3TransformCoord(f, Rx*Ry);
-			XMStoreFloat3(&forward, f);
-			XMFLOAT3 side = XMFLOAT3(1, 0, 0);
-			XMVECTOR si = XMLoadFloat3(&side);
-			si = XMVector3TransformCoord(si, Rx*Ry);
-			XMStoreFloat3(&side, si);
-
-			float speed = elapsed_microseconds / 100000.0;
-
-			XMFLOAT3 tar;
-			float x = g.x / 100;
-			float y = g.y / 100;
-			float z = g.z / 100;
-
-
-			tar.x = g.x / 1000;
-			tar.y = g.y / 1000;
-			tar.z = g.z / 1000;
-			XMVECTOR a = XMVectorSet(g.x, g.y, g.z, 1.0f);
-			a = XMVector4Normalize(a);
-
-
-			//tar = g- position;
-			imp.x += tar.x;
-			imp.y += tar.y;
-			imp.z += tar.z;
-
-			pos.x += imp.x * speed;
-			pos.y += imp.y *speed;
-			pos.z += imp.z *speed;
-
-
-
+			
+			pos.x -= imp.x / 1000;
+			pos.y -= imp.y / 1000;
+			pos.z -= imp.z / 1000;
 
 		}
 

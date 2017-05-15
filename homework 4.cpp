@@ -112,6 +112,8 @@ ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
 ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
 ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL;
+ID3D11ShaderResourceView*           g_pTextureTrackerMine = NULL;
+
 ID3D11ShaderResourceView*           g_pTextureBGMars = NULL; //background planet
 
 
@@ -136,6 +138,11 @@ XMFLOAT3							rocket_position;
 //Mines
 #define MINECOUNT					50
 vector<Mine*>						StationaryMines;
+
+//Mines
+#define TRACKMINECOUNT					20
+vector<TrackerMine*>				trackerMines;
+
 //One Ups
 vector<XMFLOAT3*>					oneUps;
 //rail gun
@@ -177,11 +184,12 @@ music_								sound;
 
 //lazy UI
 bool displayInstruct = false;
+bool displayCredots = false;
 bool rotateback = true;
 string causeOfDeath;
 
 //GAME STATE 
-int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over.
+int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over, 4 == instructions
 
 explosion_handler  explosionhandler;
 
@@ -547,6 +555,7 @@ HRESULT InitDevice()
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "INSTANCEVEC", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "ROTATEINST", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "scale", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 
 	};
 	numElements = ARRAYSIZE(layoutInstance);
@@ -631,6 +640,27 @@ HRESULT InitDevice()
 		StationaryMines.push_back(tm);
 
 	}
+	//randomizing the tracker mine position
+	TrackerMine * tm2;
+	for (int ii = 0; ii < TRACKMINECOUNT; ii++) {
+		float x, y, z, w;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
+		tm2 = new TrackerMine(XMFLOAT3(x, y, z));
+
+		trackerMines.push_back(tm2);
+
+	}
+
 	//randomizing the one ups
 	XMFLOAT3* ps;
 	for (int i = 0; i < 20; i++) {
@@ -820,6 +850,10 @@ HRESULT InitDevice()
 			return hr;
 	// Textureing for mine activated
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
+	if (FAILED(hr))
+		return hr;
+	// Textureing for trackermine
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"trackerminetex.png", NULL, NULL, &g_pTextureTrackerMine, NULL);
 	if (FAILED(hr))
 		return hr;
 	// Texture for background planet 1
@@ -1015,7 +1049,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-		explosionhandler.new_explosion(XMFLOAT3(0, 0, 5), XMFLOAT3(0, 0, 5), 1, 4.0);
+		//explosionhandler.new_explosion(XMFLOAT3(0, 0, 5), XMFLOAT3(0, 0, 5), 1, 4.0);
 	}
 ///////////////////////////////////
 //		This Function is called every time a character key is pressed
@@ -1190,7 +1224,7 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 68: cam.d = 0;//d
 				break;
 			case 32: //space
-				if (gamestate == 0 || gamestate == 1) {
+				if (gamestate == 0 || gamestate == 1 |gamestate == 4 ) {
 					gamestate = 2;
 					roundTimer.start();
 					
@@ -1216,6 +1250,12 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 					gamestate = 1;
 					}
 				break;
+			case 67:
+				if (gamestate == 0) {
+					gamestate = 4;
+				}
+				break;
+
 			default:break;
 
 		}
@@ -1470,7 +1510,8 @@ void Render_to_texture(long elapsed)
 	//ROUND WON DISPLAY
 	//-----------------------------------------------------------------------------------
 	if ((roundLength - roundTimer.elapse_milli()) / 1000 < 0) {
-		gamestate = 3; //run out of time
+
+		playerDeath("ran out of time");
 	}
 
 
@@ -1564,12 +1605,19 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 && rotateback) {
 		if (cam.rotation.y > 0)
-			cam.rotation.y -= rotation / 20;
-		else
+			cam.rotation.y -= rotation / 10;
+				else
 			rotateback = false;
 	
 	}
 
+	if (gamestate == 4 ) {
+		if (cam.rotation.y < 4)
+			cam.rotation.y += rotation / 20;
+		else
+			displayCredots = true;
+
+	}
 
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
@@ -1577,13 +1625,13 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 ){
 	XMMATRIX R0, R1, M1, M2, T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
-	XMVECTOR cur = XMVector4Normalize(XMVectorSet(-cam.position.x, -cam.position.y + 2.0f, -cam.position.z - 10.0f, 0.0f));//current position
-	XMVECTOR goal = XMVector4Normalize(XMVectorSet(1.0, 1.0, 1.0, 1.0f)); //look at i.e. objective location
+	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y-1, cam.position.z + 5, 0.0f));//current position
+	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
 
 	//XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y, cam.position.z, 0.0f);//current position
 	//XMVECTOR goal = XMVectorSet(1.0f,1.0f,1.0f, 1.0f); //look at i.e. objective location
 	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
-	R0 = XMMatrixRotationX(-XM_PI);
+	R0 = XMMatrixRotationX(XM_PI);
 	T2 = XMMatrixTranslation(0.0f, -2, 10);
 	Rx1 = XMMatrixRotationX(-cam.rotation.y);
 	Ry1 = XMMatrixRotationY(-cam.rotation.x);
@@ -1596,17 +1644,20 @@ void Render_to_texture(long elapsed)
 	CR._43 = 0;
 	XMVECTOR det;
 	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	ICR._41 = 0;
+	ICR._42 = 0;
+	ICR._43 = 0;
 	T1 = XMMatrixTranslation(0.0f, -1.0f, 5.0f);
 	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
 
 	R1 = Rx1 * Ry1;
 
-	M2 = T * R0 * T2 *ICR * T3;
+	M2 = R0*T* ICR*T2 * ICR * T3;
 	constantbuffer.World = XMMatrixTranspose(M2);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	}
@@ -1680,7 +1731,8 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
 	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
@@ -1730,29 +1782,54 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//tracker Mine rendering
 	//-----------------------------------------------------------------------------------
+	if (roundNumber > 1) { // tracker mine come in at level 2. 
+		for (int ii = 0; ii < trackerMines.size(); ii++)
+		{
+			//display 
+			ConstantBuffer constantbuffer;
+			XMMATRIX T = XMMatrixTranslation(trackerMines[ii]->pos.x, trackerMines[ii]->pos.y, trackerMines[ii]->pos.z);
+			XMMATRIX S = XMMatrixScaling(10, 10, 10);
+			constantbuffer.World = XMMatrixTranspose(S*T);
+			constantbuffer.View = XMMatrixTranspose(view);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
+
+			if (trackerMines[ii]->activated) {
+				XMMATRIX CR = cam.get_matrix(&g_View);
+				CR._41 = 0;
+				CR._42 = 0;
+				CR._43 = 0;
+				XMVECTOR det;
+				XMMATRIX ICR = XMMatrixInverse(&det, CR);
+				XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+				XMVECTOR f = XMLoadFloat3(&forward);
+				f = XMVector3TransformCoord(f, CR);
+				XMStoreFloat3(&forward, f);
+
+				a.imp = forward;
+				T = a.getmatrix(elapsed, view);
+				constantbuffer.World = XMMatrixTranspose(T);
+			}
+
+			if (trackerMines[ii]->activated)
+				g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMineActivated); //TODO CHANGE TO RED
+			else
+				g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureTrackerMine);
+
+			g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+			g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+			g_pImmediateContext->Draw(model_vertex_anz_mine, 0);
+
+		}
+	}
 	
-	XMMATRIX TMT, TMR, TMM;
-	a.pos = XMFLOAT3(0, 0, 100);
-	T = XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z);
-	S = XMMatrixScaling(10, 10, 10);
-
-	XMFLOAT3  v = cam.position - a.pos;
-	XMVECTOR V = XMVectorSet(v.x, v.y, v.z, 0.0f);
-
-	V = XMVector4Normalize(V);
-	a.animate(v, elapsed);
-	//TT = a.getmatrix(elapsed, 
-	TMR = a.getmatrix(elapsed, view);
+			
 	
-	constantbuffer.World = XMMatrixTranspose(TMR);
-	constantbuffer.View = XMMatrixTranspose(view);
-	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
+	
+
+	
+	
 	
 	//-----------------------------------------------------------------------------------
 	//background planets
@@ -1823,9 +1900,16 @@ void Render_to_texture(long elapsed)
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
 		font << "Press 'I' for instructions";
+
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font << "Press 'c' for credits";
+		
+		
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, -0.2f, 0.0f));
 		font << "Press 'Space' to start";
 		
 	}
@@ -1852,24 +1936,32 @@ void Render_to_texture(long elapsed)
 	}
 
 	//-----------------------------------------------------------------------------------
-	//UI FOR START UP 
+	//UI FOR Credits
 	//-----------------------------------------------------------------------------------
-	if (gamestate == 0) {
+	if (gamestate == 4 & displayCredots) {
 		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
 		font << "CELESTERIAL DRIFT";
+	
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, 0.0f, 0.0f));
+		font << "CREDITS";
 
+		font.setScaling(XMFLOAT3(.9, .9, .9));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, -0.1f, 0.0f));
+		font << "A game made for CST320: Introduction to Digital Games";
+		font.setPosition(XMFLOAT3(-.74f, -0.2f, 0.0f));
+		font << "Authors: Peter King, Miguel Lopez, Michael Royal";
+	
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
-		font << "Press 'I' for instructions";
-		font.setScaling(XMFLOAT3(1, 1, 1));
-		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font.setPosition(XMFLOAT3(-.5f, -0.73f, 0.0f));
 		font << "Press 'Space' to start";
-
 	}
+
 	//-----------------------------------------------------------------------------------
 	//UI FOR INSTRUCTIONS
 	//-----------------------------------------------------------------------------------
@@ -1916,7 +2008,7 @@ void Render_to_texture(long elapsed)
 	//NEW ROUND DISPLAY
 	//-----------------------------------------------------------------------------------
 	if (wonRound) {
-		roundNumber++;
+		
 		increaseDiffulty();
 		roundTimer.start(); //restarting round timer
 
@@ -2053,6 +2145,7 @@ void Render_to_texture(long elapsed)
 			font << std::to_string(abs(cam.position.z / 100));
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
 				playerDeath("Strayed into enemy territory");
+			sound.play_fx("Rock.wav");
 
 			
 		}
@@ -2076,8 +2169,10 @@ void Render_to_texture(long elapsed)
 					int y = StationaryMines[ii]->pos.y;
 					int z = StationaryMines[ii]->pos.z;
 					explosionhandler.new_explosion(XMFLOAT3(x,y,z), XMFLOAT3(0, 0, 5), 1, 40.0);
+					sound.play_fx("Rock.wav");
 					if (c < 80) {
 						playerDeath("Was in proximity of space mine when it exploded");
+
 					}
 					StationaryMines.erase(StationaryMines.begin() + ii);
 			}
@@ -2091,6 +2186,7 @@ void Render_to_texture(long elapsed)
 			
 			if (c < 20) //collision death
 			{
+				sound.play_fx("Rock.wav");
 				explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
 				playerDeath("Ran into a mine");
@@ -2098,12 +2194,51 @@ void Render_to_texture(long elapsed)
 		}
 
 	}
+	//Tracker Mines
+	for (int ii = 0; ii < trackerMines.size(); ii++) {
+		float dx = -cam.position.x - trackerMines[ii]->pos.x;
+		float dy = -cam.position.y - trackerMines[ii]->pos.y;
+		float dz = -cam.position.z - trackerMines[ii]->pos.z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		if (c < 80) {
+			trackerMines[ii]->activated = true;
+			if (c < 20) { //collision death
+				sound.play_fx("Rock.wav");
+				explosionhandler.new_explosion(trackerMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
+				trackerMines.erase(trackerMines.begin() + ii);
+				playerDeath("hit by a tracker mine");
+			}
+			
+		}
 	
+	
+	
+	}
+
+
 	//BULLLETS CLEAN UP
 	//Temp solution check for distance later
 	if (bullets.size() > 15) {
-
 		bullets.erase(bullets.begin() + 10);
+		for (int jj = 0; jj < bullets.size(); jj++) { // YIKES DOUBLE FOR LOOP WOOP WOOP
+					
+			for (int ii = 0; ii < trackerMines.size(); ii++) {
+				float dx = bullets[jj]->pos.x - trackerMines[ii]->pos.x;
+				float dy = bullets[jj]->pos.y - trackerMines[ii]->pos.y;
+				float dz = bullets[jj]->pos.z - trackerMines[ii]->pos.z;
+				float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+				if (c < 100) {
+					sound.play_fx("Rock.wav");
+					explosionhandler.new_explosion(trackerMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
+					trackerMines.erase(trackerMines.begin() + ii);
+				
+				}
+
+		}
+		
+		
+		
+		}
 
 	}
 
@@ -2127,6 +2262,7 @@ void Render_to_texture(long elapsed)
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
 			playerDeath("Collided with a astroid");
+			sound.play_fx("Rock.wav");
 		}
 	}
 	//REached goal
@@ -2139,6 +2275,7 @@ void Render_to_texture(long elapsed)
 		//reseting for new ground
 		cam.impulseActual = XMFLOAT3(0, 0, 0);
 		wonRound = true;
+		roundNumber++;
 		
 		timeWon = elapsed;
 
