@@ -1916,13 +1916,13 @@ void Render_to_texture(long elapsed)
 
 		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-0.5, .9, 0));
+		font.setPosition(XMFLOAT3(-0.95, -.7, 0));
 		font << "Rail Gun Direction: ";
 
 		//font
 		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 
-		font.setPosition(XMFLOAT3(-.05, .9, 0));
+		font.setPosition(XMFLOAT3(-.5, -.7, 0));
 		if (fireFoward) {
 			font.setColor(XMFLOAT3(0, 1, .6));
 			font << "FORWARD";
