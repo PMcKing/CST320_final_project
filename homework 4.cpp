@@ -140,7 +140,7 @@ XMFLOAT3							rocket_position;
 vector<Mine*>						StationaryMines;
 
 //Mines
-#define MINECOUNT					50
+#define TRACKMINECOUNT					20
 vector<TrackerMine*>				trackerMines;
 
 //One Ups
@@ -184,11 +184,12 @@ music_								sound;
 
 //lazy UI
 bool displayInstruct = false;
+bool displayCredots = false;
 bool rotateback = true;
 string causeOfDeath;
 
 //GAME STATE 
-int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over.
+int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over, 4 == instructions
 
 explosion_handler  explosionhandler;
 
@@ -641,7 +642,7 @@ HRESULT InitDevice()
 	}
 	//randomizing the tracker mine position
 	TrackerMine * tm2;
-	for (int ii = 0; ii < MINECOUNT; ii++) {
+	for (int ii = 0; ii < TRACKMINECOUNT; ii++) {
 		float x, y, z, w;
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
@@ -1223,7 +1224,7 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 68: cam.d = 0;//d
 				break;
 			case 32: //space
-				if (gamestate == 0 || gamestate == 1) {
+				if (gamestate == 0 || gamestate == 1 |gamestate == 4 ) {
 					gamestate = 2;
 					roundTimer.start();
 					
@@ -1249,6 +1250,12 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 					gamestate = 1;
 					}
 				break;
+			case 67:
+				if (gamestate == 0) {
+					gamestate = 4;
+				}
+				break;
+
 			default:break;
 
 		}
@@ -1598,12 +1605,19 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 && rotateback) {
 		if (cam.rotation.y > 0)
-			cam.rotation.y -= rotation / 20;
-		else
+			cam.rotation.y -= rotation / 10;
+				else
 			rotateback = false;
 	
 	}
 
+	if (gamestate == 4 ) {
+		if (cam.rotation.y < 4)
+			cam.rotation.y += rotation / 20;
+		else
+			displayCredots = true;
+
+	}
 
 	//-----------------------------------------------------------------------------------
 	//NAV ARROW
@@ -1768,7 +1782,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//tracker Mine rendering
 	//-----------------------------------------------------------------------------------
-	if (roundNumber >0) {
+	if (roundNumber > 1) { // tracker mine come in at level 2. 
 		for (int ii = 0; ii < trackerMines.size(); ii++)
 		{
 			//display 
@@ -1886,9 +1900,16 @@ void Render_to_texture(long elapsed)
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
 		font << "Press 'I' for instructions";
+
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font << "Press 'c' for credits";
+		
+		
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.5f, -0.2f, 0.0f));
 		font << "Press 'Space' to start";
 		
 	}
@@ -1915,24 +1936,32 @@ void Render_to_texture(long elapsed)
 	}
 
 	//-----------------------------------------------------------------------------------
-	//UI FOR START UP 
+	//UI FOR Credits
 	//-----------------------------------------------------------------------------------
-	if (gamestate == 0) {
+	if (gamestate == 4 & displayCredots) {
 		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
 		font << "CELESTERIAL DRIFT";
+	
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, 0.0f, 0.0f));
+		font << "CREDITS";
 
+		font.setScaling(XMFLOAT3(.9, .9, .9));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.74f, -0.1f, 0.0f));
+		font << "A game made for CST320: Introduction to Digital Games";
+		font.setPosition(XMFLOAT3(-.74f, -0.2f, 0.0f));
+		font << "Authors: Peter King, Miguel Lopez, Michael Royal";
+	
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-.5f, 0.0f, 0.0f));
-		font << "Press 'I' for instructions";
-		font.setScaling(XMFLOAT3(1, 1, 1));
-		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
+		font.setPosition(XMFLOAT3(-.5f, -0.73f, 0.0f));
 		font << "Press 'Space' to start";
-
 	}
+
 	//-----------------------------------------------------------------------------------
 	//UI FOR INSTRUCTIONS
 	//-----------------------------------------------------------------------------------
