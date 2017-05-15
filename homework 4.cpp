@@ -111,8 +111,8 @@ ID3D11Buffer*                       g_pCBuffer = NULL;
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
 ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
-ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL; //nav arrow
-
+ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL;
+ID3D11ShaderResourceView*           g_pTextureBGMars = NULL; //background planet
 
 
 
@@ -152,7 +152,7 @@ bool								canFire = true;
 //round timer
 
 static StopWatchMicro_				roundTimer;
-float								roundLength = 60000.0f;//30 seconds
+float								roundLength = 30000.0f;//30 seconds
 
 
 
@@ -726,7 +726,7 @@ HRESULT InitDevice()
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
 	//Load Small ship for Ones and Title screen
-	Load3DS("small_fighter_1.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
+	Load3DS("SpaceCraft.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
 
 	//Loa space mines
 	Load3DS("mine.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_mine, &model_vertex_anz_mine);
@@ -778,7 +778,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"color_0.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship one ups
@@ -793,7 +793,10 @@ HRESULT InitDevice()
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
 	if (FAILED(hr))
 		return hr;
-
+	// Texture for background planet 1
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"mars.jpg", NULL, NULL, &g_pTextureBGMars, NULL);
+	if (FAILED(hr))
+		return hr;
 
 
     // Create the sample state
@@ -1168,6 +1171,7 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 					cam.impulseActual = XMFLOAT3(0.0, 0.0, 0.0f);
 					gamestate = 2;
 					playerLives = 1;
+					roundTimer.start();
 					
 				}
 
@@ -1436,7 +1440,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//ROUND WON DISPLAY
 	//-----------------------------------------------------------------------------------
-	if (elapsed - roundTimer.elapse_milli() > roundLength) {
+	if ((roundLength - roundTimer.elapse_milli()) / 1000 < 0) {
 		gamestate = 3; //run out of time
 	}
 
@@ -1496,21 +1500,21 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//Sky Sphere
 	//-----------------------------------------------------------------------------------
-	constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z));
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_sky);
-	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_sky);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
-	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+		constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z));
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+		g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+		g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+		g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_sky);
+		g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_sky);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+		g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+		g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 
 
@@ -1655,7 +1659,7 @@ void Render_to_texture(long elapsed)
 	{
 		//display
 		ConstantBuffer constantbuffer;
-		XMMATRIX S = XMMatrixScaling(.08, .08, .08);
+		XMMATRIX S = XMMatrixScaling(1, 1, 1);
 		XMMATRIX R = XMMatrixRotationX(XM_PIDIV2);
 		XMMATRIX Ry = XMMatrixRotationY(rotation);
 
@@ -1674,14 +1678,14 @@ void Render_to_texture(long elapsed)
 	//menu ship rindering
 	//---------------
 	if (gamestate == 0) {
-		S = XMMatrixScaling(.055, .055, .055);
-		R = XMMatrixRotationX(-XM_PIDIV2);
-		XMMATRIX R1 = XMMatrixRotationY(-0.785398);
+		S = XMMatrixScaling(-1, -1, -1);
+		R = XMMatrixRotationX(1.5708);
+		XMMATRIX R1 = XMMatrixRotationY(-0.872665);
 		XMMATRIX R2 = XMMatrixRotationZ(0.174533);
 		Ry = XMMatrixRotationY(rotation);
-		T = XMMatrixTranslation(12 + sin(rotation), sin(rotation), 40);
+		T = XMMatrixTranslation(12 + sin(rotation), sin(rotation) - 3, 40);
 
-		constantbuffer.World = XMMatrixTranspose(S *R* R1* R2* T);
+		constantbuffer.World = XMMatrixTranspose(S *R1 * R* R2*T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
@@ -1717,6 +1721,30 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	
+	//-----------------------------------------------------------------------------------
+	//background planets
+	//-----------------------------------------------------------------------------------
+	T = XMMatrixTranslation(5000, 5000, 5000);
+	S = XMMatrixScaling(30, 30, 30);
+	R = XMMatrixRotationY(XM_PIDIV2);
+
+	constantbuffer.World = XMMatrixTranspose(S *R * T);
+
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureBGMars);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTextureBGMars);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
+	
+
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
@@ -1888,13 +1916,13 @@ void Render_to_texture(long elapsed)
 
 		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-0.5, .9, 0));
+		font.setPosition(XMFLOAT3(-0.95, -.7, 0));
 		font << "Rail Gun Direction: ";
 
 		//font
 		font.setScaling(XMFLOAT3(1.5, 1.5, 1.5));
 
-		font.setPosition(XMFLOAT3(-.05, .9, 0));
+		font.setPosition(XMFLOAT3(-.5, -.7, 0));
 		if (fireFoward) {
 			font.setColor(XMFLOAT3(0, 1, .6));
 			font << "FORWARD";
@@ -2065,6 +2093,7 @@ void Render_to_texture(long elapsed)
 		//reseting for new ground
 		cam.impulseActual = XMFLOAT3(0, 0, 0);
 		wonRound = true;
+		
 		timeWon = elapsed;
 
 		//moveing objective
