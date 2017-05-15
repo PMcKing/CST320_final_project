@@ -542,7 +542,7 @@ class level
 		}
 		bool explode(float elapsed) {
 		//takes differences between activatioTime if more then 2 seconds, explods.
-			if (elapsed - explodedTime > 9500)
+			if (elapsed - explodedTime > 10000)
 				return true;
 			else
 				return false;
