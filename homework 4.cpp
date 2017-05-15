@@ -1738,19 +1738,30 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	
 	XMMATRIX TMT, TMR, TMM;
-	a.pos = XMFLOAT3(0, 0, 100);
-	T = XMMatrixTranslation(a.pos.x, a.pos.y, a.pos.z);
+		
 	S = XMMatrixScaling(10, 10, 10);
 
-	XMFLOAT3  v = cam.position - a.pos;
-	XMVECTOR V = XMVectorSet(v.x, v.y, v.z, 0.0f);
+	XMMATRIX CR = cam.get_matrix(&g_View);
+	CR._41 = 0;
+	CR._42 = 0;
+	CR._43 = 0;
+	XMVECTOR det;
+	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+	XMVECTOR f = XMLoadFloat3(&forward);
+	f = XMVector3TransformCoord(f, CR);
+	XMStoreFloat3(&forward, f);
 
-	V = XMVector4Normalize(V);
-	a.animate(v, elapsed);
+	a.imp = forward;
+	T = a.getmatrix(elapsed, view);
+
+
+	//V = XMVector4Normalize(V);
+	//a.animate(v, elapsed);
 	//TT = a.getmatrix(elapsed, 
 	TMR = a.getmatrix(elapsed, view);
 	
-	constantbuffer.World = XMMatrixTranspose(TMR);
+	constantbuffer.World = XMMatrixTranspose(T);
 	constantbuffer.View = XMMatrixTranspose(view);
 	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
