@@ -178,6 +178,7 @@ music_								sound;
 //lazy UI
 bool displayInstruct = false;
 bool rotateback = true;
+string causeOfDeath;
 
 //GAME STATE 
 int									gamestate; //used to swtich game states 0 == title screen, 1 == instructions, 2 == game, 3 == game over.
@@ -205,11 +206,12 @@ float frand()
 	float res = (float)r / (float)RAND_MAX;
 	return res;
 }
-void playerDeath() {
+void playerDeath(string cause) {
 	//if player collids with mine, or astroid then -1 life. functions checks if this fall below zero, if so ends game. TODO change to change game state.
 	playerLives--;
 	if (playerLives < 1) {
 		gamestate = 3;
+		causeOfDeath = cause;
 	}
 	return;
 }
@@ -598,6 +600,12 @@ HRESULT InitDevice()
 		px = rand() % 1000 - 500;
 		py = rand() % 1000 - 500;
 		//TODO add to objectivePos
+		while (px*px + py*py + pz*pz <= 1600)
+		{
+			pz = rand() % 1000 - 500;
+			px = rand() % 1000 - 500;
+			py = rand() % 1000 - 500;
+		}
 
 	}
 	
@@ -610,6 +618,14 @@ HRESULT InitDevice()
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
 		tm = new Mine(XMFLOAT3(x, y, z));
 
 		StationaryMines.push_back(tm);
@@ -622,6 +638,14 @@ HRESULT InitDevice()
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
 		ps = new XMFLOAT3(x, y, z);
 		oneUps.push_back(ps);
 
@@ -1812,12 +1836,16 @@ void Render_to_texture(long elapsed)
 	if (gamestate == 3) {
 		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-.25f, 0.0f, 0.0f));
+		font.setPosition(XMFLOAT3(-.27f, 0.0f, 0.0f));
 		font << "GAME OVER";
+
+		font.setScaling(XMFLOAT3(1.3, 1.3, 1.3));
+		font.setPosition(XMFLOAT3(-0.27f, -0.2f, 0.0f));
+		font << causeOfDeath;
 
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
-		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
+		font.setPosition(XMFLOAT3(-0.23f, -0.4f, 0.0f));
 		font << "press 'space' to start over";
 		
 
@@ -2024,7 +2052,7 @@ void Render_to_texture(long elapsed)
 
 			font << std::to_string(abs(cam.position.z / 100));
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
-				playerDeath();
+				playerDeath("Strayed into enemy territory");
 
 			
 		}
@@ -2042,24 +2070,30 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
+		if (StationaryMines[ii]->explode(elapsed)) { //in death}
+					
+					int x = StationaryMines[ii]->pos.x;
+					int y = StationaryMines[ii]->pos.y;
+					int z = StationaryMines[ii]->pos.z;
+					explosionhandler.new_explosion(XMFLOAT3(x,y,z), XMFLOAT3(0, 0, 5), 1, 40.0);
+					if (c < 80) {
+						playerDeath("Was in proximity of space mine when it exploded");
+					}
+					StationaryMines.erase(StationaryMines.begin() + ii);
+			}
+
 		if (c < 80) {
 			//change color
 			
 			if(!StationaryMines[ii]->activated) //if it isn't activated activate it
 				StationaryMines[ii]->activate(elapsed);
 
-			if (StationaryMines[ii]->explode(elapsed)) { //in death}
-					StationaryMines.erase(StationaryMines.begin() + ii);
-					explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0);
-					if (c < 80) {
-						playerDeath();
-					}
-			}
+			
 			if (c < 20) //collision death
 			{
 				explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
-				playerDeath();
+				playerDeath("Ran into a mine");
 			}
 		}
 
@@ -2092,7 +2126,7 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - asteroid_pos[i].z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
-			playerDeath();
+			playerDeath("Collided with a astroid");
 		}
 	}
 	//REached goal
