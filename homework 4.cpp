@@ -112,6 +112,8 @@ ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
 ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
 ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL;
+ID3D11ShaderResourceView*           g_pTextureTrackerMine = NULL;
+
 ID3D11ShaderResourceView*           g_pTextureBGMars = NULL; //background planet
 
 
@@ -136,6 +138,11 @@ XMFLOAT3							rocket_position;
 //Mines
 #define MINECOUNT					50
 vector<Mine*>						StationaryMines;
+
+//Mines
+#define MINECOUNT					50
+vector<TrackerMine*>				trackerMines;
+
 //One Ups
 vector<XMFLOAT3*>					oneUps;
 //rail gun
@@ -632,6 +639,27 @@ HRESULT InitDevice()
 		StationaryMines.push_back(tm);
 
 	}
+	//randomizing the tracker mine position
+	TrackerMine * tm2;
+	for (int ii = 0; ii < MINECOUNT; ii++) {
+		float x, y, z, w;
+		z = rand() % 1000 - 100;
+		x = rand() % 1000 - 100;
+		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
+		tm2 = new TrackerMine(XMFLOAT3(x, y, z));
+
+		trackerMines.push_back(tm2);
+
+	}
+
 	//randomizing the one ups
 	XMFLOAT3* ps;
 	for (int i = 0; i < 20; i++) {
@@ -821,6 +849,10 @@ HRESULT InitDevice()
 			return hr;
 	// Textureing for mine activated
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
+	if (FAILED(hr))
+		return hr;
+	// Textureing for trackermine
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"trackerminetex.png", NULL, NULL, &g_pTextureTrackerMine, NULL);
 	if (FAILED(hr))
 		return hr;
 	// Texture for background planet 1
@@ -1736,40 +1768,54 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//tracker Mine rendering
 	//-----------------------------------------------------------------------------------
+	if (roundNumber >0) {
+		for (int ii = 0; ii < trackerMines.size(); ii++)
+		{
+			//display 
+			ConstantBuffer constantbuffer;
+			XMMATRIX T = XMMatrixTranslation(trackerMines[ii]->pos.x, trackerMines[ii]->pos.y, trackerMines[ii]->pos.z);
+			XMMATRIX S = XMMatrixScaling(10, 10, 10);
+			constantbuffer.World = XMMatrixTranspose(S*T);
+			constantbuffer.View = XMMatrixTranspose(view);
+			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
+			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
+
+			if (trackerMines[ii]->activated) {
+				XMMATRIX CR = cam.get_matrix(&g_View);
+				CR._41 = 0;
+				CR._42 = 0;
+				CR._43 = 0;
+				XMVECTOR det;
+				XMMATRIX ICR = XMMatrixInverse(&det, CR);
+				XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
+				XMVECTOR f = XMLoadFloat3(&forward);
+				f = XMVector3TransformCoord(f, CR);
+				XMStoreFloat3(&forward, f);
+
+				a.imp = forward;
+				T = a.getmatrix(elapsed, view);
+				constantbuffer.World = XMMatrixTranspose(T);
+			}
+
+			if (trackerMines[ii]->activated)
+				g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMineActivated); //TODO CHANGE TO RED
+			else
+				g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureTrackerMine);
+
+			g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+			g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+			g_pImmediateContext->Draw(model_vertex_anz_mine, 0);
+
+		}
+	}
 	
-	XMMATRIX TMT, TMR, TMM;
-		
-	S = XMMatrixScaling(10, 10, 10);
-
-	XMMATRIX CR = cam.get_matrix(&g_View);
-	CR._41 = 0;
-	CR._42 = 0;
-	CR._43 = 0;
-	XMVECTOR det;
-	XMMATRIX ICR = XMMatrixInverse(&det, CR);
-	XMFLOAT3 forward = XMFLOAT3(0, 0, 3);
-	XMVECTOR f = XMLoadFloat3(&forward);
-	f = XMVector3TransformCoord(f, CR);
-	XMStoreFloat3(&forward, f);
-
-	a.imp = forward;
-	T = a.getmatrix(elapsed, view);
-
-
-	//V = XMVector4Normalize(V);
-	//a.animate(v, elapsed);
-	//TT = a.getmatrix(elapsed, 
-	TMR = a.getmatrix(elapsed, view);
+			
 	
-	constantbuffer.World = XMMatrixTranspose(T);
-	constantbuffer.View = XMMatrixTranspose(view);
-	constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_asteroid);
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
+	
+
+	
+	
 	
 	//-----------------------------------------------------------------------------------
 	//background planets
@@ -2119,12 +2165,51 @@ void Render_to_texture(long elapsed)
 		}
 
 	}
+	//Tracker Mines
+	for (int ii = 0; ii < trackerMines.size(); ii++) {
+		float dx = -cam.position.x - trackerMines[ii]->pos.x;
+		float dy = -cam.position.y - trackerMines[ii]->pos.y;
+		float dz = -cam.position.z - trackerMines[ii]->pos.z;
+		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+		if (c < 80) {
+			trackerMines[ii]->activated = true;
+			if (c < 20) { //collision death
+				sound.play_fx("Rock.wav");
+				explosionhandler.new_explosion(trackerMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
+				trackerMines.erase(trackerMines.begin() + ii);
+				playerDeath("hit by a tracker mine");
+			}
+			
+		}
 	
+	
+	
+	}
+
+
 	//BULLLETS CLEAN UP
 	//Temp solution check for distance later
 	if (bullets.size() > 15) {
-
 		bullets.erase(bullets.begin() + 10);
+		for (int jj = 0; jj < bullets.size(); jj++) { // YIKES DOUBLE FOR LOOP WOOP WOOP
+					
+			for (int ii = 0; ii < trackerMines.size(); ii++) {
+				float dx = bullets[jj]->pos.x - trackerMines[ii]->pos.x;
+				float dy = bullets[jj]->pos.y - trackerMines[ii]->pos.y;
+				float dz = bullets[jj]->pos.z - trackerMines[ii]->pos.z;
+				float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
+				if (c < 100) {
+					sound.play_fx("Rock.wav");
+					explosionhandler.new_explosion(trackerMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
+					trackerMines.erase(trackerMines.begin() + ii);
+				
+				}
+
+		}
+		
+		
+		
+		}
 
 	}
 

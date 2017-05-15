@@ -557,13 +557,21 @@ class level
 	{
 	public:
 		XMFLOAT3 pos, imp, rot;
+		bool activated;
 		TrackerMine()
 		{
 			pos = imp = XMFLOAT3(0, 0, 0);
+			activated = false;
+		}
+		TrackerMine(XMFLOAT3 apos) {
+			pos = apos;
+			activated = false;
+			
+
 		}
 		XMMATRIX getmatrix(float elapsed, XMMATRIX &view)
 		{
-
+		
 			pos.x = pos.x + imp.x *(elapsed / 100000.0);
 			pos.y = pos.y + imp.y *(elapsed / 100000.0);
 			pos.z = pos.z + imp.z *(elapsed / 100000.0);
