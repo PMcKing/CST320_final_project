@@ -726,7 +726,7 @@ HRESULT InitDevice()
 	Load3DS("nav_arrow.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_nav, &model_vertex_anz_nav);
 
 	//Load Small ship for Ones and Title screen
-	Load3DS("small_fighter_1.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
+	Load3DS("SpaceCraft.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_ship, &model_vertex_anz_ship);
 
 	//Loa space mines
 	Load3DS("mine.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_mine, &model_vertex_anz_mine);
@@ -778,7 +778,7 @@ HRESULT InitDevice()
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship
-	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"color_0.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
 	if (FAILED(hr))
 		return hr;
 	// Textureing for small ship one ups
@@ -1659,7 +1659,7 @@ void Render_to_texture(long elapsed)
 	{
 		//display
 		ConstantBuffer constantbuffer;
-		XMMATRIX S = XMMatrixScaling(.08, .08, .08);
+		XMMATRIX S = XMMatrixScaling(1, 1, 1);
 		XMMATRIX R = XMMatrixRotationX(XM_PIDIV2);
 		XMMATRIX Ry = XMMatrixRotationY(rotation);
 
@@ -1678,14 +1678,14 @@ void Render_to_texture(long elapsed)
 	//menu ship rindering
 	//---------------
 	if (gamestate == 0) {
-		S = XMMatrixScaling(.055, .055, .055);
-		R = XMMatrixRotationX(-XM_PIDIV2);
-		XMMATRIX R1 = XMMatrixRotationY(-0.785398);
+		S = XMMatrixScaling(-1, -1, -1);
+		R = XMMatrixRotationX(1.5708);
+		XMMATRIX R1 = XMMatrixRotationY(-0.872665);
 		XMMATRIX R2 = XMMatrixRotationZ(0.174533);
 		Ry = XMMatrixRotationY(rotation);
-		T = XMMatrixTranslation(12 + sin(rotation), sin(rotation), 40);
+		T = XMMatrixTranslation(12 + sin(rotation), sin(rotation) - 3, 40);
 
-		constantbuffer.World = XMMatrixTranspose(S *R* R1* R2* T);
+		constantbuffer.World = XMMatrixTranspose(S *R1 * R* R2*T);
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_ship, &stride, &offset);
