@@ -2048,19 +2048,25 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
+		if (StationaryMines[ii]->explode(elapsed)) { //in death}
+					
+					int x = StationaryMines[ii]->pos.x;
+					int y = StationaryMines[ii]->pos.y;
+					int z = StationaryMines[ii]->pos.z;
+					explosionhandler.new_explosion(XMFLOAT3(x,y,z), XMFLOAT3(0, 0, 5), 1, 40.0);
+					if (c < 80) {
+						playerDeath("Was in proximity of space mine when it exploded");
+					}
+					StationaryMines.erase(StationaryMines.begin() + ii);
+			}
+
 		if (c < 80) {
 			//change color
 			
 			if(!StationaryMines[ii]->activated) //if it isn't activated activate it
 				StationaryMines[ii]->activate(elapsed);
 
-			if (StationaryMines[ii]->explode(elapsed)) { //in death}
-					StationaryMines.erase(StationaryMines.begin() + ii);
-					explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0);
-					if (c < 80) {
-						playerDeath("in proximity of space mine");
-					}
-			}
+			
 			if (c < 20) //collision death
 			{
 				explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
@@ -2098,7 +2104,7 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - asteroid_pos[i].z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
-			playerDeath("collided with a astroid");
+			playerDeath("Collided with a astroid");
 		}
 	}
 	//REached goal
