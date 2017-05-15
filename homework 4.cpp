@@ -105,9 +105,15 @@ ID3D11BlendState*					g_BlendState;
 ID3D11Buffer*                       g_pCBuffer = NULL;
 
 
-//TEXTURES
+//--------------------------------------------------------------------------------------
+// TEXTURES
+//--------------------------------------------------------------------------------------
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
+ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
+ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL; //nav arrow
+
+
 
 
 
@@ -775,9 +781,19 @@ HRESULT InitDevice()
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
 	if (FAILED(hr))
 		return hr;
+	// Textureing for small ship one ups
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"oneUp_tex.png", NULL, NULL, &g_pTexture_small_ship_oneup, NULL); 
 		if (FAILED(hr))
 			return hr;
+	// Textureing for mine
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetex.png", NULL, NULL, &g_pTextureMine, NULL);
+		if (FAILED(hr))
+			return hr;
+	// Textureing for mine activated
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
+	if (FAILED(hr))
+		return hr;
+
 
 
     // Create the sample state
@@ -1597,9 +1613,9 @@ void Render_to_texture(long elapsed)
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
 		if (StationaryMines[ii]->activated)
-			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_small_ship_oneup); //TODO CHANGE TO RED
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMineActivated); //TODO CHANGE TO RED
 		else
-			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMine);
 
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
