@@ -505,12 +505,18 @@ class level
 	{
 	public:
 		XMFLOAT3 pos, imp;
+		bool activated; //flip to change textures
+		float explodedTime;//used to determined with to explod.
 		Mine()
 		{
 			pos = imp = XMFLOAT3(0, 0, 0);
+			activated = false;
+			explodedTime = .0f;
 		}
 		Mine(XMFLOAT3 apos) {
 			pos = apos;
+			activated = false;
+			explodedTime = .0f;
 
 		}
 
@@ -529,6 +535,18 @@ class level
 			T = XMMatrixTranslation(pos.x, pos.y, pos.z);
 
 			return R * T;
+		}
+		void activate(float elapsed) {
+			activated = true;
+			explodedTime = elapsed;
+		}
+		bool explode(float elapsed) {
+		//takes differences between activatioTime if more then 2 seconds, explods.
+			if (elapsed - explodedTime > 9500)
+				return true;
+			else
+				return false;
+		
 		}
 
 

@@ -105,9 +105,15 @@ ID3D11BlendState*					g_BlendState;
 ID3D11Buffer*                       g_pCBuffer = NULL;
 
 
-//TEXTURES
+//--------------------------------------------------------------------------------------
+// TEXTURES
+//--------------------------------------------------------------------------------------
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
+ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
+ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL; //nav arrow
+
+
 
 
 
@@ -143,6 +149,13 @@ static StopWatchMicro_				fireTimer;
 bool								fireFoward = true; //used to switch movment dictions, true = shoot forward, fly backwards, false, = reverse 
 bool								canFire = true;
 
+//round timer
+
+static StopWatchMicro_				roundTimer;
+float								roundLength = 60000.0f;//30 seconds
+
+
+
 // globals for game balance
 XMFLOAT3							objectivePos;//used to nav arrow to point to object cords
 
@@ -150,6 +163,9 @@ int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds =
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
 int									playField = 1000;//used to determine how far the player can go. 
+int									roundNumber = 1;
+bool								wonRound = false;
+float								timeWon;
 
 
 //Font
@@ -193,7 +209,7 @@ void playerDeath() {
 	//if player collids with mine, or astroid then -1 life. functions checks if this fall below zero, if so ends game. TODO change to change game state.
 	playerLives--;
 	if (playerLives < 1) {
-		PostQuitMessage(1);
+		gamestate = 3;
 	}
 	return;
 }
@@ -765,9 +781,19 @@ HRESULT InitDevice()
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"s104red.jpg", NULL, NULL, &g_pTexture_small_ship, NULL); 
 	if (FAILED(hr))
 		return hr;
+	// Textureing for small ship one ups
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"oneUp_tex.png", NULL, NULL, &g_pTexture_small_ship_oneup, NULL); 
 		if (FAILED(hr))
 			return hr;
+	// Textureing for mine
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetex.png", NULL, NULL, &g_pTextureMine, NULL);
+		if (FAILED(hr))
+			return hr;
+	// Textureing for mine activated
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
+	if (FAILED(hr))
+		return hr;
+
 
 
     // Create the sample state
@@ -1134,6 +1160,15 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 32: //space
 				if (gamestate == 0 || gamestate == 1) {
 					gamestate = 2;
+					roundTimer.start();
+					
+				}
+				if (gamestate == 3) {//restart
+					cam.position = XMFLOAT3(0.0, 0.0, 0.0f);
+					cam.impulseActual = XMFLOAT3(0.0, 0.0, 0.0f);
+					gamestate = 2;
+					playerLives = 1;
+					
 				}
 
 				cam.fireFoward_flip();
@@ -1392,6 +1427,21 @@ void Render_to_texture(long elapsed)
 		canFire = true;
 	}
 	//-----------------------------------------------------------------------------------
+	//ROUND WON DISPLAY
+	//-----------------------------------------------------------------------------------
+	if (elapsed - timeWon > 7000) { //display for a few seconds before disapearing
+		wonRound = false;
+		
+	}
+	//-----------------------------------------------------------------------------------
+	//ROUND WON DISPLAY
+	//-----------------------------------------------------------------------------------
+	if (elapsed - roundTimer.elapse_milli() > roundLength) {
+		gamestate = 3; //run out of time
+	}
+
+
+	//-----------------------------------------------------------------------------------
 	//RENDERING MODELS
 	//-----------------------------------------------------------------------------------
 	RenderTarget = RenderToTexture.GetRenderTarget();
@@ -1469,7 +1519,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	if (gamestate == 1) {
 		if(cam.rotation.y < 2)
-		cam.rotation.y += rotation/5;
+		cam.rotation.y += rotation/20;
 		else
 			displayInstruct = true;
 		
@@ -1477,7 +1527,7 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 && rotateback) {
 		if (cam.rotation.y > 0)
-			cam.rotation.y -= rotation / 5;
+			cam.rotation.y -= rotation / 20;
 		else
 			rotateback = false;
 	
@@ -1562,7 +1612,11 @@ void Render_to_texture(long elapsed)
 		constantbuffer.View = XMMatrixTranspose(view);
 		constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_mine, &stride, &offset);
-		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
+		if (StationaryMines[ii]->activated)
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMineActivated); //TODO CHANGE TO RED
+		else
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMine);
+
 		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 		g_pImmediateContext->Draw(model_vertex_anz_mine, 0);
@@ -1662,14 +1716,7 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
-	///-----------------------------------------------------------------------------------
-	//Explosions
-	//-----------------------------------------------------------------------------------
-	view = cam.get_matrix(&g_View);
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	explosionhandler.render(&view, &g_Projection, elapsed);
-	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
@@ -1720,6 +1767,23 @@ void Render_to_texture(long elapsed)
 		font.setPosition(XMFLOAT3(-.5f, -0.1f, 0.0f));
 		font << "Press 'Space' to start";
 		
+	}
+
+	//-----------------------------------------------------------------------------------
+	//UI FOR END GAME
+	//-----------------------------------------------------------------------------------
+	if (gamestate == 3) {
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.25f, 0.0f, 0.0f));
+		font << "GAME OVER";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
+		font << "press 'space' to start over";
+		
+
 	}
 
 	//-----------------------------------------------------------------------------------
@@ -1782,6 +1846,27 @@ void Render_to_texture(long elapsed)
 		font << "Press 'Space' to start";
 
 	}
+
+	//-----------------------------------------------------------------------------------
+	//NEW ROUND DISPLAY
+	//-----------------------------------------------------------------------------------
+	if (wonRound) {
+
+		roundTimer.start(); //restarting round timer
+
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.45f, 0.0f, 0.0f));
+		font << "ROUND COMPLETED";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
+		font << "SCORE: ";
+	
+	}
+
+
 
 	//-----------------------------------------------------------------------------------
 	//HEADS UP DISPLAY
@@ -1864,6 +1949,21 @@ void Render_to_texture(long elapsed)
 		font << std::to_string(playerLives);
 
 		//-----------------------------------------------------------------------------------
+		//ROUND TIMER
+		//-----------------------------------------------------------------------------------
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(0.5, .99, 0));
+		font << "ROUND TIMER: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(0.8, .99, 0));
+		font << std::to_string((roundLength - roundTimer.elapse_milli()) / 1000);
+
+
+		//-----------------------------------------------------------------------------------
 		//Play Area Warning
 		//-----------------------------------------------------------------------------------
 		if (abs(cam.position.x) > playField - 200 || abs(cam.position.y) > playField - 200 || abs(cam.position.z) > playField - 200) {//checking if a player has gone too far from boundrys
@@ -1884,8 +1984,9 @@ void Render_to_texture(long elapsed)
 
 			font << std::to_string(abs(cam.position.z / 100));
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
-				PostQuitMessage(1);
+				playerDeath();
 
+			
 		}
 	}
 	
@@ -1901,12 +2002,22 @@ void Render_to_texture(long elapsed)
 		float dz = -cam.position.z - StationaryMines[ii]->pos.z;
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 
-		if (c < 50) {
+		if (c < 80) {
 			//change color
-			S = XMMatrixScaling(ms, ms, ms); //NEED TO MAKE A GLOBAL VAR
-			if (c < 20)
+			
+			if(!StationaryMines[ii]->activated) //if it isn't activated activate it
+				StationaryMines[ii]->activate(elapsed);
+
+			if (StationaryMines[ii]->explode(elapsed)) { //in death}
+					StationaryMines.erase(StationaryMines.begin() + ii);
+					explosionhandler.new_explosion(XMFLOAT3(-StationaryMines[ii]->pos.x, -StationaryMines[ii]->pos.y + 20, -StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0);
+					if (c < 80) {
+						playerDeath();
+					}
+			}
+			if (c < 20) //collision death
 			{
-				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 8.0f); //end game
+				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y +20, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
 				playerDeath();
 			}
@@ -1944,15 +2055,46 @@ void Render_to_texture(long elapsed)
 			playerDeath();
 		}
 	}
-	//OUT OF BOUNDS
+	//REached goal
 	float gx = -cam.position.x - objectivePos.x;
 	float gy = -cam.position.y - objectivePos.y;
 	float gz = -cam.position.z - objectivePos.z;
 
 	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
 	if (c < 50) {
-		PostQuitMessage(2); // ROUND WIN
+		//reseting for new ground
+		cam.impulseActual = XMFLOAT3(0, 0, 0);
+		wonRound = true;
+		timeWon = elapsed;
+
+		//moveing objective
+		float px, py, pz;
+		px = rand() % 1000 - 500;
+		py = rand() % 1000 - 500;
+		pz = rand() % 1000 - 500;
+
+		while (px*px + py*py + pz*pz <= 5000)
+		{
+			pz = rand() % 1000 - 500;
+			px = rand() % 1000 - 500;
+			py = rand() % 1000 - 500;
+			//TODO add to objectivePos
+
+		}
+
+		objectivePos = XMFLOAT3(px, py, pz);
+
+
 	}
+
+	///-----------------------------------------------------------------------------------
+	//Explosions
+	//-----------------------------------------------------------------------------------
+	view = cam.get_matrix(&g_View);
+	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	explosionhandler.render(&view, &g_Projection, elapsed);
+	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 	//
 	// Present our back buffer to our front buffer
