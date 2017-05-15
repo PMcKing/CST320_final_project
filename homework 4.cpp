@@ -600,6 +600,12 @@ HRESULT InitDevice()
 		px = rand() % 1000 - 500;
 		py = rand() % 1000 - 500;
 		//TODO add to objectivePos
+		while (px*px + py*py + pz*pz <= 1600)
+		{
+			pz = rand() % 1000 - 500;
+			px = rand() % 1000 - 500;
+			py = rand() % 1000 - 500;
+		}
 
 	}
 	
@@ -612,6 +618,14 @@ HRESULT InitDevice()
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
 		tm = new Mine(XMFLOAT3(x, y, z));
 
 		StationaryMines.push_back(tm);
@@ -624,6 +638,14 @@ HRESULT InitDevice()
 		z = rand() % 1000 - 100;
 		x = rand() % 1000 - 100;
 		y = rand() % 1000 - 100;
+
+		while (x*x + y*y + z*z <= 1600)
+		{
+			z = rand() % 1000 - 500;
+			x = rand() % 1000 - 500;
+			y = rand() % 1000 - 500;
+		}
+
 		ps = new XMFLOAT3(x, y, z);
 		oneUps.push_back(ps);
 
