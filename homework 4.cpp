@@ -1016,7 +1016,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-		explosionhandler.new_explosion(XMFLOAT3(0, 0, 5), XMFLOAT3(0, 0, 5), 1, 4.0);
+		//explosionhandler.new_explosion(XMFLOAT3(0, 0, 5), XMFLOAT3(0, 0, 5), 1, 4.0);
 	}
 ///////////////////////////////////
 //		This Function is called every time a character key is pressed
@@ -1471,7 +1471,8 @@ void Render_to_texture(long elapsed)
 	//ROUND WON DISPLAY
 	//-----------------------------------------------------------------------------------
 	if ((roundLength - roundTimer.elapse_milli()) / 1000 < 0) {
-		gamestate = 3; //run out of time
+
+		playerDeath("ran out of time");
 	}
 
 
@@ -1610,7 +1611,7 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
-
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	}
@@ -1684,7 +1685,8 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
 	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
 	g_pImmediateContext->Draw(model_vertex_anz_ss, 0);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
@@ -1920,7 +1922,7 @@ void Render_to_texture(long elapsed)
 	//NEW ROUND DISPLAY
 	//-----------------------------------------------------------------------------------
 	if (wonRound) {
-		roundNumber++;
+		
 		increaseDiffulty();
 		roundTimer.start(); //restarting round timer
 
@@ -2057,6 +2059,7 @@ void Render_to_texture(long elapsed)
 			font << std::to_string(abs(cam.position.z / 100));
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
 				playerDeath("Strayed into enemy territory");
+			sound.play_fx("Rock.wav");
 
 			
 		}
@@ -2080,8 +2083,10 @@ void Render_to_texture(long elapsed)
 					int y = StationaryMines[ii]->pos.y;
 					int z = StationaryMines[ii]->pos.z;
 					explosionhandler.new_explosion(XMFLOAT3(x,y,z), XMFLOAT3(0, 0, 5), 1, 40.0);
+					sound.play_fx("Rock.wav");
 					if (c < 80) {
 						playerDeath("Was in proximity of space mine when it exploded");
+
 					}
 					StationaryMines.erase(StationaryMines.begin() + ii);
 			}
@@ -2095,6 +2100,7 @@ void Render_to_texture(long elapsed)
 			
 			if (c < 20) //collision death
 			{
+				sound.play_fx("Rock.wav");
 				explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
 				playerDeath("Ran into a mine");
@@ -2131,6 +2137,7 @@ void Render_to_texture(long elapsed)
 		float c = sqrt((dx*dx) + (dz*dz) + (dy*dy));
 		if (c < 20) {
 			playerDeath("Collided with a astroid");
+			sound.play_fx("Rock.wav");
 		}
 	}
 	//REached goal
@@ -2143,6 +2150,7 @@ void Render_to_texture(long elapsed)
 		//reseting for new ground
 		cam.impulseActual = XMFLOAT3(0, 0, 0);
 		wonRound = true;
+		roundNumber++;
 		
 		timeWon = elapsed;
 
