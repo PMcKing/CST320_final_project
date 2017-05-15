@@ -152,7 +152,7 @@ bool								canFire = true;
 //round timer
 
 static StopWatchMicro_				roundTimer;
-float								roundLength = 60000.0f;//30 seconds
+float								roundLength = 30000.0f;//30 seconds
 
 
 
@@ -1171,6 +1171,7 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 					cam.impulseActual = XMFLOAT3(0.0, 0.0, 0.0f);
 					gamestate = 2;
 					playerLives = 1;
+					roundTimer.start();
 					
 				}
 
@@ -1439,7 +1440,7 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//ROUND WON DISPLAY
 	//-----------------------------------------------------------------------------------
-	if (elapsed - roundTimer.elapse_milli() > roundLength) {
+	if ((roundLength - roundTimer.elapse_milli()) / 1000 < 0) {
 		gamestate = 3; //run out of time
 	}
 
@@ -2092,6 +2093,7 @@ void Render_to_texture(long elapsed)
 		//reseting for new ground
 		cam.impulseActual = XMFLOAT3(0, 0, 0);
 		wonRound = true;
+		
 		timeWon = elapsed;
 
 		//moveing objective
