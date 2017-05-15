@@ -111,8 +111,8 @@ ID3D11Buffer*                       g_pCBuffer = NULL;
 ID3D11ShaderResourceView*           g_pTextureRV = NULL;
 ID3D11ShaderResourceView*           g_pTextureNav = NULL; //nav arrow
 ID3D11ShaderResourceView*           g_pTextureMine = NULL; 
-ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL; //nav arrow
-
+ID3D11ShaderResourceView*           g_pTextureMineActivated = NULL;
+ID3D11ShaderResourceView*           g_pTextureBGMars = NULL; //background planet
 
 
 
@@ -793,7 +793,10 @@ HRESULT InitDevice()
 	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"minetexactive.png", NULL, NULL, &g_pTextureMineActivated, NULL);
 	if (FAILED(hr))
 		return hr;
-
+	// Texture for background planet 1
+	hr = D3DX11CreateShaderResourceViewFromFile(g_pd3dDevice, L"mars.jpg", NULL, NULL, &g_pTextureBGMars, NULL);
+	if (FAILED(hr))
+		return hr;
 
 
     // Create the sample state
@@ -1496,21 +1499,21 @@ void Render_to_texture(long elapsed)
 	//-----------------------------------------------------------------------------------
 	//Sky Sphere
 	//-----------------------------------------------------------------------------------
-	constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z));
-	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
-	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_sky);
-	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_sky);
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
-	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
-	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+		constantbuffer.World = XMMatrixTranspose(XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z));
+		g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+		g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+		g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+		g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+		g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+		g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture_sky);
+		g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTexture_sky);
+		g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+		g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+		g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
 
-	g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
-	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
-	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+		g_pImmediateContext->OMSetDepthStencilState(ds_off, 1);
+		g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
+		g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 
 
 
@@ -1717,6 +1720,30 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
 
 	
+	//-----------------------------------------------------------------------------------
+	//background planets
+	//-----------------------------------------------------------------------------------
+	T = XMMatrixTranslation(5000, 5000, 5000);
+	S = XMMatrixScaling(30, 30, 30);
+	R = XMMatrixRotationY(XM_PIDIV2);
+
+	constantbuffer.World = XMMatrixTranspose(S *R * T);
+
+	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
+	g_pImmediateContext->VSSetShader(g_pVertexShader, NULL, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader_screen, NULL, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetConstantBuffers(0, 1, &g_pCBuffer);
+	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureBGMars);
+	g_pImmediateContext->VSSetShaderResources(0, 1, &g_pTextureBGMars);
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_cmp, &stride, &offset);
+	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSamplerLinear);
+	g_pImmediateContext->VSSetSamplers(0, 1, &g_pSamplerLinear);
+
+	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+	g_pImmediateContext->Draw(model_vertex_anz_sky, 0);
+	
+
 
 	//-----------------------------------------------------------------------------------
 	//Instance Rendering
