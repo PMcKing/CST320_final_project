@@ -92,6 +92,8 @@ ID3D11Buffer*						g_pVertexBuffer_ss;
 int									model_vertex_anz_ss;
 ID3D11ShaderResourceView*           g_pTexture_ss = NULL;
 
+ID3D11Buffer*                       g_pVertexBuffer_3ds_railround = NULL;
+int									model_vertex_anz_railround = 0;
 
 
 
@@ -789,6 +791,9 @@ HRESULT InitDevice()
 
 	//Loa space mines
 	Load3DS("mine.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_mine, &model_vertex_anz_mine);
+
+	//loading rail round
+	Load3DS("railround.3ds", g_pd3dDevice, &g_pVertexBuffer_3ds_railround, &model_vertex_anz_railround);
 
 	//Load Sky Sphere
 	LoadCMP(L"ccsphere.cmp", g_pd3dDevice, &g_pVertexBuffer_cmp, &model_vertex_anz_sky);
@@ -1671,16 +1676,18 @@ void Render_to_texture(long elapsed)
 		{
 			ConstantBuffer constantbuffer;
 			XMMATRIX worldmatrix = bull->getmatrix(elapsed, view);
+			R = XMMatrixRotationY(XM_PIDIV2);
+			S = XMMatrixScaling(.2, .2, .2);
 
-			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
-			constantbuffer.World = XMMatrixTranspose(worldmatrix);
+			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMine);
+			constantbuffer.World = XMMatrixTranspose( S * R * worldmatrix);
 			constantbuffer.View = XMMatrixTranspose(view);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
-			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_nav, &stride, &offset);
+			g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer_3ds_railround, &stride, &offset);
 			g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 			g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
-			g_pImmediateContext->Draw(model_vertex_anz_nav, 0);
+			g_pImmediateContext->Draw(model_vertex_anz_railround, 0);
 
 		}
 	}
