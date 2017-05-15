@@ -29,10 +29,10 @@ SamplerState SampleType;
 float4 PS(PixelInputType input) : SV_TARGET
 {
 	float4 textureColor;
-	float4 color;
-	textureColor = shaderTexture.Sample(SampleType, input.tex);
-	textureColor.xyz = float3(1, 1, 1) - textureColor.xyz;
-	color = saturate(float4(input.normal,1));
-	color = color * textureColor;
-	return color;
+float4 color;
+textureColor = shaderTexture.Sample(SampleType, input.tex);
+textureColor.xyz = float3(1, 1, 1) - textureColor.xyz;
+color = saturate(float4(input.normal,1));
+color = color * textureColor;
+return color;
 }

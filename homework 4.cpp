@@ -1676,11 +1676,10 @@ void Render_to_texture(long elapsed)
 		{
 			ConstantBuffer constantbuffer;
 			XMMATRIX worldmatrix = bull->getmatrix(elapsed, view);
-			R = XMMatrixRotationY(XM_PIDIV2);
-			S = XMMatrixScaling(.2, .2, .2);
+			
 
 			g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureMine);
-			constantbuffer.World = XMMatrixTranspose( S * R * worldmatrix);
+			constantbuffer.World = XMMatrixTranspose(worldmatrix);
 			constantbuffer.View = XMMatrixTranspose(view);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
 			constantbuffer.Projection = XMMatrixTranspose(g_Projection);
@@ -2344,7 +2343,10 @@ void Render_to_screen(long elapsed)
 	g_pImmediateContext->ClearDepthStencilView(g_pDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 
-
+	font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+	font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+	font.setPosition(XMFLOAT3(-.75f, 0.25f, 0.0f));
+	font << "CELESTERIAL DRIFT";
 
 	constantbuffer.World = XMMatrixIdentity();
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
@@ -2383,6 +2385,7 @@ void Render()
 static StopWatchMicro_ stopwatch;
 long elapsed = stopwatch.elapse_micro();
 stopwatch.start();//restart
+
 
 cam.animation(elapsed);
 Render_from_light_source(elapsed);

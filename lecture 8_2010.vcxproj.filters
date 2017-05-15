@@ -37,9 +37,6 @@
     <None Include="shader.fx">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="Font_FX.hlsl">
-      <Filter>Shaders</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="homework 8.rc">
@@ -53,5 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="FontMap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Font_FX.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
