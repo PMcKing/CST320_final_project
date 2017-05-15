@@ -143,6 +143,13 @@ static StopWatchMicro_				fireTimer;
 bool								fireFoward = true; //used to switch movment dictions, true = shoot forward, fly backwards, false, = reverse 
 bool								canFire = true;
 
+//round timer
+
+static StopWatchMicro_				roundTimer;
+float								roundLength = 60000.0f;//30 seconds
+
+
+
 // globals for game balance
 XMFLOAT3							objectivePos;//used to nav arrow to point to object cords
 
@@ -1137,12 +1144,15 @@ void OnKeyUp(HWND hwnd, UINT vk, BOOL fDown, int cRepeat, UINT flags)
 			case 32: //space
 				if (gamestate == 0 || gamestate == 1) {
 					gamestate = 2;
+					roundTimer.start();
+					
 				}
 				if (gamestate == 3) {//restart
 					cam.position = XMFLOAT3(0.0, 0.0, 0.0f);
 					cam.impulseActual = XMFLOAT3(0.0, 0.0, 0.0f);
 					gamestate = 2;
 					playerLives = 1;
+					
 				}
 
 				cam.fireFoward_flip();
@@ -1401,10 +1411,17 @@ void Render_to_texture(long elapsed)
 		canFire = true;
 	}
 	//-----------------------------------------------------------------------------------
-	//FROUND PAUSE
+	//ROUND WON DISPLAY
 	//-----------------------------------------------------------------------------------
-	if (elapsed - timeWon > 7000) {
+	if (elapsed - timeWon > 7000) { //display for a few seconds before disapearing
 		wonRound = false;
+		
+	}
+	//-----------------------------------------------------------------------------------
+	//ROUND WON DISPLAY
+	//-----------------------------------------------------------------------------------
+	if (elapsed - roundTimer.elapse_milli() > roundLength) {
+		gamestate = 3; //run out of time
 	}
 
 
@@ -1818,6 +1835,9 @@ void Render_to_texture(long elapsed)
 	//NEW ROUND DISPLAY
 	//-----------------------------------------------------------------------------------
 	if (wonRound) {
+
+		roundTimer.start(); //restarting round timer
+
 		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-.45f, 0.0f, 0.0f));
@@ -1913,6 +1933,21 @@ void Render_to_texture(long elapsed)
 		font << std::to_string(playerLives);
 
 		//-----------------------------------------------------------------------------------
+		//ROUND TIMER
+		//-----------------------------------------------------------------------------------
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(0.5, .99, 0));
+		font << "ROUND TIMER: ";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(0, 1, .6));
+		font.setPosition(XMFLOAT3(0.8, .99, 0));
+		font << std::to_string((roundLength - roundTimer.elapse_milli()) / 1000);
+
+
+		//-----------------------------------------------------------------------------------
 		//Play Area Warning
 		//-----------------------------------------------------------------------------------
 		if (abs(cam.position.x) > playField - 200 || abs(cam.position.y) > playField - 200 || abs(cam.position.z) > playField - 200) {//checking if a player has gone too far from boundrys
@@ -1935,6 +1970,7 @@ void Render_to_texture(long elapsed)
 			if (abs(cam.position.x) > playField || abs(cam.position.y) > playField || abs(cam.position.z) > playField)
 				playerDeath();
 
+			
 		}
 	}
 	
