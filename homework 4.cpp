@@ -547,6 +547,7 @@ HRESULT InitDevice()
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "INSTANCEVEC", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
 		{ "ROTATEINST", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_INSTANCE_DATA, 1 },
+		{ "scale", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 
 	};
 	numElements = ARRAYSIZE(layoutInstance);
@@ -1577,13 +1578,13 @@ void Render_to_texture(long elapsed)
 
 	if (gamestate == 2 ){
 	XMMATRIX R0, R1, M1, M2, T1, T2, Rx1, Ry1, T3, Rx3, Ry3;
-	XMVECTOR cur = XMVector4Normalize(XMVectorSet(-cam.position.x, -cam.position.y + 2.0f, -cam.position.z - 10.0f, 0.0f));//current position
-	XMVECTOR goal = XMVector4Normalize(XMVectorSet(1.0, 1.0, 1.0, 1.0f)); //look at i.e. objective location
+	XMVECTOR cur = XMVector4Normalize(XMVectorSet(cam.position.x, cam.position.y-1, cam.position.z + 5, 0.0f));//current position
+	XMVECTOR goal = XMVector4Normalize(XMVectorSet(objectivePos.x, objectivePos.y, objectivePos.z, 1.0f)); //look at i.e. objective location
 
 	//XMVECTOR cur = XMVectorSet(cam.position.x, cam.position.y, cam.position.z, 0.0f);//current position
 	//XMVECTOR goal = XMVectorSet(1.0f,1.0f,1.0f, 1.0f); //look at i.e. objective location
 	T = XMMatrixLookAtLH(cur, goal, Up);//used to set where nav arrow points
-	R0 = XMMatrixRotationX(-XM_PI);
+	R0 = XMMatrixRotationX(XM_PI);
 	T2 = XMMatrixTranslation(0.0f, -2, 10);
 	Rx1 = XMMatrixRotationX(-cam.rotation.y);
 	Ry1 = XMMatrixRotationY(-cam.rotation.x);
@@ -1596,12 +1597,15 @@ void Render_to_texture(long elapsed)
 	CR._43 = 0;
 	XMVECTOR det;
 	XMMATRIX ICR = XMMatrixInverse(&det, CR);
+	ICR._41 = 0;
+	ICR._42 = 0;
+	ICR._43 = 0;
 	T1 = XMMatrixTranslation(0.0f, -1.0f, 5.0f);
 	T3 = XMMatrixTranslation(-cam.position.x, -cam.position.y, -cam.position.z);
 
 	R1 = Rx1 * Ry1;
 
-	M2 = T * R0 * T2 *ICR * T3;
+	M2 = R0*T* ICR*T2 * ICR * T3;
 	constantbuffer.World = XMMatrixTranspose(M2);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTextureNav);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
