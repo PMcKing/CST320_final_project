@@ -150,6 +150,9 @@ int									fireDelay = 200; // in milliseconds, delay between fire(.5 seconds =
 int									fireReserveDelay = 200; // in milliseconds, delay between switching fire directions(.5 seconds = 500).
 int									playerLives;
 int									playField = 1000;//used to determine how far the player can go. 
+int									roundNumber = 1;
+bool								wonRound = false;
+float								timeWon;
 
 
 //Font
@@ -1398,6 +1401,14 @@ void Render_to_texture(long elapsed)
 		canFire = true;
 	}
 	//-----------------------------------------------------------------------------------
+	//FROUND PAUSE
+	//-----------------------------------------------------------------------------------
+	if (elapsed - timeWon > 7000) {
+		wonRound = false;
+	}
+
+
+	//-----------------------------------------------------------------------------------
 	//RENDERING MODELS
 	//-----------------------------------------------------------------------------------
 	RenderTarget = RenderToTexture.GetRenderTarget();
@@ -1804,6 +1815,24 @@ void Render_to_texture(long elapsed)
 	}
 
 	//-----------------------------------------------------------------------------------
+	//NEW ROUND DISPLAY
+	//-----------------------------------------------------------------------------------
+	if (wonRound) {
+		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-.45f, 0.0f, 0.0f));
+		font << "ROUND COMPLETED";
+
+		font.setScaling(XMFLOAT3(1, 1, 1));
+		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
+		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
+		font << "SCORE: ";
+	
+	}
+
+
+
+	//-----------------------------------------------------------------------------------
 	//HEADS UP DISPLAY
 	//-----------------------------------------------------------------------------------
 
@@ -1974,14 +2003,36 @@ void Render_to_texture(long elapsed)
 			playerDeath();
 		}
 	}
-	//OUT OF BOUNDS
+	//REached goal
 	float gx = -cam.position.x - objectivePos.x;
 	float gy = -cam.position.y - objectivePos.y;
 	float gz = -cam.position.z - objectivePos.z;
 
 	float c = sqrt((gx*gx) + (gz*gz) + (gy*gy));
 	if (c < 50) {
-		cam.position = XMFLOAT3(0, 0, 0);
+		//reseting for new ground
+		cam.impulseActual = XMFLOAT3(0, 0, 0);
+		wonRound = true;
+		timeWon = elapsed;
+
+		//moveing objective
+		float px, py, pz;
+		px = rand() % 1000 - 500;
+		py = rand() % 1000 - 500;
+		pz = rand() % 1000 - 500;
+
+		while (px*px + py*py + pz*pz <= 5000)
+		{
+			pz = rand() % 1000 - 500;
+			px = rand() % 1000 - 500;
+			py = rand() % 1000 - 500;
+			//TODO add to objectivePos
+
+		}
+
+		objectivePos = XMFLOAT3(px, py, pz);
+
+
 	}
 
 	///-----------------------------------------------------------------------------------
