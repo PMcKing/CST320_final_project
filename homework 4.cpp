@@ -213,6 +213,11 @@ void playerDeath() {
 	}
 	return;
 }
+void increaseDiffulty(){
+	//every time a round is won, time limit is decreased, 
+	roundLength -= 100;
+
+}
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -986,7 +991,7 @@ void OnLBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 ///////////////////////////////////
 void OnRBD(HWND hwnd, BOOL fDoubleClick, int x, int y, UINT keyFlags)
 	{
-	
+		explosionhandler.new_explosion(XMFLOAT3(0, 0, 5), XMFLOAT3(0, 0, 5), 1, 4.0);
 	}
 ///////////////////////////////////
 //		This Function is called every time a character key is pressed
@@ -1481,6 +1486,8 @@ void Render_to_texture(long elapsed)
 	constantbuffer.World = XMMatrixTranspose(M);
 	g_pImmediateContext->UpdateSubresource(g_pCBuffer, 0, NULL, &constantbuffer, 0, 0);
 
+	
+
 	// Render terrain
 	ID3D11ShaderResourceView*          DepthTexture = DepthLight.GetShaderResourceView();
 	g_pImmediateContext->GenerateMips(DepthTexture);
@@ -1497,6 +1504,8 @@ void Render_to_texture(long elapsed)
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
 	//g_pImmediateContext->Draw(model_vertex_anz, 0);
 
+
+	
 	//-----------------------------------------------------------------------------------
 	//Sky Sphere
 	//-----------------------------------------------------------------------------------
@@ -1879,7 +1888,8 @@ void Render_to_texture(long elapsed)
 	//NEW ROUND DISPLAY
 	//-----------------------------------------------------------------------------------
 	if (wonRound) {
-
+		roundNumber++;
+		increaseDiffulty();
 		roundTimer.start(); //restarting round timer
 
 		font.setScaling(XMFLOAT3(2.5, 2.5, 2.5));
@@ -1890,7 +1900,9 @@ void Render_to_texture(long elapsed)
 		font.setScaling(XMFLOAT3(1, 1, 1));
 		font.setColor(XMFLOAT3(21.0, 106.0, 242.0));
 		font.setPosition(XMFLOAT3(-0.2f, -0.2f, 0.0f));
-		font << "SCORE: ";
+		font << "Current Round: ";
+		font.setPosition(XMFLOAT3(0.05f, -0.2f, 0.0f));
+		font << std::to_string(roundNumber);
 	
 	}
 
@@ -2038,14 +2050,14 @@ void Render_to_texture(long elapsed)
 
 			if (StationaryMines[ii]->explode(elapsed)) { //in death}
 					StationaryMines.erase(StationaryMines.begin() + ii);
-					explosionhandler.new_explosion(XMFLOAT3(-StationaryMines[ii]->pos.x, -StationaryMines[ii]->pos.y + 20, -StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0);
+					explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0);
 					if (c < 80) {
 						playerDeath();
 					}
 			}
 			if (c < 20) //collision death
 			{
-				explosionhandler.new_explosion(XMFLOAT3(StationaryMines[ii]->pos.x, StationaryMines[ii]->pos.y +20, StationaryMines[ii]->pos.z), XMFLOAT3(0, 0, 0), 0, 40.0); //end game
+				explosionhandler.new_explosion(StationaryMines[ii]->pos, XMFLOAT3(0, 0, 5), 1, 40.0); //end game
 				StationaryMines.erase(StationaryMines.begin() + ii);
 				playerDeath();
 			}
@@ -2115,7 +2127,6 @@ void Render_to_texture(long elapsed)
 
 
 	}
-
 	///-----------------------------------------------------------------------------------
 	//Explosions
 	//-----------------------------------------------------------------------------------
@@ -2124,6 +2135,8 @@ void Render_to_texture(long elapsed)
 	explosionhandler.render(&view, &g_Projection, elapsed);
 	g_pImmediateContext->IASetInputLayout(g_pVertexLayout);
 	g_pImmediateContext->OMSetDepthStencilState(ds_on, 1);
+
+	
 
 	//
 	// Present our back buffer to our front buffer
